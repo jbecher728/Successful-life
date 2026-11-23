@@ -1,0 +1,16 @@
+name: successful_life
+description: Private 90-day personal development companion.
+publish_to: none
+version: 0.1.0+1
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  shared_preferences: ^2.3.2
+  flutter_local_notifications: ^17.2.3
+  timezone: ^0.9.4
+  flutter_timezone: ^3.0.1
+  share_plus: ^10.0.2
+flutter:
+  uses-material-design: true
