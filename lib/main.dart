@@ -182,16 +182,23 @@ class _HomePageState extends State<HomePage> {
     _refreshDay();
     return Scaffold(
       appBar:AppBar(title:const Text('Successful Life',style:TextStyle(fontWeight:FontWeight.bold))),
-      body:SafeArea(child:IndexedStack(index:tab,children:[_today(),_journal(),ConnectPage(prefs:prefs!),FitnessPage(prefs:prefs!,sex:sex),_progress(),_settings()])),
+      body:SafeArea(child:IndexedStack(index:tab,children:[_todayHome(),_journal(),ConnectPage(prefs:prefs!),FitnessPage(prefs:prefs!,sex:sex,onSex:_setSex),_settings()])),
       bottomNavigationBar:NavigationBar(selectedIndex:tab,onDestinationSelected:(v){setState(()=>tab=v);},destinations:const [
         NavigationDestination(icon:Icon(Icons.check_circle_outline),label:'Today'),
         NavigationDestination(icon:Icon(Icons.edit_note),label:'Journal'),
         NavigationDestination(icon:Icon(Icons.forum_outlined),label:'Connect'),
         NavigationDestination(icon:Icon(Icons.fitness_center),label:'Fitness'),
-        NavigationDestination(icon:Icon(Icons.insights),label:'Progress'),
         NavigationDestination(icon:Icon(Icons.tune),label:'Settings'),
       ]),
     );
+  }
+  Widget _todayHome()=>DefaultTabController(length:2,child:Column(children:[
+    const TabBar(tabs:[Tab(text:'Today'),Tab(text:'Progress')]),
+    Expanded(child:TabBarView(children:[_today(),_progress()])),
+  ]));
+  Future<void> _setSex(String s) async {
+    setState(()=>sex=s);
+    await prefs!.setString('sex',s);
   }
   Widget _today()=>ListView(padding:const EdgeInsets.all(18),children:[
     Text('DAY $day OF 90  •  WEEK ${week+1}',style:const TextStyle(fontWeight:FontWeight.w700,color:Color(0xFF21877C))),
@@ -242,11 +249,11 @@ class _HomePageState extends State<HomePage> {
     const SizedBox(height:6),const Text('Morning reminders show a new shareable thought each day. Open the app every couple of weeks to refresh upcoming ones.',style:TextStyle(fontSize:12,color:Colors.grey)),
     const SizedBox(height:14),title('Your profile'),
     panel(Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
-      const Text('Body type for exercise',style:TextStyle(fontWeight:FontWeight.bold)),
+      const Text('Body type for exercise (required)',style:TextStyle(fontWeight:FontWeight.bold)),
       const SizedBox(height:8),
-      SegmentedButton<String>(emptySelectionAllowed:true,segments:const [ButtonSegment<String>(value:'male',label:Text('Male')),ButtonSegment<String>(value:'female',label:Text('Female'))],selected:sex==null?<String>{}:{sex!},onSelectionChanged:(s)async{setState(()=>sex=s.isEmpty?null:s.first);if(sex==null){await prefs!.remove('sex');}else{await prefs!.setString('sex',sex!);}}),
+      SegmentedButton<String>(emptySelectionAllowed:true,segments:const [ButtonSegment<String>(value:'male',label:Text('Male')),ButtonSegment<String>(value:'female',label:Text('Female'))],selected:sex==null?<String>{}:{sex!},onSelectionChanged:(s)async{if(s.isNotEmpty)await _setSex(s.first);}),
       const SizedBox(height:8),
-      const Text('Used only to tailor exercises and body-ratio guidance. Saved on this device only. You can leave it unset.',style:TextStyle(fontSize:12,color:Colors.grey)),
+      const Text('Needed to give you the exercises made for your body, and used for body-ratio guidance. Saved on this device only. You can change it any time.',style:TextStyle(fontSize:12,color:Colors.grey)),
     ])),
     const SizedBox(height:14),title('Privacy & your data'),
     const Text('This app never asks for your name, address, city, ZIP code, phone number, email or any account. Nothing is sent anywhere. Your data stays on this phone unless you choose to export it and share the file yourself.'),

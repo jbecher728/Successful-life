@@ -47,7 +47,8 @@ Future<List<Exercise>> loadExercises() async {
 class FitnessPage extends StatelessWidget {
   final SharedPreferences prefs;
   final String? sex;
-  const FitnessPage({super.key, required this.prefs, required this.sex});
+  final Future<void> Function(String) onSex;
+  const FitnessPage({super.key, required this.prefs, required this.sex, required this.onSex});
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -56,7 +57,7 @@ class FitnessPage extends StatelessWidget {
         const TabBar(tabs: [Tab(text: 'Workouts'), Tab(text: 'Body')]),
         Expanded(
           child: TabBarView(children: [
-            ExercisePage(prefs: prefs, sex: sex),
+            ExercisePage(prefs: prefs, sex: sex, onSex: onSex),
             BodyPage(prefs: prefs, sex: sex),
           ]),
         ),
@@ -68,7 +69,8 @@ class FitnessPage extends StatelessWidget {
 class ExercisePage extends StatefulWidget {
   final SharedPreferences prefs;
   final String? sex;
-  const ExercisePage({super.key, required this.prefs, required this.sex});
+  final Future<void> Function(String) onSex;
+  const ExercisePage({super.key, required this.prefs, required this.sex, required this.onSex});
   @override
   State<ExercisePage> createState() => _ExercisePageState();
 }
@@ -224,6 +226,19 @@ class _ExercisePageState extends State<ExercisePage> {
   Widget build(BuildContext context) {
     final list = all;
     if (list == null) return const Center(child: CircularProgressIndicator());
+    if (widget.sex == null) {
+      return ListView(padding: const EdgeInsets.all(18), children: [
+        const Text('Choose your body type', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+        const SizedBox(height: 10),
+        const Text('Exercises, including the Deep Core Foundation routines, are tailored to the male or female body. Choose one to continue.'),
+        const SizedBox(height: 16),
+        FilledButton.icon(onPressed: () => widget.onSex('male'), icon: const Icon(Icons.person_outline), label: const Text('Male')),
+        const SizedBox(height: 10),
+        FilledButton.icon(onPressed: () => widget.onSex('female'), icon: const Icon(Icons.person_outline), label: const Text('Female')),
+        const SizedBox(height: 14),
+        const Text('Saved on this device only. You can change it any time in Settings.', style: TextStyle(fontSize: 12, color: Colors.grey)),
+      ]);
+    }
     final byId = {for (final e in list) e.id: e};
     final browse = _eligible()
       ..sort((a, b) {
@@ -244,9 +259,7 @@ class _ExercisePageState extends State<ExercisePage> {
         ),
       ),
       const SizedBox(height: 10),
-      Text(sex == null
-          ? 'Tip: choose Male or Female in Settings to tailor your routines.'
-          : 'Tailored for: ${sex == 'male' ? 'Male' : 'Female'} body. Change in Settings.', style: const TextStyle(color: Colors.grey)),
+      Text('Tailored for: ${sex == 'male' ? 'Male' : 'Female'} body. Change in Settings.', style: const TextStyle(color: Colors.grey)),
       const SizedBox(height: 10),
       SegmentedButton<int>(
         segments: List<ButtonSegment<int>>.generate(3, (i) => ButtonSegment<int>(value: i, label: Text(exLevels[i]))),
@@ -292,11 +305,6 @@ class _ExercisePageState extends State<ExercisePage> {
       ],
       const SizedBox(height: 18),
       Text('Browse (${browse.length})', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-      if (cats.contains(1) && sex == null)
-        const Padding(
-          padding: EdgeInsets.only(top: 6),
-          child: Text('Choose Male or Female in Settings to unlock Deep Core Foundation routines made for your body.', style: TextStyle(color: Colors.grey)),
-        ),
       ...browse.map((e) => ListTile(
             contentPadding: EdgeInsets.zero,
             title: Text(e.name),

@@ -54,7 +54,7 @@ Solo and two-person modes with four categories: Ice Breakers, Confessions, Getti
 
 ## Fitness, body tracking, daily thoughts and data export (added)
 
-- **Fitness tab:** 120+ at-home exercises in seven categories (Military Calisthenics, Deep Core Foundation, Yoga, Strength & Core, Mobility & Posture, Cardio, Mind & Breath), with a Male/Female setting in Settings that tailors routines and builds a daily workout.
+- **Fitness tab:** 120+ at-home exercises in seven categories (Military Calisthenics, Deep Core Foundation, Yoga, Strength & Core, Mobility & Posture, Cardio, Mind & Breath), with a required Male/Female choice that tailors routines and builds a daily workout.
 - **Body tab:** height, weight and tape measurements, with BMI, waist ratios and shape guidance (screening only), change tracking and a weight trend chart.
 - **Daily thought:** 366 original shareable quotes, shown on the Today tab and in the morning notification. Plus daily connection nudges for yourself, friends and love.
 - **Data:** Settings > Export creates a zip (CSV + JSON) containing only the sections you choose. Import restores it on a new phone. Nothing is collected or sent anywhere.
