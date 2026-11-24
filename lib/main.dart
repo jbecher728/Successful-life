@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:timezone/data/latest.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
+import 'about.dart';
 import 'exercise.dart';
 import 'export.dart';
 
@@ -185,7 +186,7 @@ class _HomePageState extends State<HomePage> {
       appBar:AppBar(
         leading:inSettings?IconButton(icon:const Icon(Icons.arrow_back),onPressed:()=>setState(()=>inSettings=false)):null,
         title:Text(inSettings?'Settings':'Successful Life',style:const TextStyle(fontWeight:FontWeight.bold)),
-        actions:inSettings?null:[PopupMenuButton<String>(icon:const Icon(Icons.more_vert),iconSize:20,tooltip:'Menu',onSelected:(v){if(v=='settings')setState(()=>inSettings=true);},itemBuilder:(ctx)=>const [PopupMenuItem<String>(value:'settings',child:Text('Settings'))])],
+        actions:inSettings?null:[PopupMenuButton<String>(icon:const Icon(Icons.more_vert),iconSize:20,tooltip:'Menu',onSelected:(v){if(v=='settings'){setState(()=>inSettings=true);}else if(v=='about'){Navigator.push(context,MaterialPageRoute<void>(builder:(_)=>const AboutPage()));}else if(v=='privacy'){Navigator.push(context,MaterialPageRoute<void>(builder:(_)=>const PrivacyPage()));}},itemBuilder:(ctx)=>const [PopupMenuItem<String>(value:'settings',child:Text('Settings')),PopupMenuItem<String>(value:'privacy',child:Text('Privacy notice')),PopupMenuItem<String>(value:'about',child:Text('About'))])],
       ),
       body:SafeArea(child:inSettings?_settings():IndexedStack(index:tab,children:[_todayHome(),_journal(),ConnectPage(prefs:prefs!),FitnessPage(prefs:prefs!,sex:sex,onSex:_setSex)])),
       bottomNavigationBar:NavigationBar(selectedIndex:tab,onDestinationSelected:(v){setState((){tab=v;inSettings=false;});},destinations:const [
