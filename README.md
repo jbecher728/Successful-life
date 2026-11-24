@@ -6,7 +6,7 @@ A private, simple personal-development companion for Android and iOS (Flutter), 
 
 ## Download a test build
 
-Install the latest APK from the [Releases page](../../releases). Pick `successful-life-arm64.apk` for almost every phone made since about 2017 (the `arm32` file is only for much older phones). The iPhone file (`successful-life-ios-unsigned.ipa`) is unsigned: install it with a sideloading tool such as AltStore or Sideloadly using your Apple ID, or sign it with an Apple developer account. Android will ask you to allow installs from your browser or file manager.
+Install the latest APK from the [Releases page](../../releases). Pick `successful-life-arm64.apk` for almost every phone made since about 2017 (the `arm32` file is only for much older phones). **iPhone:** use the web app at https://jbecher728.github.io/Successful-life/ (open in Safari, tap Share, then Add to Home Screen). A native iOS app is planned for later. Android will ask you to allow installs from your browser or file manager.
 
 ## Principles
 
@@ -22,7 +22,7 @@ Install the latest APK from the [Releases page](../../releases). Pick `successfu
 | **Today** | Daily goal, 90-day timeline with weekly themes, progress view, daily shareable thought |
 | **Journal** | Private journal with mood and energy ratings and history |
 | **Connect** | Solo and two-person question cards: Ice Breakers, Confessions, Getting Deep, Challenge (2,500 prompts). Play one category or shuffle several |
-| **Fitness** | 120+ at-home exercises in 7 categories, tailored to Male/Female, with a daily workout builder, timers and looping stick-figure form guides |
+| **Fitness** | 125+ at-home exercises, including a pull-up progression, in 7 categories, tailored to Male/Female, with a daily workout builder, timers and looping stick-figure form guides |
 | **Body** | Height, weight and tape measurements; BMI, waist ratios and trends (screening only, not medical advice) |
 | **Notifications** | Morning shareable thought, midday action, evening reflection, optional birthday greeting. All on-device |
 | **Export / import** | Settings > Export builds a zip (CSV + JSON) with only the sections you pick; Import restores it on a new phone |
@@ -44,7 +44,7 @@ The app collects nothing and sends nothing. Exported zips are **not** encrypted,
 
 ## Build
 
-Pushes to `main` run the GitHub Actions workflow (`.github/workflows/android-apk.yml`). The Android job generates the Android scaffolding, applies `scripts/configure_android.py`, analyzes, builds small release APKs (one per CPU type, each well under 25 MB) and the iOS job (macOS runner) applies `scripts/configure_ios.py` and builds an unsigned IPA. Both are published together as a `test-build-N` release.
+Pushes to `main` run the GitHub Actions workflow (`.github/workflows/android-apk.yml`). The Android job generates the Android scaffolding, applies `scripts/configure_android.py`, analyzes, builds small release APKs (one per CPU type, each well under 25 MB) and the web job builds the installable web app and publishes it to GitHub Pages. The native iOS job (`scripts/configure_ios.py`) is switched off for now to save build minutes.
 
 To build locally you need Flutter and the Android SDK:
 
@@ -67,7 +67,7 @@ To build locally you need Flutter and the Android SDK:
 - The parent/guardian approval and age check cannot be verified, and clearing the app's data resets them.
 - The Terms of use are a plain-language draft, not legal advice. Age ratings and children's privacy rules (COPPA, GDPR-K) need review before any store release.
 - Play Store release still needs a permanent application ID, release signing and a contact address (currently the placeholder `support@email.com`).
-- iOS builds are unsigned test builds (no Apple developer account yet) and untested on an iPhone. iCloud backup is not built yet.
+- The native iOS app is paused (no Apple developer account yet); iPhone users use the web app. iCloud backup is not built yet. The web version has no notifications, Face ID or backup.
 
 ## Credits
 

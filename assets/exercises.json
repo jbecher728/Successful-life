@@ -2187,5 +2187,113 @@
   "emph": "mind",
   "id": "ex121",
   "motion": "stand_breath"
+ },
+ {
+  "name": "Dead Hang",
+  "cat": 0,
+  "level": 0,
+  "equipment": "Pull-up bar (doorway or outdoor)",
+  "dose": "3 × 15–30 seconds",
+  "steps": [
+   "Grip the bar with palms facing away, hands slightly wider than shoulders.",
+   "Hang with arms straight and shoulders relaxed, feet off the floor or lightly supported.",
+   "Breathe steadily and hold."
+  ],
+  "tip": "Builds grip and shoulder health. Use a chair under your feet if you can't hang fully yet.",
+  "seconds": 20,
+  "for": "all",
+  "emph": "upper",
+  "id": "ex122",
+  "motion": "dead_hang"
+ },
+ {
+  "name": "Scapular Pull-Up",
+  "cat": 0,
+  "level": 0,
+  "equipment": "Pull-up bar (doorway or outdoor)",
+  "dose": "3 × 8–10 reps",
+  "steps": [
+   "Hang from the bar with straight arms.",
+   "Without bending your elbows, pull your shoulder blades down and back to lift your body a couple of inches.",
+   "Lower slowly back to a full hang."
+  ],
+  "tip": "A small move that teaches your back to start the pull.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "upper",
+  "id": "ex123",
+  "motion": "scap_pull"
+ },
+ {
+  "name": "Australian Row (Under a Table)",
+  "cat": 0,
+  "level": 0,
+  "equipment": "Sturdy table or low bar",
+  "dose": "3 × 8–12 reps",
+  "steps": [
+   "Lie under a very sturdy table and grip its edge with both hands, arms straight.",
+   "Keep your body in one straight line with heels on the floor.",
+   "Pull your chest up toward your hands, then lower slowly."
+  ],
+  "tip": "Bend your knees to make it easier. Only use a table that can't tip or slide.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "upper",
+  "id": "ex124",
+  "motion": "aus_row"
+ },
+ {
+  "name": "Negative Pull-Up",
+  "cat": 0,
+  "level": 1,
+  "equipment": "Pull-up bar (doorway or outdoor)",
+  "dose": "3 × 3–5 slow reps",
+  "steps": [
+   "Step or jump up so your chin is over the bar.",
+   "Lower yourself as slowly as you can, aiming for 3–5 seconds.",
+   "Return to the start with a step, not a drop."
+  ],
+  "tip": "The best way to build up to your first full pull-up.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "upper",
+  "id": "ex125",
+  "motion": "pullup_neg"
+ },
+ {
+  "name": "Chin-Up",
+  "cat": 0,
+  "level": 1,
+  "equipment": "Pull-up bar (doorway or outdoor)",
+  "dose": "3 × 3–8 reps",
+  "steps": [
+   "Grip the bar with palms facing you, hands shoulder-width apart.",
+   "Pull until your chin is over the bar, elbows close to your sides.",
+   "Lower under control to straight arms."
+  ],
+  "tip": "Usually a little easier than a pull-up because your biceps help more.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "upper",
+  "id": "ex126",
+  "motion": "chinup"
+ },
+ {
+  "name": "Pull-Up",
+  "cat": 0,
+  "level": 1,
+  "equipment": "Pull-up bar (doorway or outdoor)",
+  "dose": "3 × 3–8 reps",
+  "steps": [
+   "Grip the bar with palms facing away, slightly wider than your shoulders.",
+   "Start from a full hang, brace your core and pull your chest toward the bar.",
+   "Get your chin over the bar, then lower under control to straight arms."
+  ],
+  "tip": "Can't do one yet? Start with Dead Hangs, Scapular Pull-Ups and Negative Pull-Ups. Make sure a doorway bar is rated for your weight.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "upper",
+  "id": "ex127",
+  "motion": "pullup"
  }
 ]

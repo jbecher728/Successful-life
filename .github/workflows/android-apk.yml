@@ -1,4 +1,4 @@
-name: Build test apps (Android, iOS, Web)
+name: Build test apps (Android + Web)
 on:
   workflow_dispatch:
   push:
@@ -43,7 +43,9 @@ jobs:
           path: out/*.apk
           if-no-files-found: error
 
+  # iOS native build is paused to save build minutes. To bring it back, remove the next line.
   ios:
+    if: ${{ false }}
     runs-on: macos-latest
     timeout-minutes: 45
     steps:
@@ -111,15 +113,9 @@ jobs:
         uses: actions/deploy-pages@v4
 
   release:
-    needs: [android, ios]
-    if: ${{ always() && needs.android.result == 'success' }}
+    needs: [android]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v4
-        with:
-          path: dl
-          merge-multiple: true
-        continue-on-error: true
       - uses: actions/download-artifact@v4
         with:
           name: android-apks
@@ -130,4 +126,4 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: |
           ls -l dl
-          gh release create "test-build-${{ github.run_number }}" dl/* --title "Test build ${{ github.run_number }}" --prerelease --notes "Android: use successful-life-arm64.apk on almost every phone (arm32 file is only for much older phones). iOS: successful-life-ios-unsigned.ipa is unsigned and must be signed/sideloaded (for example with AltStore or Sideloadly) or built with an Apple developer account."
+          gh release create "test-build-${{ github.run_number }}" dl/* --title "Test build ${{ github.run_number }}" --prerelease --notes "Android: use successful-life-arm64.apk on almost every phone (arm32 file is only for much older phones). iPhone: use the web app (see the README)."
