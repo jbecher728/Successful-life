@@ -37,3 +37,8 @@ if gradle.exists():
         text+='\n\ndependencies {\n    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")\n}\n'
     gradle.write_text(text)
 print('Android notifications and local-only backup configuration applied')
+# Some plugins (flutter_timezone) declare mismatched Java/Kotlin JVM targets; don't fail the build over it.
+gp=Path('android/gradle.properties')
+gtext=gp.read_text() if gp.exists() else ''
+if 'kotlin.jvm.target.validation.mode' not in gtext:
+    gp.write_text(gtext.rstrip('\n')+'\nkotlin.jvm.target.validation.mode=IGNORE\n')
