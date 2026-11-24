@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'store.dart';
 
@@ -72,6 +73,9 @@ class _CloudBackupPanelState extends State<CloudBackupPanel> {
 
   @override
   Widget build(BuildContext context) {
+    if (Platform.isIOS) {
+      return const Text('iCloud backup is planned for a later version. For now, your data stays only on this iPhone and is not included in iCloud or iTunes backups. To move to a new phone, use Settings > Export, then Import.', style: TextStyle(height: 1.4));
+    }
     final on = widget.prefs.cloudOn;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       SwitchListTile(

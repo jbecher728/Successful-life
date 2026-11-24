@@ -1,10 +1,13 @@
-name: Build Android test APK
+name: Build test apps (Android + iOS)
 on:
   workflow_dispatch:
   push:
     branches: [main]
 permissions:
   contents: write
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   android:
     runs-on: ubuntu-latest
@@ -19,7 +22,7 @@ jobs:
         run: flutter create --platforms=android --project-name successful_life --org com.successfullife .
       - name: Remove default template test
         run: rm -rf test
-      - name: Add Android permissions and disable cloud backup
+      - name: Android configuration
         run: python3 scripts/configure_android.py
       - name: Install dependencies
         run: flutter pub get
@@ -29,16 +32,66 @@ jobs:
         run: flutter build apk --release --split-per-abi --target-platform android-arm,android-arm64
       - name: Show APK sizes
         run: ls -l build/app/outputs/flutter-apk/*.apk
-      - name: Upload APKs
-        uses: actions/upload-artifact@v4
+      - name: Collect APKs
+        run: |
+          mkdir out
+          cp build/app/outputs/flutter-apk/app-arm64-v8a-release.apk out/successful-life-arm64.apk
+          cp build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk out/successful-life-arm32-older-phones.apk
+      - uses: actions/upload-artifact@v4
         with:
-          name: successful-life-android-apks
-          path: build/app/outputs/flutter-apk/app-*-release.apk
+          name: android-apks
+          path: out/*.apk
           if-no-files-found: error
-      - name: Publish APKs as a GitHub Release
+
+  ios:
+    runs-on: macos-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Generate iOS platform from Flutter template
+        run: flutter create --platforms=ios --project-name successful_life --org com.successfullife .
+      - name: Remove default template test
+        run: rm -rf test
+      - name: iOS configuration
+        run: python3 scripts/configure_ios.py
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Build iOS app (unsigned)
+        run: flutter build ios --release --no-codesign
+      - name: Package unsigned IPA
+        run: |
+          mkdir -p out/Payload
+          cp -R build/ios/iphoneos/Runner.app out/Payload/
+          cd out && zip -qry successful-life-ios-unsigned.ipa Payload && rm -rf Payload
+          ls -l
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ios-ipa
+          path: out/successful-life-ios-unsigned.ipa
+          if-no-files-found: error
+
+  release:
+    needs: [android, ios]
+    if: ${{ always() && needs.android.result == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dl
+          merge-multiple: true
+        continue-on-error: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: android-apks
+          path: dl
+      - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
         run: |
-          cp build/app/outputs/flutter-apk/app-arm64-v8a-release.apk successful-life-arm64.apk
-          cp build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk successful-life-arm32-older-phones.apk
-          gh release create "test-build-${{ github.run_number }}" successful-life-arm64.apk successful-life-arm32-older-phones.apk --title "Test build ${{ github.run_number }}" --notes "Test APKs. Most phones made since about 2017 need the arm64 file; the arm32 file is only for older phones. Install on Android and allow installs from unknown sources." --prerelease
+          ls -l dl
+          gh release create "test-build-${{ github.run_number }}" dl/* --title "Test build ${{ github.run_number }}" --prerelease --notes "Android: use successful-life-arm64.apk on almost every phone (arm32 file is only for much older phones). iOS: successful-life-ios-unsigned.ipa is unsigned and must be signed/sideloaded (for example with AltStore or Sideloadly) or built with an Apple developer account."

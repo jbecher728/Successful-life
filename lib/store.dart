@@ -30,6 +30,13 @@ class Store {
   static Future<Store> _open() async {
     final dir = await getApplicationDocumentsDirectory();
     final file = File('${dir.path}/store.enc');
+    // On iOS the keychain survives uninstalling. If there is no data file this is a fresh install,
+    // so drop any leftover key, PIN or backup secrets from a previous install.
+    if (!await file.exists()) {
+      try {
+        await secure.deleteAll();
+      } catch (_) {}
+    }
     var keyB64 = await secure.read(key: 'store_key');
     if (keyB64 == null) {
       final r = Random.secure();

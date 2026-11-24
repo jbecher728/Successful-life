@@ -1,12 +1,12 @@
 # Successful Life
 
-A private, simple personal-development companion for Android: daily focus, journaling, genuine-connection prompts, at-home fitness and body tracking. Everything stays on your phone.
+A private, simple personal-development companion for Android and iOS (Flutter): daily focus, journaling, genuine-connection prompts, at-home fitness and body tracking. Everything stays on your phone.
 
 > **Status:** early test build (v0.3). It compiles in CI but has not been verified on a physical device yet. Signed with a debug key, for personal testing only.
 
 ## Download a test build
 
-Install the latest APK from the [Releases page](../../releases). Pick `successful-life-arm64.apk` for almost every phone made since about 2017 (the `arm32` file is only for much older phones). Android will ask you to allow installs from your browser or file manager.
+Install the latest APK from the [Releases page](../../releases). Pick `successful-life-arm64.apk` for almost every phone made since about 2017 (the `arm32` file is only for much older phones). The iPhone file (`successful-life-ios-unsigned.ipa`) is unsigned: install it with a sideloading tool such as AltStore or Sideloadly using your Apple ID, or sign it with an Apple developer account. Android will ask you to allow installs from your browser or file manager.
 
 ## Principles
 
@@ -44,7 +44,7 @@ The app collects nothing and sends nothing. Exported zips are **not** encrypted,
 
 ## Build
 
-Pushes to `main` run the GitHub Actions workflow (`.github/workflows/android-apk.yml`), which generates the Android scaffolding, applies `scripts/configure_android.py`, analyzes, builds small release APKs (one per CPU type, each well under 25 MB) and publishes them as a `test-build-N` release.
+Pushes to `main` run the GitHub Actions workflow (`.github/workflows/android-apk.yml`). The Android job generates the Android scaffolding, applies `scripts/configure_android.py`, analyzes, builds small release APKs (one per CPU type, each well under 25 MB) and the iOS job (macOS runner) applies `scripts/configure_ios.py` and builds an unsigned IPA. Both are published together as a `test-build-N` release.
 
 To build locally you need Flutter and the Android SDK:
 
@@ -58,6 +58,7 @@ To build locally you need Flutter and the Android SDK:
 - `lib/` app code: `main.dart` (home, settings), `store.dart` (encrypted storage and backup), `lock.dart`, `onboarding.dart`, `setup.dart`, `tabs.dart`, `cloud.dart`, `exercise.dart`, `body.dart`, `figure.dart`, `export.dart`, `about.dart`
 - `assets/` questions, quotes, nudges, exercises and stick-figure motion data
 - `scripts/configure_android.py` Android permissions, backup rules, biometrics and build fixes
+- `scripts/configure_ios.py` iOS Face ID text, iPhone-only, notifications and backup exclusion
 
 ## Known limitations
 
@@ -66,7 +67,7 @@ To build locally you need Flutter and the Android SDK:
 - The parent/guardian approval and age check cannot be verified, and clearing the app's data resets them.
 - The Terms of use are a plain-language draft, not legal advice. Age ratings and children's privacy rules (COPPA, GDPR-K) need review before any store release.
 - Play Store release still needs a permanent application ID, release signing and a contact address (currently the placeholder `support@email.com`).
-- Android only for now.
+- iOS builds are unsigned test builds (no Apple developer account yet) and untested on an iPhone. iCloud backup is not built yet.
 
 ## Credits
 
