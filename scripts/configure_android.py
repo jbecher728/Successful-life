@@ -92,7 +92,7 @@ if g.exists():
     gt=g.read_text()
     marker='signingConfig = signingConfigs.getByName("debug")'
     if marker in gt and 'proguard-rules.pro' not in gt:
-        gt=gt.replace(marker,marker+'\n            isMinifyEnabled = true\n            isShrinkResources = true\n            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")',1)
+        gt=gt.replace(marker,marker+'\n            isMinifyEnabled = true\n            isShrinkResources = true\n            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")',1)
         g.write_text(gt)
         print('Release shrinking enabled')
     else:
