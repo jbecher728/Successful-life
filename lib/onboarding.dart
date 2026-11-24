@@ -78,9 +78,9 @@ class _AgeGateState extends State<AgeGate> {
       ]);
     } else if (step == 2) {
       body = Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text('Not just yet', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+        const Text('Sorry, you can’t use this app yet', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
         const SizedBox(height: 12),
-        const Text('Successful Life is for ages 13 and up. Nothing you entered was saved. Please ask a parent or guardian to help you find something that suits your age.'),
+        const Text('Successful Life is only for people aged 13 and older, so we can’t let you in right now. This isn’t a punishment, it’s just to keep younger kids safe. Nothing you entered was saved. Please ask a parent or guardian to help you find something that suits your age, and come back when you turn 13.'),
         const SizedBox(height: 16),
         TextButton(onPressed: () => setState(() => step = 0), child: const Text('Back')),
       ]);
