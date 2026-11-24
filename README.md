@@ -1,6 +1,6 @@
 # Successful Life
 
-A private, simple personal-development companion for Android and iOS (Flutter), plus an installable web app for iPhone: daily focus, journaling, genuine-connection prompts, at-home fitness and body tracking. Everything stays on your phone.
+A private, simple personal-development companion for Android (Flutter), plus an installable web app for iPhone: daily focus, journaling, genuine-connection prompts, at-home fitness and body tracking. Everything stays on your phone.
 
 > **Status:** early test build (v0.3). It compiles in CI but has not been verified on a physical device yet. Signed with a debug key, for personal testing only.
 
