@@ -47,3 +47,7 @@ Find APK at `build/app/outputs/flutter-apk/app-debug.apk`.
 - The project is not yet tested or verified on an Android phone or iOS.
 - Android auto-backup and device transfer are disabled for local-only privacy.
 - The `com.successfullife.successful_life` package ID is provisional; choose a permanent reverse-domain ID before publishing.
+
+## Connect (added)
+
+Solo and two-person modes with four categories: Ice Breakers, Confessions, Getting Deep and Challenge (625 original prompts each, 2,500 total, stored in assets/questions). Play one category, or select several to shuffle between them; questions do not repeat until a category is used up. Solo reflections are saved locally and included in the data export.
