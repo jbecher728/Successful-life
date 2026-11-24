@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
     hours=List<int>.from(jsonDecode(p.getString('hours')??'[8,13,20]'));
     minutes=List<int>.from(jsonDecode(p.getString('minutes')??'[0,0,0]'));
     sex=p.getString('sex');
-    age=p.getString('age_group');
+    age=ageGroupFor(p);
     quotes=await _lines('assets/quotes.txt');
     nudges=await _lines('assets/nudges.txt');
     _refreshDay();
@@ -116,17 +116,7 @@ class _HomePageState extends State<HomePage> {
     }
     return nudges[i];
   }
-  Future<void> _setAge(String g) async {
-    if(g==(age??'adult'))return;
-    final ok=await showDialog<bool>(context:context,builder:(ctx)=>AlertDialog(
-      title:Text(g=='adult'?'Switch to Adult mode?':'Switch to Teen mode?'),
-      content:Text(g=='adult'?'Adult mode turns on weight and BMI tracking, advanced workouts, Deep Core Foundation exercises and romantic prompts. Only choose this if you are 18 or older.':'Teen mode turns off weight and BMI tracking, advanced workouts, Deep Core Foundation exercises and romantic prompts. Teens should use the app with a parent or guardian’s approval.'),
-      actions:[TextButton(onPressed:()=>Navigator.pop(ctx,false),child:const Text('Cancel')),FilledButton(onPressed:()=>Navigator.pop(ctx,true),child:Text(g=='adult'?'I am 18 or older':'Switch'))],
-    ));
-    if(ok!=true)return;
-    setState(()=>age=g);
-    await prefs!.setString('age_group',g);
-  }
+
   int get day => DateTime.now().difference(DateTime(start.year,start.month,start.day)).inDays.clamp(0,89)+1;
   int get week => ((day-1)~/7).clamp(0,12);
   String get today => dateKey(DateTime.now());
@@ -166,6 +156,13 @@ class _HomePageState extends State<HomePage> {
       var time=tz.TZDateTime(tz.local,now.year,now.month,now.day,hours[i],minutes[i]);
       if(!time.isAfter(now))time=tz.TZDateTime(tz.local,time.year,time.month,time.day+1,hours[i],minutes[i]);
       await notifications.zonedSchedule(i,labels[i],i==1?'A small step counts. Open Successful Life.':'Open your private journal.',time,details,androidScheduleMode:AndroidScheduleMode.inexactAllowWhileIdle,uiLocalNotificationDateInterpretation:UILocalNotificationDateInterpretation.absoluteTime,matchDateTimeComponents:DateTimeComponents.time);
+    }
+    final bd=prefs!.getInt('birth_day')??0,bm=prefs!.getInt('birth_month')??0;
+    if(bd>0&&bm>0){
+      final dd=(bm==2&&bd>28)?28:bd;
+      var b=tz.TZDateTime(tz.local,now.year,bm,dd,hours[0],minutes[0]);
+      if(!b.isAfter(now))b=tz.TZDateTime(tz.local,now.year+1,bm,dd,hours[0],minutes[0]);
+      await notifications.zonedSchedule(200,'Happy birthday! 🎂','Wishing you a great year ahead. A small step today still counts.',b,const NotificationDetails(android:AndroidNotificationDetails('birthday','Birthday greeting',channelDescription:'A yearly birthday greeting',importance:Importance.defaultImportance,priority:Priority.defaultPriority),iOS:DarwinNotificationDetails()),androidScheduleMode:AndroidScheduleMode.inexactAllowWhileIdle,uiLocalNotificationDateInterpretation:UILocalNotificationDateInterpretation.absoluteTime,matchDateTimeComponents:DateTimeComponents.dateAndTime);
     }
     await prefs!.setString('reminders',jsonEncode(reminders));
     await prefs!.setString('hours',jsonEncode(hours));
@@ -288,11 +285,7 @@ class _HomePageState extends State<HomePage> {
       const Text('Needed to give you the exercises made for your body, and used for body-ratio guidance. Saved on this device only. You can change it any time.',style:TextStyle(fontSize:12,color:Colors.grey)),
     ])),
     const SizedBox(height:14),title('Age group'),
-    panel(Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
-      SegmentedButton<String>(segments:const [ButtonSegment<String>(value:'adult',label:Text('Adult (18+)')),ButtonSegment<String>(value:'teen',label:Text('Teen (13–17)'))],selected:{age??'adult'},onSelectionChanged:(s)async{await _setAge(s.first);}),
-      const SizedBox(height:8),
-      const Text('Teen mode is for ages 13 to 17 with a parent or guardian’s approval. It hides weight and BMI tracking, advanced workouts, Deep Core Foundation exercises and romantic prompts.',style:TextStyle(fontSize:12,color:Colors.grey)),
-    ])),
+    panel(Text(teen?'Teen mode (ages 13–17), used with a parent or guardian’s approval. It hides weight and BMI tracking, advanced workouts, Deep Core Foundation exercises and romantic prompts. The app switches to Adult mode automatically on your 18th birthday. Your birthday is only stored on this phone.':'Adult mode (18+). Your birthday is only stored on this phone.',style:const TextStyle(fontSize:13,height:1.4))),
     const SizedBox(height:14),title('App lock'),
     const LockSettingsPanel(),
     const SizedBox(height:14),title('Privacy & your data'),
@@ -471,7 +464,7 @@ class _RootState extends State<Root> {
     super.initState();
     Store.getInstance().then((s) {
       if (!mounted) return;
-      setState(() { store = s; age = s.getString('age_group'); ready = true; });
+      setState(() { store = s; age = ageGroupFor(s); ready = true; });
     });
   }
   @override Widget build(BuildContext context) {

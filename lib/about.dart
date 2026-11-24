@@ -5,7 +5,7 @@ const _teal = Color(0xFF21877C);
 const appVersion = '0.2 (test build)';
 
 /// Add a feedback email address here when one is set up. It is shown on the About page.
-const contactEmail = '';
+const contactEmail = 'support@email.com';
 
 Widget _h(String t) => Padding(
       padding: const EdgeInsets.only(top: 20, bottom: 6),
@@ -75,9 +75,9 @@ class PrivacyPage extends StatelessWidget {
       _h('In short'),
       _p('Your information stays on your phone. This app does not have accounts, servers or analytics, and it does not send your data anywhere on its own.'),
       _h('What the app never asks for'),
-      _p('Your full name, address, city, ZIP or postal code, phone number, email address, location, contacts or photos. You never need to create an account or sign in. The only profile details are choices you make in the app: age group, Male/Female, and optional height, weight and measurements.'),
+      _p('Your full name, address, city, ZIP or postal code, phone number, email address, location, contacts or photos. You never need to create an account or sign in. The only profile details are choices you make in the app: birth month and year (and your birth day only if you choose to add it, for a birthday greeting), Male/Female, and optional height, weight and measurements.'),
       _h('What you may choose to enter'),
-      _p('Journal text, mood and energy ratings, your age group and Male/Female choice, height, weight and body measurements, workout logs and reflections. This is stored only on your device, in an encrypted file. The encryption key is kept in the Android Keystore, which is protected by your phone’s hardware and screen lock.'),
+      _p('Journal text, mood and energy ratings, your birthday details and Male/Female choice, height, weight and body measurements, workout logs and reflections. This is stored only on your device, in an encrypted file. The encryption key is kept in the Android Keystore, which is protected by your phone’s hardware and screen lock.'),
       _h('App lock'),
       _p('You can optionally turn on a PIN and fingerprint or face unlock in Settings. The PIN is never stored in readable form. If you forget your PIN, your data cannot be recovered, and the only option is to erase everything and start over. Using no PIN is also fine; it is your choice.'),
       _h('No tracking'),
