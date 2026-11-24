@@ -24,13 +24,14 @@ const _months = ['January','February','March','April','May','June','July','Augus
 class AgeGate extends StatefulWidget {
   final Store prefs;
   final void Function(String group) onDone;
-  const AgeGate({super.key, required this.prefs, required this.onDone});
+  final bool blocked;
+  const AgeGate({super.key, required this.prefs, required this.onDone, this.blocked = false});
   @override
   State<AgeGate> createState() => _AgeGateState();
 }
 
 class _AgeGateState extends State<AgeGate> {
-  int step = 0; // 0 birthday, 1 teen approval, 2 under 13
+  late int step = widget.blocked ? 2 : 0; // 0 birthday, 1 teen approval, 2 under 13
   bool approved = false;
   int? month, year, day;
   String? error;
@@ -41,7 +42,14 @@ class _AgeGateState extends State<AgeGate> {
     if (d > 0 && DateTime(year!, month! + 1, 0).day < d) { setState(() => error = 'That day does not exist in that month.'); return; }
     final g = ageGroupOf(year!, month!, d);
     setState(() => error = null);
-    if (g == 'child') { setState(() => step = 2); }
+    if (g == 'child') {
+      // Remembered on this phone so the app stays closed until they turn 13.
+      await widget.prefs.setInt('birth_year', year!);
+      await widget.prefs.setInt('birth_month', month!);
+      await widget.prefs.setInt('birth_day', d);
+      await widget.prefs.setString('age_group', 'child');
+      setState(() => step = 2);
+    }
     else if (g == 'teen') { setState(() => step = 1); }
     else { await _finish('adult'); }
   }
@@ -80,9 +88,7 @@ class _AgeGateState extends State<AgeGate> {
       body = Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const Text('Sorry, you can’t use this app yet', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
         const SizedBox(height: 12),
-        const Text('Successful Life is only for people aged 13 and older, so we can’t let you in right now. This isn’t a punishment, it’s just to keep younger kids safe. Nothing you entered was saved. Please ask a parent or guardian to help you find something that suits your age, and come back when you turn 13.'),
-        const SizedBox(height: 16),
-        TextButton(onPressed: () => setState(() => step = 0), child: const Text('Back')),
+        const Text('Successful Life is only for people aged 13 and older, so we can’t let you in right now. This isn’t a punishment, it’s just to keep younger kids safe. The app remembers on this phone (and nowhere else) that you are not old enough yet, and it will open for you after your 13th birthday. Please ask a parent or guardian to help you find something that suits your age.'),
       ]);
     } else {
       final now = DateTime.now();

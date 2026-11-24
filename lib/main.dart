@@ -469,6 +469,7 @@ class _RootState extends State<Root> {
   }
   @override Widget build(BuildContext context) {
     if (!ready) return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    if (age == 'child') return AgeGate(prefs: store!, blocked: true, onDone: (g) => setState(() => age = g));
     if (age == null) return AgeGate(prefs: store!, onDone: (g) => setState(() => age = g));
     return const LockGate(child: HomePage());
   }
