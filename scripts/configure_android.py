@@ -6,7 +6,7 @@ ET.register_namespace('android','http://schemas.android.com/apk/res/android')
 ns='{http://schemas.android.com/apk/res/android}'
 tree=ET.parse(p)
 root=tree.getroot()
-for name in ['android.permission.POST_NOTIFICATIONS','android.permission.RECEIVE_BOOT_COMPLETED']:
+for name in ['android.permission.POST_NOTIFICATIONS','android.permission.RECEIVE_BOOT_COMPLETED','android.permission.USE_BIOMETRIC']:
     if not any(x.get(ns+'name')==name for x in root.findall('uses-permission')):
         ET.SubElement(root,'uses-permission',{ns+'name':name})
 app=root.find('application')
@@ -34,7 +34,7 @@ if gradle.exists():
     if 'isCoreLibraryDesugaringEnabled' not in text:
         text=text.replace('compileOptions {','compileOptions {\n        isCoreLibraryDesugaringEnabled = true',1)
     if 'coreLibraryDesugaring(' not in text:
-        text+='\n\ndependencies {\n    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")\n}\n'
+        text+='\n\ndependencies {\n    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")\n    implementation("androidx.appcompat:appcompat:1.7.0")\n}\n'
     gradle.write_text(text)
 print('Android notifications and local-only backup configuration applied')
 # Some plugins (flutter_timezone) declare mismatched Java/Kotlin JVM targets; don't fail the build over it.
@@ -64,3 +64,16 @@ if root.exists():
         rt=hook+rt if i<0 else rt[:i]+hook+rt[i:]
         root.write_text(rt)
 print('Plugin compileSdk override applied')
+
+# local_auth (biometrics) needs a FragmentActivity and an AppCompat theme.
+import glob, re
+for f in glob.glob('android/app/src/main/**/MainActivity.kt', recursive=True):
+    k=Path(f); kt=k.read_text()
+    if 'FlutterFragmentActivity' not in kt:
+        kt=kt.replace('import io.flutter.embedding.android.FlutterActivity','import io.flutter.embedding.android.FlutterFragmentActivity').replace('FlutterActivity()','FlutterFragmentActivity()')
+        k.write_text(kt)
+for f in glob.glob('android/app/src/main/res/values*/styles.xml'):
+    k=Path(f); st=k.read_text()
+    st=st.replace('parent="@android:style/Theme.Light.NoTitleBar"','parent="Theme.AppCompat.Light.NoActionBar"').replace('parent="@android:style/Theme.Black.NoTitleBar"','parent="Theme.AppCompat.NoActionBar"')
+    k.write_text(st)
+print('Biometric support configured')

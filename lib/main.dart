@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'store.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:timezone/data/latest.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
 import 'about.dart';
+import 'lock.dart';
+import 'onboarding.dart';
 import 'exercise.dart';
 import 'export.dart';
 
@@ -52,13 +54,13 @@ class SuccessfulLife extends StatelessWidget {
   @override Widget build(BuildContext context) => MaterialApp(
     title: 'Successful Life', debugShowCheckedModeBanner: false,
     theme: ThemeData(useMaterial3: true, colorSchemeSeed: const Color(0xFF21877C), scaffoldBackgroundColor: const Color(0xFFF8FAF8)),
-    home: const HomePage(),
+    home: const Root(),
   );
 }
 
 class HomePage extends StatefulWidget { const HomePage({super.key}); @override State<HomePage> createState()=>_HomePageState(); }
 class _HomePageState extends State<HomePage> {
-  SharedPreferences? prefs;
+  Store? prefs;
   late DateTime start;
   int tab=0;
   bool inSettings=false;
@@ -72,12 +74,13 @@ class _HomePageState extends State<HomePage> {
   bool completed=false;
   String loadedDay='';
   String? sex;
+  String? age;
   List<String> quotes=[];
   List<String> nudges=[];
   @override void initState(){super.initState();_load();}
   @override void dispose(){journal.dispose();priority.dispose();super.dispose();}
   Future<void> _load() async {
-    prefs=await SharedPreferences.getInstance();
+    prefs=await Store.getInstance();
     final p=prefs!;
     start=DateTime.tryParse(p.getString('start')??'')??DateTime.now();
     await p.setString('start',dateKey(start));
@@ -86,6 +89,7 @@ class _HomePageState extends State<HomePage> {
     hours=List<int>.from(jsonDecode(p.getString('hours')??'[8,13,20]'));
     minutes=List<int>.from(jsonDecode(p.getString('minutes')??'[0,0,0]'));
     sex=p.getString('sex');
+    age=p.getString('age_group');
     quotes=await _lines('assets/quotes.txt');
     nudges=await _lines('assets/nudges.txt');
     _refreshDay();
@@ -100,7 +104,29 @@ class _HomePageState extends State<HomePage> {
   }
   int _dayNum(DateTime d)=>DateTime.utc(d.year,d.month,d.day).difference(DateTime.utc(2024,1,1)).inDays;
   String quoteFor(DateTime d)=>quotes.isEmpty?'Small steps, taken kindly, add up.':quotes[_dayNum(d)%quotes.length];
-  String nudgeFor(DateTime d)=>nudges.isEmpty?'':nudges[_dayNum(d)%nudges.length];
+  bool get teen=>age=='teen';
+  String nudgeFor(DateTime d){
+    if(nudges.isEmpty)return '';
+    final i=_dayNum(d)%nudges.length;
+    if(teen){
+      for(int k=0;k<3;k++){
+        final n=nudges[(i+k)%nudges.length];
+        if(!n.startsWith('LOVE|'))return n;
+      }
+    }
+    return nudges[i];
+  }
+  Future<void> _setAge(String g) async {
+    if(g==(age??'adult'))return;
+    final ok=await showDialog<bool>(context:context,builder:(ctx)=>AlertDialog(
+      title:Text(g=='adult'?'Switch to Adult mode?':'Switch to Teen mode?'),
+      content:Text(g=='adult'?'Adult mode turns on weight and BMI tracking, advanced workouts, Deep Core Foundation exercises and romantic prompts. Only choose this if you are 18 or older.':'Teen mode turns off weight and BMI tracking, advanced workouts, Deep Core Foundation exercises and romantic prompts. Teens should use the app with a parent or guardian’s approval.'),
+      actions:[TextButton(onPressed:()=>Navigator.pop(ctx,false),child:const Text('Cancel')),FilledButton(onPressed:()=>Navigator.pop(ctx,true),child:Text(g=='adult'?'I am 18 or older':'Switch'))],
+    ));
+    if(ok!=true)return;
+    setState(()=>age=g);
+    await prefs!.setString('age_group',g);
+  }
   int get day => DateTime.now().difference(DateTime(start.year,start.month,start.day)).inDays.clamp(0,89)+1;
   int get week => ((day-1)~/7).clamp(0,12);
   String get today => dateKey(DateTime.now());
@@ -149,6 +175,7 @@ class _HomePageState extends State<HomePage> {
     final ok=await showDialog<bool>(context:context,builder:(ctx)=>AlertDialog(title:const Text('Delete all data?'),content:const Text('This permanently erases your journal, body log, workouts and settings from this phone. Export first if you want a copy.'),actions:[TextButton(onPressed:()=>Navigator.pop(ctx,false),child:const Text('Cancel')),FilledButton(onPressed:()=>Navigator.pop(ctx,true),child:const Text('Delete everything'))]));
     if(ok!=true)return;
     await prefs!.clear();
+    await AppLock.clearPin();
     await notifications.cancelAll();
     if(!mounted)return;
     await showDialog<void>(context:context,barrierDismissible:false,builder:(ctx)=>const AlertDialog(title:Text('Data deleted'),content:Text('Close the app completely and reopen it to start fresh.')));
@@ -188,7 +215,7 @@ class _HomePageState extends State<HomePage> {
         title:Text(inSettings?'Settings':'Successful Life',style:const TextStyle(fontWeight:FontWeight.bold)),
         actions:inSettings?null:[PopupMenuButton<String>(icon:const Icon(Icons.more_vert),iconSize:20,tooltip:'Menu',onSelected:(v){if(v=='settings'){setState(()=>inSettings=true);}else if(v=='about'){Navigator.push(context,MaterialPageRoute<void>(builder:(_)=>const AboutPage()));}else if(v=='privacy'){Navigator.push(context,MaterialPageRoute<void>(builder:(_)=>const PrivacyPage()));}},itemBuilder:(ctx)=>const [PopupMenuItem<String>(value:'settings',child:Text('Settings')),PopupMenuItem<String>(value:'privacy',child:Text('Privacy notice')),PopupMenuItem<String>(value:'about',child:Text('About'))])],
       ),
-      body:SafeArea(child:inSettings?_settings():IndexedStack(index:tab,children:[_todayHome(),_journal(),ConnectPage(prefs:prefs!),FitnessPage(prefs:prefs!,sex:sex,onSex:_setSex)])),
+      body:SafeArea(child:inSettings?_settings():IndexedStack(index:tab,children:[_todayHome(),_journal(),ConnectPage(prefs:prefs!),FitnessPage(prefs:prefs!,sex:sex,teen:teen,onSex:_setSex)])),
       bottomNavigationBar:NavigationBar(selectedIndex:tab,onDestinationSelected:(v){setState((){tab=v;inSettings=false;});},destinations:const [
         NavigationDestination(icon:Icon(Icons.check_circle_outline),label:'Today'),
         NavigationDestination(icon:Icon(Icons.edit_note),label:'Journal'),
@@ -260,6 +287,14 @@ class _HomePageState extends State<HomePage> {
       const SizedBox(height:8),
       const Text('Needed to give you the exercises made for your body, and used for body-ratio guidance. Saved on this device only. You can change it any time.',style:TextStyle(fontSize:12,color:Colors.grey)),
     ])),
+    const SizedBox(height:14),title('Age group'),
+    panel(Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
+      SegmentedButton<String>(segments:const [ButtonSegment<String>(value:'adult',label:Text('Adult (18+)')),ButtonSegment<String>(value:'teen',label:Text('Teen (13–17)'))],selected:{age??'adult'},onSelectionChanged:(s)async{await _setAge(s.first);}),
+      const SizedBox(height:8),
+      const Text('Teen mode is for ages 13 to 17 with a parent or guardian’s approval. It hides weight and BMI tracking, advanced workouts, Deep Core Foundation exercises and romantic prompts.',style:TextStyle(fontSize:12,color:Colors.grey)),
+    ])),
+    const SizedBox(height:14),title('App lock'),
+    const LockSettingsPanel(),
     const SizedBox(height:14),title('Privacy & your data'),
     const Text('This app never asks for your name, address, city, ZIP code, phone number, email or any account. Nothing is sent anywhere. Your data stays on this phone unless you choose to export it and share the file yourself.'),
     const SizedBox(height:12),
@@ -269,7 +304,7 @@ class _HomePageState extends State<HomePage> {
     const SizedBox(height:8),
     OutlinedButton.icon(onPressed:_confirmDelete,icon:const Icon(Icons.delete_outline),label:const Text('Delete all my data')),
     const SizedBox(height:12),
-    const Text('Storage note: data is kept in app-local storage and is not encrypted. Cloud backup is turned off for this app. Uninstalling the app deletes its data, so export first if you want to keep it or move to a new phone.',style:TextStyle(fontSize:12,color:Colors.grey)),
+    const Text('Storage note: your data is encrypted on this phone, with the key kept in the Android Keystore. Cloud backup is turned off for this app. Uninstalling the app deletes its data, so export first if you want to keep it or move to a new phone. Export files are not encrypted.',style:TextStyle(fontSize:12,color:Colors.grey)),
   ]);
 }
 
@@ -292,7 +327,7 @@ Future<List<List<String>>> loadConnectDeck() async {
 }
 
 class ConnectPage extends StatefulWidget {
-  final SharedPreferences prefs;
+  final Store prefs;
   const ConnectPage({super.key, required this.prefs});
   @override State<ConnectPage> createState() => _ConnectPageState();
 }
@@ -420,5 +455,28 @@ class _ConnectPageState extends State<ConnectPage> {
         FilledButton.icon(onPressed: _saveNote, icon: const Icon(Icons.save_outlined), label: const Text('Save reflection')),
       ],
     ]);
+  }
+}
+
+class Root extends StatefulWidget {
+  const Root({super.key});
+  @override State<Root> createState() => _RootState();
+}
+
+class _RootState extends State<Root> {
+  Store? store;
+  String? age;
+  bool ready = false;
+  @override void initState() {
+    super.initState();
+    Store.getInstance().then((s) {
+      if (!mounted) return;
+      setState(() { store = s; age = s.getString('age_group'); ready = true; });
+    });
+  }
+  @override Widget build(BuildContext context) {
+    if (!ready) return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    if (age == null) return AgeGate(prefs: store!, onDone: (g) => setState(() => age = g));
+    return const LockGate(child: HomePage());
   }
 }

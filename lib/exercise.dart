@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle, HapticFeedback;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'store.dart';
 import 'body.dart';
 import 'common.dart';
 import 'figure.dart';
@@ -47,10 +47,11 @@ Future<List<Exercise>> loadExercises() async {
 
 /// Container with two sub-tabs: Workouts and Body.
 class FitnessPage extends StatelessWidget {
-  final SharedPreferences prefs;
+  final Store prefs;
   final String? sex;
+  final bool teen;
   final Future<void> Function(String) onSex;
-  const FitnessPage({super.key, required this.prefs, required this.sex, required this.onSex});
+  const FitnessPage({super.key, required this.prefs, required this.sex, required this.teen, required this.onSex});
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -59,8 +60,8 @@ class FitnessPage extends StatelessWidget {
         const TabBar(tabs: [Tab(text: 'Workouts'), Tab(text: 'Body')]),
         Expanded(
           child: TabBarView(children: [
-            ExercisePage(prefs: prefs, sex: sex, onSex: onSex),
-            BodyPage(prefs: prefs, sex: sex, onSex: onSex),
+            ExercisePage(prefs: prefs, sex: sex, teen: teen, onSex: onSex),
+            BodyPage(prefs: prefs, sex: sex, teen: teen, onSex: onSex),
           ]),
         ),
       ]),
@@ -69,10 +70,11 @@ class FitnessPage extends StatelessWidget {
 }
 
 class ExercisePage extends StatefulWidget {
-  final SharedPreferences prefs;
+  final Store prefs;
   final String? sex;
+  final bool teen;
   final Future<void> Function(String) onSex;
-  const ExercisePage({super.key, required this.prefs, required this.sex, required this.onSex});
+  const ExercisePage({super.key, required this.prefs, required this.sex, required this.teen, required this.onSex});
   @override
   State<ExercisePage> createState() => _ExercisePageState();
 }
@@ -105,7 +107,8 @@ class _ExercisePageState extends State<ExercisePage> {
 
   List<Exercise> _eligible() {
     final sex = widget.sex;
-    return all!.where((e) => cats.contains(e.cat) && e.level <= level && (e.forWho == 'all' || e.forWho == sex)).toList();
+    final lv = widget.teen ? min(level, 1) : level;
+    return all!.where((e) => cats.contains(e.cat) && e.level <= lv && !(widget.teen && e.cat == 1) && (e.forWho == 'all' || e.forWho == sex)).toList();
   }
 
   double _w(Exercise e) {
@@ -260,8 +263,8 @@ class _ExercisePageState extends State<ExercisePage> {
       Text('Tailored for: ${sex == 'male' ? 'Male' : 'Female'} body. Change in Settings.', style: const TextStyle(color: Colors.grey)),
       const SizedBox(height: 10),
       SegmentedButton<int>(
-        segments: List<ButtonSegment<int>>.generate(3, (i) => ButtonSegment<int>(value: i, label: Text(exLevels[i]))),
-        selected: {level},
+        segments: List<ButtonSegment<int>>.generate(widget.teen ? 2 : 3, (i) => ButtonSegment<int>(value: i, label: Text(exLevels[i]))),
+        selected: {widget.teen ? min(level, 1) : level},
         onSelectionChanged: (s) async {
           setState(() => level = s.first);
           await _saveFilters();
@@ -270,7 +273,7 @@ class _ExercisePageState extends State<ExercisePage> {
       const SizedBox(height: 4),
       const Text('Shows exercises up to this level.', style: TextStyle(fontSize: 12, color: Colors.grey)),
       const SizedBox(height: 8),
-      Wrap(spacing: 8, runSpacing: 4, children: List<Widget>.generate(exCats.length, (i) => FilterChip(
+      Wrap(spacing: 8, runSpacing: 4, children: [for (var i = 0; i < exCats.length; i++) if (!(widget.teen && i == 1)) FilterChip(
         label: Text(exCats[i]),
         selected: cats.contains(i),
         onSelected: (v) async {
@@ -283,7 +286,7 @@ class _ExercisePageState extends State<ExercisePage> {
           });
           await _saveFilters();
         },
-      ))),
+      )]),
       const SizedBox(height: 14),
       FilledButton.icon(onPressed: _build, icon: const Icon(Icons.auto_awesome), label: const Text("Build today's workout")),
       if (sessionEx.isNotEmpty) ...[

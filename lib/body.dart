@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'store.dart';
 import 'common.dart';
 
 /// Measurement fields stored in centimeters.
@@ -24,10 +24,11 @@ const _cmPerIn = 2.54;
 double? _parse(String s) => double.tryParse(s.trim().replaceAll(',', '.'));
 
 class BodyPage extends StatefulWidget {
-  final SharedPreferences prefs;
+  final Store prefs;
   final String? sex;
+  final bool teen;
   final Future<void> Function(String) onSex;
-  const BodyPage({super.key, required this.prefs, required this.sex, required this.onSex});
+  const BodyPage({super.key, required this.prefs, required this.sex, required this.teen, required this.onSex});
   @override
   State<BodyPage> createState() => _BodyPageState();
 }
@@ -269,6 +270,13 @@ class _BodyPageState extends State<BodyPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.teen) {
+      return ListView(padding: const EdgeInsets.all(18), children: [
+        const Text('Body', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+        const SizedBox(height: 12),
+        _card(const Text('Teen bodies grow and change at very different speeds, and that is completely normal. So Teen mode does not track weight, BMI or body measurements. Focus on how you feel: energy, strength, sleep and mood. If you have questions about growth or health, a doctor can check it properly with growth charts. You can still use Workouts and the journal.', style: TextStyle(height: 1.4))),
+      ]);
+    }
     if (widget.sex == null) {
       return SexGate(onSex: widget.onSex, message: 'Body tracking and guidance are tailored to the male or female body. Choose one to continue.');
     }

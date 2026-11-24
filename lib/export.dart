@@ -5,7 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'store.dart';
 import 'body.dart';
 import 'common.dart';
 import 'exercise.dart';
@@ -18,7 +18,7 @@ const _sections = <List<String>>[
   ['profile', 'Profile settings (Male/Female, units, height)'],
 ];
 
-Map<String, dynamic> _readEntries(SharedPreferences p) {
+Map<String, dynamic> _readEntries(Store p) {
   try {
     return Map<String, dynamic>.from(jsonDecode(p.getString('entries') ?? '{}') as Map);
   } catch (_) {
@@ -26,7 +26,7 @@ Map<String, dynamic> _readEntries(SharedPreferences p) {
   }
 }
 
-List<Map<String, dynamic>> _readBody(SharedPreferences p) {
+List<Map<String, dynamic>> _readBody(Store p) {
   try {
     return (jsonDecode(p.getString('body_log') ?? '[]') as List).map((e) => Map<String, dynamic>.from(e as Map)).toList();
   } catch (_) {
@@ -34,7 +34,7 @@ List<Map<String, dynamic>> _readBody(SharedPreferences p) {
   }
 }
 
-List<Map<String, dynamic>> _readConnect(SharedPreferences p) {
+List<Map<String, dynamic>> _readConnect(Store p) {
   final out = <Map<String, dynamic>>[];
   for (final s in p.getStringList('connect_notes') ?? <String>[]) {
     try {
@@ -44,7 +44,7 @@ List<Map<String, dynamic>> _readConnect(SharedPreferences p) {
   return out;
 }
 
-Map<String, List<String>> _readDone(SharedPreferences p) {
+Map<String, List<String>> _readDone(Store p) {
   final out = <String, List<String>>{};
   for (final k in p.getKeys()) {
     if (k.startsWith('ex_done_')) {
@@ -54,7 +54,7 @@ Map<String, List<String>> _readDone(SharedPreferences p) {
   return out;
 }
 
-Future<void> showExportDialog(BuildContext context, SharedPreferences p) async {
+Future<void> showExportDialog(BuildContext context, Store p) async {
   final picked = {for (final s in _sections) s[0]: true};
   final go = await showDialog<bool>(
     context: context,
@@ -174,7 +174,7 @@ Share this file only with people you trust, such as a coach, doctor or therapist
   }
 }
 
-Future<void> importFromZip(BuildContext context, SharedPreferences p) async {
+Future<void> importFromZip(BuildContext context, Store p) async {
   try {
     final res = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['zip'], withData: true);
     if (res == null || res.files.isEmpty) return;
