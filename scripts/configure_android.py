@@ -80,3 +80,20 @@ for f in glob.glob('android/app/src/main/res/values*/styles.xml'):
     st=st.replace('parent="@android:style/Theme.Light.NoTitleBar"','parent="Theme.AppCompat.Light.NoActionBar"').replace('parent="@android:style/Theme.Black.NoTitleBar"','parent="Theme.AppCompat.NoActionBar"')
     k.write_text(st)
 print('Biometric support configured')
+
+# Smaller release builds: shrink code and resources, and keep what the notification plugin needs at runtime.
+Path('android/app/proguard-rules.pro').write_text('''-keepattributes Signature,*Annotation*,InnerClasses,EnclosingMethod
+-keep class com.dexterous.** { *; }
+-keep class com.google.gson.** { *; }
+-dontwarn com.google.android.play.core.**
+''')
+g=Path('android/app/build.gradle.kts')
+if g.exists():
+    gt=g.read_text()
+    marker='signingConfig = signingConfigs.getByName("debug")'
+    if marker in gt and 'proguard-rules.pro' not in gt:
+        gt=gt.replace(marker,marker+'\n            isMinifyEnabled = true\n            isShrinkResources = true\n            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")',1)
+        g.write_text(gt)
+        print('Release shrinking enabled')
+    else:
+        print('WARNING: release shrinking marker not found')

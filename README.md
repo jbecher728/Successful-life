@@ -2,11 +2,11 @@
 
 A private, simple personal-development companion for Android: daily focus, journaling, genuine-connection prompts, at-home fitness and body tracking. Everything stays on your phone.
 
-> **Status:** early test build (v0.3). It compiles in CI but has not been verified on a physical device yet. Debug-signed, for personal testing only.
+> **Status:** early test build (v0.3). It compiles in CI but has not been verified on a physical device yet. Signed with a debug key, for personal testing only.
 
 ## Download a test build
 
-Install the latest APK from the [Releases page](../../releases) (`successful-life-test.apk`). Android will ask you to allow installs from your browser or file manager.
+Install the latest APK from the [Releases page](../../releases). Pick `successful-life-arm64.apk` for almost every phone made since about 2017 (the `arm32` file is only for much older phones). Android will ask you to allow installs from your browser or file manager.
 
 ## Principles
 
@@ -44,7 +44,7 @@ The app collects nothing and sends nothing. Exported zips are **not** encrypted,
 
 ## Build
 
-Pushes to `main` run the GitHub Actions workflow (`.github/workflows/android-apk.yml`), which generates the Android scaffolding, applies `scripts/configure_android.py`, analyzes, builds a debug APK and publishes it as a `test-build-N` release.
+Pushes to `main` run the GitHub Actions workflow (`.github/workflows/android-apk.yml`), which generates the Android scaffolding, applies `scripts/configure_android.py`, analyzes, builds small release APKs (one per CPU type, each well under 25 MB) and publishes them as a `test-build-N` release.
 
 To build locally you need Flutter and the Android SDK:
 

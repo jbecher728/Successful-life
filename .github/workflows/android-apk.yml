@@ -25,17 +25,20 @@ jobs:
         run: flutter pub get
       - name: Static analysis
         run: flutter analyze --no-fatal-infos --no-fatal-warnings
-      - name: Build test APK
-        run: flutter build apk --debug
-      - name: Upload APK
+      - name: Build small release APKs (one per CPU type)
+        run: flutter build apk --release --split-per-abi --target-platform android-arm,android-arm64
+      - name: Show APK sizes
+        run: ls -l build/app/outputs/flutter-apk/*.apk
+      - name: Upload APKs
         uses: actions/upload-artifact@v4
         with:
-          name: successful-life-android-test-apk
-          path: build/app/outputs/flutter-apk/app-debug.apk
+          name: successful-life-android-apks
+          path: build/app/outputs/flutter-apk/app-*-release.apk
           if-no-files-found: error
-      - name: Publish APK as a GitHub Release
+      - name: Publish APKs as a GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          cp build/app/outputs/flutter-apk/app-debug.apk successful-life-test.apk
-          gh release create "test-build-${{ github.run_number }}" successful-life-test.apk --title "Test build ${{ github.run_number }}" --notes "Debug APK for testing. Install on Android and allow installs from unknown sources." --prerelease
+          cp build/app/outputs/flutter-apk/app-arm64-v8a-release.apk successful-life-arm64.apk
+          cp build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk successful-life-arm32-older-phones.apk
+          gh release create "test-build-${{ github.run_number }}" successful-life-arm64.apk successful-life-arm32-older-phones.apk --title "Test build ${{ github.run_number }}" --notes "Test APKs. Most phones made since about 2017 need the arm64 file; the arm32 file is only for older phones. Install on Android and allow installs from unknown sources." --prerelease
