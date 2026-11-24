@@ -58,3 +58,5 @@ Solo and two-person modes with four categories: Ice Breakers, Confessions, Getti
 - **Body tab:** height, weight and tape measurements, with BMI, waist ratios and shape guidance (screening only), change tracking and a weight trend chart.
 - **Daily thought:** 366 original shareable quotes, shown on the Today tab and in the morning notification. Plus daily connection nudges for yourself, friends and love.
 - **Data:** Settings > Export creates a zip (CSV + JSON) containing only the sections you choose. Import restores it on a new phone. Nothing is collected or sent anywhere.
+
+Navigation: four tabs (Today, Journal, Connect, Fitness). Settings is in the small three-dot menu at the top right. Male/Female is required for both Workouts and Body.

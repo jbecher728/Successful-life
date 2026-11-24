@@ -58,7 +58,7 @@ class FitnessPage extends StatelessWidget {
         Expanded(
           child: TabBarView(children: [
             ExercisePage(prefs: prefs, sex: sex, onSex: onSex),
-            BodyPage(prefs: prefs, sex: sex),
+            BodyPage(prefs: prefs, sex: sex, onSex: onSex),
           ]),
         ),
       ]),
@@ -227,17 +227,7 @@ class _ExercisePageState extends State<ExercisePage> {
     final list = all;
     if (list == null) return const Center(child: CircularProgressIndicator());
     if (widget.sex == null) {
-      return ListView(padding: const EdgeInsets.all(18), children: [
-        const Text('Choose your body type', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-        const SizedBox(height: 10),
-        const Text('Exercises, including the Deep Core Foundation routines, are tailored to the male or female body. Choose one to continue.'),
-        const SizedBox(height: 16),
-        FilledButton.icon(onPressed: () => widget.onSex('male'), icon: const Icon(Icons.person_outline), label: const Text('Male')),
-        const SizedBox(height: 10),
-        FilledButton.icon(onPressed: () => widget.onSex('female'), icon: const Icon(Icons.person_outline), label: const Text('Female')),
-        const SizedBox(height: 14),
-        const Text('Saved on this device only. You can change it any time in Settings.', style: TextStyle(fontSize: 12, color: Colors.grey)),
-      ]);
+      return SexGate(onSex: widget.onSex, message: 'Exercises, including the Deep Core Foundation routines, are tailored to the male or female body. Choose one to continue.');
     }
     final byId = {for (final e in list) e.id: e};
     final browse = _eligible()

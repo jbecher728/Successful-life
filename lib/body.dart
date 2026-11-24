@@ -26,7 +26,8 @@ double? _parse(String s) => double.tryParse(s.trim().replaceAll(',', '.'));
 class BodyPage extends StatefulWidget {
   final SharedPreferences prefs;
   final String? sex;
-  const BodyPage({super.key, required this.prefs, required this.sex});
+  final Future<void> Function(String) onSex;
+  const BodyPage({super.key, required this.prefs, required this.sex, required this.onSex});
   @override
   State<BodyPage> createState() => _BodyPageState();
 }
@@ -268,6 +269,9 @@ class _BodyPageState extends State<BodyPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.sex == null) {
+      return SexGate(onSex: widget.onSex, message: 'Body tracking and guidance are tailored to the male or female body. Choose one to continue.');
+    }
     final last = log.isEmpty ? null : log.last;
     return ListView(padding: const EdgeInsets.all(18), children: [
       const Text('Body', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),

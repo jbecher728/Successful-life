@@ -60,6 +60,7 @@ class _HomePageState extends State<HomePage> {
   SharedPreferences? prefs;
   late DateTime start;
   int tab=0;
+  bool inSettings=false;
   Map<String,dynamic> entries={};
   List<bool> reminders=[true,true,true];
   List<int> hours=[8,13,20];
@@ -181,14 +182,17 @@ class _HomePageState extends State<HomePage> {
     if(prefs==null)return const Scaffold(body:Center(child:CircularProgressIndicator()));
     _refreshDay();
     return Scaffold(
-      appBar:AppBar(title:const Text('Successful Life',style:TextStyle(fontWeight:FontWeight.bold))),
-      body:SafeArea(child:IndexedStack(index:tab,children:[_todayHome(),_journal(),ConnectPage(prefs:prefs!),FitnessPage(prefs:prefs!,sex:sex,onSex:_setSex),_settings()])),
-      bottomNavigationBar:NavigationBar(selectedIndex:tab,onDestinationSelected:(v){setState(()=>tab=v);},destinations:const [
+      appBar:AppBar(
+        leading:inSettings?IconButton(icon:const Icon(Icons.arrow_back),onPressed:()=>setState(()=>inSettings=false)):null,
+        title:Text(inSettings?'Settings':'Successful Life',style:const TextStyle(fontWeight:FontWeight.bold)),
+        actions:inSettings?null:[PopupMenuButton<String>(icon:const Icon(Icons.more_vert),iconSize:20,tooltip:'Menu',onSelected:(v){if(v=='settings')setState(()=>inSettings=true);},itemBuilder:(ctx)=>const [PopupMenuItem<String>(value:'settings',child:Text('Settings'))])],
+      ),
+      body:SafeArea(child:inSettings?_settings():IndexedStack(index:tab,children:[_todayHome(),_journal(),ConnectPage(prefs:prefs!),FitnessPage(prefs:prefs!,sex:sex,onSex:_setSex)])),
+      bottomNavigationBar:NavigationBar(selectedIndex:tab,onDestinationSelected:(v){setState((){tab=v;inSettings=false;});},destinations:const [
         NavigationDestination(icon:Icon(Icons.check_circle_outline),label:'Today'),
         NavigationDestination(icon:Icon(Icons.edit_note),label:'Journal'),
         NavigationDestination(icon:Icon(Icons.forum_outlined),label:'Connect'),
         NavigationDestination(icon:Icon(Icons.fitness_center),label:'Fitness'),
-        NavigationDestination(icon:Icon(Icons.tune),label:'Settings'),
       ]),
     );
   }
