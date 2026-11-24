@@ -23,5 +23,6 @@ flutter:
     - assets/questions/getting_deep.txt
     - assets/questions/challenge.txt
     - assets/exercises.json
+    - assets/motions.json
     - assets/quotes.txt
     - assets/nudges.txt

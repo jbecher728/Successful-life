@@ -60,3 +60,5 @@ Solo and two-person modes with four categories: Ice Breakers, Confessions, Getti
 - **Data:** Settings > Export creates a zip (CSV + JSON) containing only the sections you choose. Import restores it on a new phone. Nothing is collected or sent anywhere.
 
 Navigation: four tabs (Today, Journal, Connect, Fitness). Settings is in the small three-dot menu at the top right. Male/Female is required for both Workouts and Body.
+
+Each exercise detail shows a looping stick-figure form guide (2–6 frames) driven by assets/motions.json.

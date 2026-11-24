@@ -15,7 +15,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "upper",
-  "id": "ex001"
+  "id": "ex001",
+  "motion": "knee_pushup"
  },
  {
   "name": "Push-Up",
@@ -33,7 +34,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "upper",
-  "id": "ex002"
+  "id": "ex002",
+  "motion": "pushup"
  },
  {
   "name": "Hand-Release Push-Up",
@@ -51,7 +53,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "upper",
-  "id": "ex003"
+  "id": "ex003",
+  "motion": "pushup_release"
  },
  {
   "name": "Diamond Push-Up",
@@ -68,7 +71,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "upper",
-  "id": "ex004"
+  "id": "ex004",
+  "motion": "pushup"
  },
  {
   "name": "Air Squat",
@@ -86,7 +90,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "lower",
-  "id": "ex005"
+  "id": "ex005",
+  "motion": "squat"
  },
  {
   "name": "Forward Lunge",
@@ -104,7 +109,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "lower",
-  "id": "ex006"
+  "id": "ex006",
+  "motion": "lunge_fwd"
  },
  {
   "name": "Walking Lunge",
@@ -121,7 +127,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "lower",
-  "id": "ex007"
+  "id": "ex007",
+  "motion": "lunge_fwd"
  },
  {
   "name": "Sit-Up",
@@ -139,7 +146,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "core",
-  "id": "ex008"
+  "id": "ex008",
+  "motion": "situp"
  },
  {
   "name": "Flutter Kicks",
@@ -156,7 +164,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "core",
-  "id": "ex009"
+  "id": "ex009",
+  "motion": "flutter"
  },
  {
   "name": "Mountain Climbers",
@@ -173,7 +182,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "core",
-  "id": "ex010"
+  "id": "ex010",
+  "motion": "mtn_climb"
  },
  {
   "name": "Front Plank",
@@ -190,7 +200,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "core",
-  "id": "ex011"
+  "id": "ex011",
+  "motion": "plank"
  },
  {
   "name": "Burpee",
@@ -208,7 +219,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "full",
-  "id": "ex012"
+  "id": "ex012",
+  "motion": "burpee"
  },
  {
   "name": "Eight-Count Bodybuilder",
@@ -225,7 +237,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "full",
-  "id": "ex013"
+  "id": "ex013",
+  "motion": "bodybuilder"
  },
  {
   "name": "Bear Crawl",
@@ -242,7 +255,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "full",
-  "id": "ex014"
+  "id": "ex014",
+  "motion": "bear_crawl"
  },
  {
   "name": "V-Up",
@@ -259,7 +273,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "core",
-  "id": "ex015"
+  "id": "ex015",
+  "motion": "vup"
  },
  {
   "name": "Deep Core Release Breathing",
@@ -277,7 +292,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "pelvic",
-  "id": "ex016"
+  "id": "ex016",
+  "motion": "core_breath"
  },
  {
   "name": "Brace Before You Cough",
@@ -294,7 +310,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "pelvic",
-  "id": "ex017"
+  "id": "ex017",
+  "motion": "cough_brace"
  },
  {
   "name": "Foundation Lift Basics (Men)",
@@ -312,7 +329,8 @@
   "seconds": 0,
   "for": "male",
   "emph": "pelvic",
-  "id": "ex018"
+  "id": "ex018",
+  "motion": "core_breath"
  },
  {
   "name": "Foundation Endurance Holds (Men)",
@@ -330,7 +348,8 @@
   "seconds": 10,
   "for": "male",
   "emph": "pelvic",
-  "id": "ex019"
+  "id": "ex019",
+  "motion": "core_breath"
  },
  {
   "name": "Foundation Quick Pulses (Men)",
@@ -347,7 +366,8 @@
   "seconds": 0,
   "for": "male",
   "emph": "pelvic",
-  "id": "ex020"
+  "id": "ex020",
+  "motion": "core_breath"
  },
  {
   "name": "Foundation Elevator Lift (Men)",
@@ -364,7 +384,8 @@
   "seconds": 0,
   "for": "male",
   "emph": "pelvic",
-  "id": "ex021"
+  "id": "ex021",
+  "motion": "core_breath"
  },
  {
   "name": "Bridge with Foundation Lift (Men)",
@@ -381,7 +402,8 @@
   "seconds": 0,
   "for": "male",
   "emph": "pelvic",
-  "id": "ex022"
+  "id": "ex022",
+  "motion": "bridge"
  },
  {
   "name": "Squat with Foundation Lift (Men)",
@@ -398,7 +420,8 @@
   "seconds": 0,
   "for": "male",
   "emph": "pelvic",
-  "id": "ex023"
+  "id": "ex023",
+  "motion": "squat"
  },
  {
   "name": "Foundation Release (Men)",
@@ -415,7 +438,8 @@
   "seconds": 0,
   "for": "male",
   "emph": "pelvic",
-  "id": "ex024"
+  "id": "ex024",
+  "motion": "core_breath"
  },
  {
   "name": "Foundation Lift Basics (Women)",
@@ -433,7 +457,8 @@
   "seconds": 0,
   "for": "female",
   "emph": "pelvic",
-  "id": "ex025"
+  "id": "ex025",
+  "motion": "core_breath"
  },
  {
   "name": "Foundation Endurance Holds (Women)",
@@ -451,7 +476,8 @@
   "seconds": 10,
   "for": "female",
   "emph": "pelvic",
-  "id": "ex026"
+  "id": "ex026",
+  "motion": "core_breath"
  },
  {
   "name": "Foundation Quick Pulses (Women)",
@@ -468,7 +494,8 @@
   "seconds": 0,
   "for": "female",
   "emph": "pelvic",
-  "id": "ex027"
+  "id": "ex027",
+  "motion": "core_breath"
  },
  {
   "name": "Foundation Elevator Lift (Women)",
@@ -485,7 +512,8 @@
   "seconds": 0,
   "for": "female",
   "emph": "pelvic",
-  "id": "ex028"
+  "id": "ex028",
+  "motion": "core_breath"
  },
  {
   "name": "Bridge with Foundation Lift (Women)",
@@ -502,7 +530,8 @@
   "seconds": 0,
   "for": "female",
   "emph": "pelvic",
-  "id": "ex029"
+  "id": "ex029",
+  "motion": "bridge"
  },
  {
   "name": "Squat with Foundation Lift (Women)",
@@ -519,7 +548,8 @@
   "seconds": 0,
   "for": "female",
   "emph": "pelvic",
-  "id": "ex030"
+  "id": "ex030",
+  "motion": "squat"
  },
  {
   "name": "Foundation Release (Women)",
@@ -536,7 +566,8 @@
   "seconds": 0,
   "for": "female",
   "emph": "pelvic",
-  "id": "ex031"
+  "id": "ex031",
+  "motion": "core_breath"
  },
  {
   "name": "Mountain Pose",
@@ -553,7 +584,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "flex",
-  "id": "ex032"
+  "id": "ex032",
+  "motion": "mountain"
  },
  {
   "name": "Cat-Cow",
@@ -570,7 +602,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "flex",
-  "id": "ex033"
+  "id": "ex033",
+  "motion": "cat_cow"
  },
  {
   "name": "Child's Pose",
@@ -587,7 +620,8 @@
   "seconds": 60,
   "for": "all",
   "emph": "flex",
-  "id": "ex034"
+  "id": "ex034",
+  "motion": "child"
  },
  {
   "name": "Downward-Facing Dog",
@@ -604,7 +638,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "flex",
-  "id": "ex035"
+  "id": "ex035",
+  "motion": "downdog"
  },
  {
   "name": "Cobra Pose",
@@ -621,7 +656,8 @@
   "seconds": 15,
   "for": "all",
   "emph": "upper",
-  "id": "ex036"
+  "id": "ex036",
+  "motion": "cobra"
  },
  {
   "name": "Low Lunge",
@@ -638,7 +674,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "lower",
-  "id": "ex037"
+  "id": "ex037",
+  "motion": "low_lunge"
  },
  {
   "name": "Warrior I",
@@ -655,7 +692,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "lower",
-  "id": "ex038"
+  "id": "ex038",
+  "motion": "warrior1"
  },
  {
   "name": "Warrior II",
@@ -672,7 +710,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "lower",
-  "id": "ex039"
+  "id": "ex039",
+  "motion": "warrior2"
  },
  {
   "name": "Triangle Pose",
@@ -689,7 +728,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "flex",
-  "id": "ex040"
+  "id": "ex040",
+  "motion": "triangle"
  },
  {
   "name": "Tree Pose",
@@ -706,7 +746,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "flex",
-  "id": "ex041"
+  "id": "ex041",
+  "motion": "tree"
  },
  {
   "name": "Chair Pose",
@@ -723,7 +764,8 @@
   "seconds": 20,
   "for": "all",
   "emph": "lower",
-  "id": "ex042"
+  "id": "ex042",
+  "motion": "chair"
  },
  {
   "name": "Bridge Pose",
@@ -740,7 +782,8 @@
   "seconds": 20,
   "for": "all",
   "emph": "lower",
-  "id": "ex043"
+  "id": "ex043",
+  "motion": "bridge_pose"
  },
  {
   "name": "Seated Forward Fold",
@@ -757,7 +800,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "flex",
-  "id": "ex044"
+  "id": "ex044",
+  "motion": "seated_fold"
  },
  {
   "name": "Reclined Spinal Twist",
@@ -774,7 +818,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "flex",
-  "id": "ex045"
+  "id": "ex045",
+  "motion": "spinal_twist"
  },
  {
   "name": "Happy Baby",
@@ -791,7 +836,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "flex",
-  "id": "ex046"
+  "id": "ex046",
+  "motion": "happy_baby"
  },
  {
   "name": "Legs Up the Wall",
@@ -808,7 +854,8 @@
   "seconds": 120,
   "for": "all",
   "emph": "flex",
-  "id": "ex047"
+  "id": "ex047",
+  "motion": "legs_wall"
  },
  {
   "name": "Pigeon Pose (Figure-Four Version)",
@@ -825,7 +872,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "flex",
-  "id": "ex048"
+  "id": "ex048",
+  "motion": "figure4"
  },
  {
   "name": "Sun Salutation Flow",
@@ -842,7 +890,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "flex",
-  "id": "ex049"
+  "id": "ex049",
+  "motion": "sun_sal"
  },
  {
   "name": "Boat Pose",
@@ -859,7 +908,8 @@
   "seconds": 15,
   "for": "all",
   "emph": "core",
-  "id": "ex050"
+  "id": "ex050",
+  "motion": "boat"
  },
  {
   "name": "Savasana (Final Rest)",
@@ -876,7 +926,8 @@
   "seconds": 180,
   "for": "all",
   "emph": "flex",
-  "id": "ex051"
+  "id": "ex051",
+  "motion": "savasana"
  },
  {
   "name": "Glute Bridge",
@@ -893,7 +944,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "lower",
-  "id": "ex052"
+  "id": "ex052",
+  "motion": "bridge"
  },
  {
   "name": "Wall Sit",
@@ -910,7 +962,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "lower",
-  "id": "ex053"
+  "id": "ex053",
+  "motion": "wall_sit"
  },
  {
   "name": "Dead Bug",
@@ -927,7 +980,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "core",
-  "id": "ex054"
+  "id": "ex054",
+  "motion": "dead_bug"
  },
  {
   "name": "Bird Dog",
@@ -944,7 +998,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "core",
-  "id": "ex055"
+  "id": "ex055",
+  "motion": "bird_dog"
  },
  {
   "name": "Side Plank",
@@ -961,7 +1016,8 @@
   "seconds": 20,
   "for": "all",
   "emph": "core",
-  "id": "ex056"
+  "id": "ex056",
+  "motion": "plank"
  },
  {
   "name": "Superman",
@@ -978,7 +1034,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "upper",
-  "id": "ex057"
+  "id": "ex057",
+  "motion": "superman"
  },
  {
   "name": "Calf Raises",
@@ -995,7 +1052,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "lower",
-  "id": "ex058"
+  "id": "ex058",
+  "motion": "calf"
  },
  {
   "name": "Step-Ups",
@@ -1012,7 +1070,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "lower",
-  "id": "ex059"
+  "id": "ex059",
+  "motion": "stepup"
  },
  {
   "name": "Chair Dips",
@@ -1029,7 +1088,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "upper",
-  "id": "ex060"
+  "id": "ex060",
+  "motion": "chair_dip"
  },
  {
   "name": "Incline Push-Up",
@@ -1046,7 +1106,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "upper",
-  "id": "ex061"
+  "id": "ex061",
+  "motion": "incline_pushup"
  },
  {
   "name": "Pike Push-Up",
@@ -1063,7 +1124,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "upper",
-  "id": "ex062"
+  "id": "ex062",
+  "motion": "pike"
  },
  {
   "name": "Backpack Squat",
@@ -1080,7 +1142,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "lower",
-  "id": "ex063"
+  "id": "ex063",
+  "motion": "squat_load"
  },
  {
   "name": "Backpack Bent-Over Row",
@@ -1097,7 +1160,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "upper",
-  "id": "ex064"
+  "id": "ex064",
+  "motion": "hinge_row"
  },
  {
   "name": "Single-Leg Romanian Deadlift",
@@ -1114,7 +1178,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "lower",
-  "id": "ex065"
+  "id": "ex065",
+  "motion": "rdl"
  },
  {
   "name": "Bicycle Crunch",
@@ -1131,7 +1196,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "core",
-  "id": "ex066"
+  "id": "ex066",
+  "motion": "bicycle"
  },
  {
   "name": "Hollow Hold",
@@ -1148,7 +1214,8 @@
   "seconds": 20,
   "for": "all",
   "emph": "core",
-  "id": "ex067"
+  "id": "ex067",
+  "motion": "hollow"
  },
  {
   "name": "Reverse Crunch",
@@ -1165,7 +1232,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "core",
-  "id": "ex068"
+  "id": "ex068",
+  "motion": "crunch_rev"
  },
  {
   "name": "Split Squat with Back Foot on Couch",
@@ -1182,7 +1250,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "lower",
-  "id": "ex069"
+  "id": "ex069",
+  "motion": "split_squat"
  },
  {
   "name": "Water Jug Farmer Carry",
@@ -1199,7 +1268,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "full",
-  "id": "ex070"
+  "id": "ex070",
+  "motion": "carry"
  },
  {
   "name": "Neck Half-Circles",
@@ -1216,7 +1286,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "flex",
-  "id": "ex071"
+  "id": "ex071",
+  "motion": "neck"
  },
  {
   "name": "Shoulder Rolls",
@@ -1233,7 +1304,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "flex",
-  "id": "ex072"
+  "id": "ex072",
+  "motion": "shoulder_roll"
  },
  {
   "name": "Thread the Needle",
@@ -1250,7 +1322,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "flex",
-  "id": "ex073"
+  "id": "ex073",
+  "motion": "thread"
  },
  {
   "name": "Kneeling Hip Flexor Stretch",
@@ -1267,7 +1340,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "flex",
-  "id": "ex074"
+  "id": "ex074",
+  "motion": "hip_flexor"
  },
  {
   "name": "Standing Hamstring Stretch",
@@ -1284,7 +1358,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "flex",
-  "id": "ex075"
+  "id": "ex075",
+  "motion": "hamstring"
  },
  {
   "name": "Doorway Chest Stretch",
@@ -1301,7 +1376,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "flex",
-  "id": "ex076"
+  "id": "ex076",
+  "motion": "door_chest"
  },
  {
   "name": "90/90 Hip Switches",
@@ -1318,7 +1394,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "flex",
-  "id": "ex077"
+  "id": "ex077",
+  "motion": "hip_9090"
  },
  {
   "name": "Ankle Circles",
@@ -1335,7 +1412,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "flex",
-  "id": "ex078"
+  "id": "ex078",
+  "motion": "ankle_circle"
  },
  {
   "name": "World's Greatest Stretch",
@@ -1352,7 +1430,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "flex",
-  "id": "ex079"
+  "id": "ex079",
+  "motion": "wgs"
  },
  {
   "name": "Cross-Body Shoulder Stretch",
@@ -1369,7 +1448,8 @@
   "seconds": 20,
   "for": "all",
   "emph": "flex",
-  "id": "ex080"
+  "id": "ex080",
+  "motion": "cross_shoulder"
  },
  {
   "name": "Standing Quad Stretch",
@@ -1386,7 +1466,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "flex",
-  "id": "ex081"
+  "id": "ex081",
+  "motion": "quad_stretch"
  },
  {
   "name": "Wrist Circles and Stretches",
@@ -1403,7 +1484,8 @@
   "seconds": 20,
   "for": "all",
   "emph": "flex",
-  "id": "ex082"
+  "id": "ex082",
+  "motion": "wrist"
  },
  {
   "name": "March in Place",
@@ -1420,7 +1502,8 @@
   "seconds": 60,
   "for": "all",
   "emph": "cardio",
-  "id": "ex083"
+  "id": "ex083",
+  "motion": "march"
  },
  {
   "name": "Jumping Jacks",
@@ -1437,7 +1520,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "cardio",
-  "id": "ex084"
+  "id": "ex084",
+  "motion": "jacks"
  },
  {
   "name": "High Knees",
@@ -1454,7 +1538,8 @@
   "seconds": 20,
   "for": "all",
   "emph": "cardio",
-  "id": "ex085"
+  "id": "ex085",
+  "motion": "high_knees"
  },
  {
   "name": "Shadow Boxing",
@@ -1471,7 +1556,8 @@
   "seconds": 60,
   "for": "all",
   "emph": "cardio",
-  "id": "ex086"
+  "id": "ex086",
+  "motion": "shadow_box"
  },
  {
   "name": "Skater Hops",
@@ -1488,7 +1574,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "lower",
-  "id": "ex087"
+  "id": "ex087",
+  "motion": "skater"
  },
  {
   "name": "Stair Climbing",
@@ -1505,7 +1592,8 @@
   "seconds": 120,
   "for": "all",
   "emph": "cardio",
-  "id": "ex088"
+  "id": "ex088",
+  "motion": "march"
  },
  {
   "name": "Squat Jumps",
@@ -1522,7 +1610,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "lower",
-  "id": "ex089"
+  "id": "ex089",
+  "motion": "squat_jump"
  },
  {
   "name": "Step Jacks",
@@ -1539,7 +1628,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "cardio",
-  "id": "ex090"
+  "id": "ex090",
+  "motion": "step_jacks"
  },
  {
   "name": "Butt Kicks",
@@ -1556,7 +1646,8 @@
   "seconds": 20,
   "for": "all",
   "emph": "cardio",
-  "id": "ex091"
+  "id": "ex091",
+  "motion": "butt_kicks"
  },
  {
   "name": "Imaginary Jump Rope",
@@ -1573,7 +1664,8 @@
   "seconds": 30,
   "for": "all",
   "emph": "cardio",
-  "id": "ex092"
+  "id": "ex092",
+  "motion": "jump_rope"
  },
  {
   "name": "Living Room Dance Break",
@@ -1590,7 +1682,8 @@
   "seconds": 180,
   "for": "all",
   "emph": "cardio",
-  "id": "ex093"
+  "id": "ex093",
+  "motion": "dance"
  },
  {
   "name": "Decline Push-Up (Feet on Chair)",
@@ -1607,7 +1700,8 @@
   "seconds": 0,
   "for": "male",
   "emph": "upper",
-  "id": "ex094"
+  "id": "ex094",
+  "motion": "decline_pushup"
  },
  {
   "name": "Archer Push-Up",
@@ -1624,7 +1718,8 @@
   "seconds": 0,
   "for": "male",
   "emph": "upper",
-  "id": "ex095"
+  "id": "ex095",
+  "motion": "pushup"
  },
  {
   "name": "Backpack Curl",
@@ -1641,7 +1736,8 @@
   "seconds": 0,
   "for": "male",
   "emph": "upper",
-  "id": "ex096"
+  "id": "ex096",
+  "motion": "curl"
  },
  {
   "name": "Backpack Overhead Press",
@@ -1658,7 +1754,8 @@
   "seconds": 0,
   "for": "male",
   "emph": "upper",
-  "id": "ex097"
+  "id": "ex097",
+  "motion": "press"
  },
  {
   "name": "Prone Y-T-W Raises",
@@ -1675,7 +1772,8 @@
   "seconds": 0,
   "for": "male",
   "emph": "upper",
-  "id": "ex098"
+  "id": "ex098",
+  "motion": "ytw"
  },
  {
   "name": "Donkey Kick",
@@ -1692,7 +1790,8 @@
   "seconds": 0,
   "for": "female",
   "emph": "lower",
-  "id": "ex099"
+  "id": "ex099",
+  "motion": "donkey"
  },
  {
   "name": "Fire Hydrant",
@@ -1709,7 +1808,8 @@
   "seconds": 0,
   "for": "female",
   "emph": "lower",
-  "id": "ex100"
+  "id": "ex100",
+  "motion": "donkey"
  },
  {
   "name": "Sumo Squat",
@@ -1726,7 +1826,8 @@
   "seconds": 0,
   "for": "female",
   "emph": "lower",
-  "id": "ex101"
+  "id": "ex101",
+  "motion": "sumo"
  },
  {
   "name": "Curtsy Lunge",
@@ -1743,7 +1844,8 @@
   "seconds": 0,
   "for": "female",
   "emph": "lower",
-  "id": "ex102"
+  "id": "ex102",
+  "motion": "curtsy"
  },
  {
   "name": "Single-Leg Glute Bridge",
@@ -1760,7 +1862,8 @@
   "seconds": 0,
   "for": "female",
   "emph": "lower",
-  "id": "ex103"
+  "id": "ex103",
+  "motion": "bridge_one"
  },
  {
   "name": "Side-Lying Leg Raise",
@@ -1777,7 +1880,8 @@
   "seconds": 0,
   "for": "female",
   "emph": "lower",
-  "id": "ex104"
+  "id": "ex104",
+  "motion": "sidelift"
  },
  {
   "name": "Heel Drops",
@@ -1794,7 +1898,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "lower",
-  "id": "ex105"
+  "id": "ex105",
+  "motion": "heel_drop"
  },
  {
   "name": "Single-Leg Balance",
@@ -1811,7 +1916,8 @@
   "seconds": 20,
   "for": "all",
   "emph": "flex",
-  "id": "ex106"
+  "id": "ex106",
+  "motion": "balance"
  },
  {
   "name": "Heel-to-Toe Walk",
@@ -1828,7 +1934,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "flex",
-  "id": "ex107"
+  "id": "ex107",
+  "motion": "heel_toe"
  },
  {
   "name": "Wall Angels",
@@ -1845,7 +1952,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "flex",
-  "id": "ex108"
+  "id": "ex108",
+  "motion": "wall_angels"
  },
  {
   "name": "Chin Tucks",
@@ -1862,7 +1970,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "flex",
-  "id": "ex109"
+  "id": "ex109",
+  "motion": "chin_tuck"
  },
  {
   "name": "Posture Reset",
@@ -1879,7 +1988,8 @@
   "seconds": 60,
   "for": "all",
   "emph": "flex",
-  "id": "ex110"
+  "id": "ex110",
+  "motion": "posture"
  },
  {
   "name": "Box Breathing",
@@ -1896,7 +2006,8 @@
   "seconds": 120,
   "for": "all",
   "emph": "mind",
-  "id": "ex111"
+  "id": "ex111",
+  "motion": "sit_breath"
  },
  {
   "name": "4-7-8 Calming Breath",
@@ -1913,7 +2024,8 @@
   "seconds": 0,
   "for": "all",
   "emph": "mind",
-  "id": "ex112"
+  "id": "ex112",
+  "motion": "sit_breath"
  },
  {
   "name": "Body Scan",
@@ -1930,7 +2042,8 @@
   "seconds": 300,
   "for": "all",
   "emph": "mind",
-  "id": "ex113"
+  "id": "ex113",
+  "motion": "body_scan"
  },
  {
   "name": "Progressive Muscle Relaxation",
@@ -1947,7 +2060,8 @@
   "seconds": 300,
   "for": "all",
   "emph": "mind",
-  "id": "ex114"
+  "id": "ex114",
+  "motion": "pmr"
  },
  {
   "name": "Mindful Walking",
@@ -1964,7 +2078,8 @@
   "seconds": 300,
   "for": "all",
   "emph": "mind",
-  "id": "ex115"
+  "id": "ex115",
+  "motion": "walk"
  },
  {
   "name": "Three Good Things",
@@ -1981,7 +2096,8 @@
   "seconds": 180,
   "for": "all",
   "emph": "mind",
-  "id": "ex116"
+  "id": "ex116",
+  "motion": "sit_calm"
  },
  {
   "name": "Loving-Kindness Minute",
@@ -1998,7 +2114,8 @@
   "seconds": 180,
   "for": "all",
   "emph": "mind",
-  "id": "ex117"
+  "id": "ex117",
+  "motion": "sit_calm"
  },
  {
   "name": "Shake It Out",
@@ -2015,7 +2132,8 @@
   "seconds": 60,
   "for": "all",
   "emph": "mind",
-  "id": "ex118"
+  "id": "ex118",
+  "motion": "shake"
  },
  {
   "name": "Gratitude Stretch",
@@ -2032,7 +2150,8 @@
   "seconds": 120,
   "for": "all",
   "emph": "mind",
-  "id": "ex119"
+  "id": "ex119",
+  "motion": "gratitude"
  },
  {
   "name": "Five Senses Grounding",
@@ -2048,7 +2167,8 @@
   "seconds": 120,
   "for": "all",
   "emph": "mind",
-  "id": "ex120"
+  "id": "ex120",
+  "motion": "sit_calm"
  },
  {
   "name": "Slow Exhale Reset",
@@ -2065,6 +2185,7 @@
   "seconds": 90,
   "for": "all",
   "emph": "mind",
-  "id": "ex121"
+  "id": "ex121",
+  "motion": "stand_breath"
  }
 ]

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart' show rootBundle, HapticFeedback;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'body.dart';
 import 'common.dart';
+import 'figure.dart';
 
 const exCats = <String>[
   'Military Calisthenics',
@@ -19,7 +20,7 @@ const exCats = <String>[
 const exLevels = <String>['Beginner', 'Moderate', 'Advanced'];
 
 class Exercise {
-  final String id, name, equipment, dose, forWho, tip, emph;
+  final String id, name, equipment, dose, forWho, tip, emph, motion;
   final int cat, level, seconds;
   final List<String> steps;
   Exercise.fromJson(Map<String, dynamic> j)
@@ -33,6 +34,7 @@ class Exercise {
         forWho = (j['for'] ?? 'all') as String,
         tip = (j['tip'] ?? '') as String,
         emph = (j['emph'] ?? 'full') as String,
+        motion = (j['motion'] ?? '') as String,
         steps = List<String>.from(j['steps'] as List);
 }
 
@@ -194,6 +196,12 @@ class _ExercisePageState extends State<ExercisePage> {
             const SizedBox(height: 4),
             Text('${exCats[e.cat]}  •  ${exLevels[e.level]}', style: const TextStyle(color: Colors.grey)),
             const SizedBox(height: 12),
+            if (e.motion.isNotEmpty) ...[
+              ExerciseFigure(motion: e.motion),
+              const SizedBox(height: 4),
+              const Text('Form guide: simplified stick figure. Move smoothly and at your own pace.', style: TextStyle(fontSize: 11, color: Colors.grey)),
+              const SizedBox(height: 10),
+            ],
             Text('Dose: ${e.dose}', style: const TextStyle(fontWeight: FontWeight.w600)),
             Text('You need: ${e.equipment}'),
             const SizedBox(height: 12),
