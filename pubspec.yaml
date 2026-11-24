@@ -12,6 +12,9 @@ dependencies:
   timezone: ^0.9.4
   flutter_timezone: ^3.0.1
   share_plus: ^10.0.2
+  archive: ^3.6.1
+  path_provider: ^2.1.4
+  file_picker: ^8.1.2
 flutter:
   uses-material-design: true
   assets:
@@ -19,3 +22,6 @@ flutter:
     - assets/questions/confessions.txt
     - assets/questions/getting_deep.txt
     - assets/questions/challenge.txt
+    - assets/exercises.json
+    - assets/quotes.txt
+    - assets/nudges.txt

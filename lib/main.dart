@@ -8,6 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:timezone/data/latest.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
+import 'exercise.dart';
+import 'export.dart';
 
 final notifications = FlutterLocalNotificationsPlugin();
 const tasks = <String>[
@@ -67,6 +69,9 @@ class _HomePageState extends State<HomePage> {
   int mood=3,energy=3;
   bool completed=false;
   String loadedDay='';
+  String? sex;
+  List<String> quotes=[];
+  List<String> nudges=[];
   @override void initState(){super.initState();_load();}
   @override void dispose(){journal.dispose();priority.dispose();super.dispose();}
   Future<void> _load() async {
@@ -78,10 +83,22 @@ class _HomePageState extends State<HomePage> {
     reminders=List<bool>.from((jsonDecode(p.getString('reminders')??'[true,true,true]') as List).map((e)=>e==true));
     hours=List<int>.from(jsonDecode(p.getString('hours')??'[8,13,20]'));
     minutes=List<int>.from(jsonDecode(p.getString('minutes')??'[0,0,0]'));
+    sex=p.getString('sex');
+    quotes=await _lines('assets/quotes.txt');
+    nudges=await _lines('assets/nudges.txt');
     _refreshDay();
     await _schedule();
     if(mounted)setState((){});
   }
+  Future<List<String>> _lines(String path) async {
+    try {
+      final raw=await rootBundle.loadString(path);
+      return raw.split('\n').map((l)=>l.trim()).where((l)=>l.isNotEmpty).toList();
+    } catch (_) { return <String>[]; }
+  }
+  int _dayNum(DateTime d)=>DateTime.utc(d.year,d.month,d.day).difference(DateTime.utc(2024,1,1)).inDays;
+  String quoteFor(DateTime d)=>quotes.isEmpty?'Small steps, taken kindly, add up.':quotes[_dayNum(d)%quotes.length];
+  String nudgeFor(DateTime d)=>nudges.isEmpty?'':nudges[_dayNum(d)%nudges.length];
   int get day => DateTime.now().difference(DateTime(start.year,start.month,start.day)).inDays.clamp(0,89)+1;
   int get week => ((day-1)~/7).clamp(0,12);
   String get today => dateKey(DateTime.now());
@@ -105,15 +122,54 @@ class _HomePageState extends State<HomePage> {
     await notifications.cancelAll();
     const labels=['Plan your day','Take your next step','Reflect on today'];
     const details=NotificationDetails(android:AndroidNotificationDetails('daily_routine','Daily reminders',channelDescription:'Your private daily routine',importance:Importance.defaultImportance,priority:Priority.defaultPriority),iOS:DarwinNotificationDetails());
+    final now=tz.TZDateTime.now(tz.local);
     for(int i=0;i<3;i++){
       if(!reminders[i])continue;
-      var time=tz.TZDateTime(tz.local,DateTime.now().year,DateTime.now().month,DateTime.now().day,hours[i],minutes[i]);
-      if(!time.isAfter(tz.TZDateTime.now(tz.local)))time=tz.TZDateTime(tz.local,time.year,time.month,time.day+1,hours[i],minutes[i]);
+      if(i==0){
+        // Morning: one notification per day for the next 14 days, each carrying that day's shareable thought.
+        for(int d=0;d<14;d++){
+          final t=tz.TZDateTime(tz.local,now.year,now.month,now.day+d,hours[0],minutes[0]);
+          if(!t.isAfter(now))continue;
+          final q=quoteFor(t);
+          await notifications.zonedSchedule(100+d,'Good morning',q,t,NotificationDetails(android:AndroidNotificationDetails('daily_quote','Daily thought',channelDescription:'A shareable thought each morning',importance:Importance.defaultImportance,priority:Priority.defaultPriority,styleInformation:BigTextStyleInformation(q)),iOS:const DarwinNotificationDetails()),androidScheduleMode:AndroidScheduleMode.inexactAllowWhileIdle,uiLocalNotificationDateInterpretation:UILocalNotificationDateInterpretation.absoluteTime);
+        }
+        continue;
+      }
+      var time=tz.TZDateTime(tz.local,now.year,now.month,now.day,hours[i],minutes[i]);
+      if(!time.isAfter(now))time=tz.TZDateTime(tz.local,time.year,time.month,time.day+1,hours[i],minutes[i]);
       await notifications.zonedSchedule(i,labels[i],i==1?'A small step counts. Open Successful Life.':'Open your private journal.',time,details,androidScheduleMode:AndroidScheduleMode.inexactAllowWhileIdle,uiLocalNotificationDateInterpretation:UILocalNotificationDateInterpretation.absoluteTime,matchDateTimeComponents:DateTimeComponents.time);
     }
     await prefs!.setString('reminders',jsonEncode(reminders));
     await prefs!.setString('hours',jsonEncode(hours));
     await prefs!.setString('minutes',jsonEncode(minutes));
+  }
+  Future<void> _confirmDelete() async {
+    final ok=await showDialog<bool>(context:context,builder:(ctx)=>AlertDialog(title:const Text('Delete all data?'),content:const Text('This permanently erases your journal, body log, workouts and settings from this phone. Export first if you want a copy.'),actions:[TextButton(onPressed:()=>Navigator.pop(ctx,false),child:const Text('Cancel')),FilledButton(onPressed:()=>Navigator.pop(ctx,true),child:const Text('Delete everything'))]));
+    if(ok!=true)return;
+    await prefs!.clear();
+    await notifications.cancelAll();
+    if(!mounted)return;
+    await showDialog<void>(context:context,barrierDismissible:false,builder:(ctx)=>const AlertDialog(title:Text('Data deleted'),content:Text('Close the app completely and reopen it to start fresh.')));
+  }
+  Widget _quoteCard(){
+    final q=quoteFor(DateTime.now());
+    return panel(Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
+      const Text('TODAY’S THOUGHT',style:TextStyle(fontWeight:FontWeight.bold,color:Color(0xFF21877C))),
+      const SizedBox(height:8),Text(q,style:const TextStyle(fontSize:20,fontStyle:FontStyle.italic)),
+      Align(alignment:Alignment.centerRight,child:TextButton.icon(onPressed:()=>Share.share(q),icon:const Icon(Icons.ios_share),label:const Text('Share with someone'))),
+    ]));
+  }
+  Widget _nudgeCard(){
+    final raw=nudgeFor(DateTime.now());
+    if(raw.isEmpty)return const SizedBox.shrink();
+    final parts=raw.split('|');
+    final area=parts.length>1?parts[0]:'SELF';
+    final text=parts.length>1?parts.sublist(1).join('|'):raw;
+    final label={'SELF':'FOR YOURSELF','FRIEND':'FOR A FRIEND','LOVE':'FOR LOVE'}[area]??'TODAY';
+    return panel(Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
+      Text(label,style:const TextStyle(fontWeight:FontWeight.bold,color:Colors.grey)),
+      const SizedBox(height:8),Text(text,style:const TextStyle(fontSize:17)),
+    ]));
   }
   Future<void> _askPermission() async {
     await notifications.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.requestNotificationsPermission();
@@ -126,11 +182,12 @@ class _HomePageState extends State<HomePage> {
     _refreshDay();
     return Scaffold(
       appBar:AppBar(title:const Text('Successful Life',style:TextStyle(fontWeight:FontWeight.bold))),
-      body:SafeArea(child:IndexedStack(index:tab,children:[_today(),_journal(),ConnectPage(prefs:prefs!),_progress(),_settings()])),
+      body:SafeArea(child:IndexedStack(index:tab,children:[_today(),_journal(),ConnectPage(prefs:prefs!),FitnessPage(prefs:prefs!,sex:sex),_progress(),_settings()])),
       bottomNavigationBar:NavigationBar(selectedIndex:tab,onDestinationSelected:(v){setState(()=>tab=v);},destinations:const [
         NavigationDestination(icon:Icon(Icons.check_circle_outline),label:'Today'),
         NavigationDestination(icon:Icon(Icons.edit_note),label:'Journal'),
         NavigationDestination(icon:Icon(Icons.forum_outlined),label:'Connect'),
+        NavigationDestination(icon:Icon(Icons.fitness_center),label:'Fitness'),
         NavigationDestination(icon:Icon(Icons.insights),label:'Progress'),
         NavigationDestination(icon:Icon(Icons.tune),label:'Settings'),
       ]),
@@ -139,6 +196,7 @@ class _HomePageState extends State<HomePage> {
   Widget _today()=>ListView(padding:const EdgeInsets.all(18),children:[
     Text('DAY $day OF 90  •  WEEK ${week+1}',style:const TextStyle(fontWeight:FontWeight.w700,color:Color(0xFF21877C))),
     const SizedBox(height:10),LinearProgressIndicator(value:day/90,minHeight:8,borderRadius:BorderRadius.circular(8)),
+    const SizedBox(height:16),_quoteCard(),const SizedBox(height:12),_nudgeCard(),
     const SizedBox(height:24),title(themes[week]),
     panel(Column(crossAxisAlignment:CrossAxisAlignment.stretch,children:[
       const Text('YOUR NEXT STEP',style:TextStyle(fontWeight:FontWeight.bold,color:Colors.grey)),
@@ -168,7 +226,7 @@ class _HomePageState extends State<HomePage> {
   Widget _rating(String label,int value,ValueChanged<int> change)=>Row(children:[Text(label),const Spacer(),...List.generate(5,(i)=>IconButton(visualDensity:VisualDensity.compact,onPressed:()=>change(i+1),icon:Icon(i<value?Icons.circle:Icons.circle_outlined,color:const Color(0xFF21877C),size:20)))]);
   Widget _progress(){final completedDays=entries.values.where((v)=>v is Map && v['completed']==true).length;return ListView(padding:const EdgeInsets.all(18),children:[
     title('Your progress'),panel(Column(crossAxisAlignment:CrossAxisAlignment.stretch,children:[
-      Text('$completedDays',style:const TextStyle(fontSize:54,fontWeight:FontWeight.bold)),const Text('days with completed actions'),const SizedBox(height:16),
+      Text('$completedDays',style:const TextStyle(fontSize:54,fontWeight:FontWeight.bold)),const Text('days with completed actions'),const SizedBox(height:8),Text('${(prefs!.getStringList('ex_log')??<String>[]).length} workouts finished'),const SizedBox(height:16),
       Text('Day $day of 90'),const SizedBox(height:8),LinearProgressIndicator(value:day/90,minHeight:10),
       const SizedBox(height:16),const Text('Missing a day never resets your progress.'),
     ])),const SizedBox(height:12),title('Weekly focus'),
@@ -181,10 +239,25 @@ class _HomePageState extends State<HomePage> {
       IconButton(onPressed:()async{final t=await showTimePicker(context:context,initialTime:TimeOfDay(hour:hours[i],minute:minutes[i]));if(t!=null){setState((){hours[i]=t.hour;minutes[i]=t.minute;});await _askPermission();await _schedule();}},icon:const Icon(Icons.schedule)),
       Switch(value:reminders[i],onChanged:(v)async{setState(()=>reminders[i]=v);if(v)await _askPermission();await _schedule();}),
     ]))),
-    const SizedBox(height:10),title('Privacy & backup'),
-    const Text('Journal entries are saved in app-local storage. Sharing with an AI is always optional and manual. Uninstalling the app may erase its data.'),
-    const SizedBox(height:10),OutlinedButton.icon(onPressed:()=>Share.share(const JsonEncoder.withIndent('  ').convert({'start':dateKey(start),'entries':entries,'connect':(prefs!.getStringList('connect_notes')??<String>[]).map((e)=>jsonDecode(e)).toList()})),icon:const Icon(Icons.file_upload_outlined),label:const Text('Export my data')),
-    const SizedBox(height:12),const Text('This prototype uses shared_preferences for local storage. For a production release, move journal entries to an encrypted local database and add a verified restore flow.',style:TextStyle(fontSize:12,color:Colors.grey)),
+    const SizedBox(height:6),const Text('Morning reminders show a new shareable thought each day. Open the app every couple of weeks to refresh upcoming ones.',style:TextStyle(fontSize:12,color:Colors.grey)),
+    const SizedBox(height:14),title('Your profile'),
+    panel(Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
+      const Text('Body type for exercise',style:TextStyle(fontWeight:FontWeight.bold)),
+      const SizedBox(height:8),
+      SegmentedButton<String>(emptySelectionAllowed:true,segments:const [ButtonSegment<String>(value:'male',label:Text('Male')),ButtonSegment<String>(value:'female',label:Text('Female'))],selected:sex==null?<String>{}:{sex!},onSelectionChanged:(s)async{setState(()=>sex=s.isEmpty?null:s.first);if(sex==null){await prefs!.remove('sex');}else{await prefs!.setString('sex',sex!);}}),
+      const SizedBox(height:8),
+      const Text('Used only to tailor exercises and body-ratio guidance. Saved on this device only. You can leave it unset.',style:TextStyle(fontSize:12,color:Colors.grey)),
+    ])),
+    const SizedBox(height:14),title('Privacy & your data'),
+    const Text('This app never asks for your name, address, city, ZIP code, phone number, email or any account. Nothing is sent anywhere. Your data stays on this phone unless you choose to export it and share the file yourself.'),
+    const SizedBox(height:12),
+    FilledButton.icon(onPressed:()=>showExportDialog(context,prefs!),icon:const Icon(Icons.archive_outlined),label:const Text('Export my data (zip)')),
+    const SizedBox(height:8),
+    OutlinedButton.icon(onPressed:()=>importFromZip(context,prefs!),icon:const Icon(Icons.unarchive_outlined),label:const Text('Import from a backup zip')),
+    const SizedBox(height:8),
+    OutlinedButton.icon(onPressed:_confirmDelete,icon:const Icon(Icons.delete_outline),label:const Text('Delete all my data')),
+    const SizedBox(height:12),
+    const Text('Storage note: data is kept in app-local storage and is not encrypted. Cloud backup is turned off for this app. Uninstalling the app deletes its data, so export first if you want to keep it or move to a new phone.',style:TextStyle(fontSize:12,color:Colors.grey)),
   ]);
 }
 

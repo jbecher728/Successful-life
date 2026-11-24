@@ -1,0 +1,2070 @@
+[
+ {
+  "name": "Knee Push-Up",
+  "cat": 0,
+  "level": 0,
+  "equipment": "None",
+  "dose": "3 × 8–12 reps",
+  "steps": [
+   "Start on hands and knees, hands slightly wider than shoulders.",
+   "Walk knees back until your body is a straight line from knees to head.",
+   "Lower your chest toward the floor with elbows about 45° from your body.",
+   "Press back up without letting your hips sag."
+  ],
+  "tip": "Move to full push-ups once you can do 3 × 15 with good form.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "upper",
+  "id": "ex001"
+ },
+ {
+  "name": "Push-Up",
+  "cat": 0,
+  "level": 1,
+  "equipment": "None",
+  "dose": "3 × 8–15 reps",
+  "steps": [
+   "Hands under shoulders, feet together or slightly apart, body in one straight line.",
+   "Brace your core and squeeze your glutes.",
+   "Lower until your chest is a fist-width from the floor.",
+   "Press up until your arms are straight."
+  ],
+  "tip": "Keep your neck neutral by looking at a spot just ahead of your hands.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "upper",
+  "id": "ex002"
+ },
+ {
+  "name": "Hand-Release Push-Up",
+  "cat": 0,
+  "level": 2,
+  "equipment": "None",
+  "dose": "3 × 6–12 reps",
+  "steps": [
+   "Start in a push-up position.",
+   "Lower your chest all the way to the floor.",
+   "Lift your hands off the floor for a moment.",
+   "Place them back and push up to the top."
+  ],
+  "tip": "The pause on the floor removes momentum and builds strength from the bottom.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "upper",
+  "id": "ex003"
+ },
+ {
+  "name": "Diamond Push-Up",
+  "cat": 0,
+  "level": 2,
+  "equipment": "None",
+  "dose": "3 × 6–10 reps",
+  "steps": [
+   "Make a diamond with your thumbs and index fingers under your chest.",
+   "Keep elbows close to your ribs as you lower.",
+   "Press back up to straight arms."
+  ],
+  "tip": "Drop to your knees if your elbows or wrists complain.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "upper",
+  "id": "ex004"
+ },
+ {
+  "name": "Air Squat",
+  "cat": 0,
+  "level": 0,
+  "equipment": "None",
+  "dose": "3 × 12–20 reps",
+  "steps": [
+   "Stand with feet shoulder-width apart, toes slightly out.",
+   "Push your hips back and bend your knees, chest up.",
+   "Lower until thighs are about parallel to the floor, or as far as is comfortable.",
+   "Drive through your whole foot to stand."
+  ],
+  "tip": "Keep your knees tracking over your toes and heels on the floor.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "lower",
+  "id": "ex005"
+ },
+ {
+  "name": "Forward Lunge",
+  "cat": 0,
+  "level": 0,
+  "equipment": "None",
+  "dose": "2 × 8–10 reps per leg",
+  "steps": [
+   "Stand tall with hands on hips.",
+   "Step forward and lower until both knees are bent about 90°.",
+   "Push through the front foot to return to standing.",
+   "Alternate legs."
+  ],
+  "tip": "Take a long enough step that your front knee stays above your ankle.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "lower",
+  "id": "ex006"
+ },
+ {
+  "name": "Walking Lunge",
+  "cat": 0,
+  "level": 1,
+  "equipment": "None",
+  "dose": "2 × 10–12 steps per leg",
+  "steps": [
+   "Take a long step forward and lower into a lunge.",
+   "Push off and bring the back foot forward into the next step.",
+   "Keep walking in a line, chest tall."
+  ],
+  "tip": "Use a hallway or clear a path of about 4–5 meters.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "lower",
+  "id": "ex007"
+ },
+ {
+  "name": "Sit-Up",
+  "cat": 0,
+  "level": 1,
+  "equipment": "Mat or towel",
+  "dose": "3 × 10–20 reps",
+  "steps": [
+   "Lie on your back, knees bent, feet flat.",
+   "Cross your arms over your chest.",
+   "Curl your torso up until your elbows reach your thighs.",
+   "Lower under control."
+  ],
+  "tip": "If your neck or lower back is sensitive, do a crunch (lift only your shoulder blades) instead.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "core",
+  "id": "ex008"
+ },
+ {
+  "name": "Flutter Kicks",
+  "cat": 0,
+  "level": 1,
+  "equipment": "Mat or towel",
+  "dose": "3 × 20–30 seconds",
+  "steps": [
+   "Lie on your back with legs straight and hands under your hips.",
+   "Lift your heels a few inches off the floor and lift your head slightly.",
+   "Kick your legs up and down in small, quick alternating motions."
+  ],
+  "tip": "Press your lower back into the floor. Raise the legs higher to make it easier on the back.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "core",
+  "id": "ex009"
+ },
+ {
+  "name": "Mountain Climbers",
+  "cat": 0,
+  "level": 1,
+  "equipment": "None",
+  "dose": "3 × 30 seconds",
+  "steps": [
+   "Start in a high plank, hands under shoulders.",
+   "Drive one knee toward your chest, then switch legs quickly.",
+   "Keep your hips low and your core braced."
+  ],
+  "tip": "Slow it down to make it easier.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "core",
+  "id": "ex010"
+ },
+ {
+  "name": "Front Plank",
+  "cat": 0,
+  "level": 1,
+  "equipment": "Mat or towel",
+  "dose": "3 × 30–60 seconds",
+  "steps": [
+   "Place forearms on the floor, elbows under shoulders.",
+   "Extend legs behind you, forming a straight line from head to heels.",
+   "Brace your abs and squeeze your glutes. Breathe steadily."
+  ],
+  "tip": "Stop when your hips sag or your lower back aches.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "core",
+  "id": "ex011"
+ },
+ {
+  "name": "Burpee",
+  "cat": 0,
+  "level": 2,
+  "equipment": "None",
+  "dose": "3 × 6–10 reps",
+  "steps": [
+   "Stand, then squat and place hands on the floor.",
+   "Jump or step your feet back into a plank.",
+   "Do a push-up (optional), then jump or step your feet back in.",
+   "Stand and jump up with arms overhead."
+  ],
+  "tip": "Step instead of jumping for a lower-impact version.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "full",
+  "id": "ex012"
+ },
+ {
+  "name": "Eight-Count Bodybuilder",
+  "cat": 0,
+  "level": 2,
+  "equipment": "None",
+  "dose": "3 × 5–8 reps",
+  "steps": [
+   "Squat and place hands down. Kick feet back to plank.",
+   "Do a push-up. Open feet wide, then bring them together.",
+   "Jump or step feet forward, then stand and jump with arms overhead."
+  ],
+  "tip": "Move at a steady pace and keep the push-up strict.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "full",
+  "id": "ex013"
+ },
+ {
+  "name": "Bear Crawl",
+  "cat": 0,
+  "level": 2,
+  "equipment": "None",
+  "dose": "3 × 20–30 seconds",
+  "steps": [
+   "Start on hands and knees, then lift your knees an inch off the floor.",
+   "Crawl forward with opposite hand and foot moving together.",
+   "Keep your back flat and hips level."
+  ],
+  "tip": "Crawl back and forth in a clear room.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "full",
+  "id": "ex014"
+ },
+ {
+  "name": "V-Up",
+  "cat": 0,
+  "level": 2,
+  "equipment": "Mat or towel",
+  "dose": "3 × 8–12 reps",
+  "steps": [
+   "Lie flat with arms overhead and legs straight.",
+   "At the same time, lift your legs and torso, reaching hands toward toes.",
+   "Lower with control."
+  ],
+  "tip": "Bend your knees slightly to make it easier.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "core",
+  "id": "ex015"
+ },
+ {
+  "name": "Deep Core Release Breathing",
+  "cat": 1,
+  "level": 0,
+  "equipment": "None",
+  "dose": "5 slow breaths, 1–2 times a day",
+  "steps": [
+   "Lie on your back with knees bent, or sit comfortably.",
+   "Place one hand on your belly and one on your ribs.",
+   "Inhale slowly through your nose and let your belly and pelvic floor soften and drop.",
+   "Exhale gently and let everything return."
+  ],
+  "tip": "A pelvic floor that can relax is as important as one that can tighten. This pairs well with every Foundation routine.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "pelvic",
+  "id": "ex016"
+ },
+ {
+  "name": "Brace Before You Cough",
+  "cat": 1,
+  "level": 0,
+  "equipment": "None",
+  "dose": "Practice 5 times, then use in daily life",
+  "steps": [
+   "Stand or sit upright.",
+   "Before you cough, sneeze or lift something, gently lift and tighten your pelvic floor.",
+   "Hold the lift through the cough, then release."
+  ],
+  "tip": "This is a protective habit. It trains the muscles to switch on when pressure rises.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "pelvic",
+  "id": "ex017"
+ },
+ {
+  "name": "Foundation Lift Basics (Men)",
+  "cat": 1,
+  "level": 0,
+  "equipment": "None",
+  "dose": "3 × 5 gentle squeezes",
+  "steps": [
+   "Lie on your back with knees bent.",
+   "Tighten the muscles you would use to stop passing gas. You should feel a gentle lift deep inside, below your belly.",
+   "Hold 3 seconds, then fully relax for 3 seconds.",
+   "Do not squeeze your buttocks, thighs or abs, and keep breathing."
+  ],
+  "tip": "Don't practice these while urinating. If you feel pain or can't find the muscle, a pelvic floor physiotherapist can help.",
+  "seconds": 0,
+  "for": "male",
+  "emph": "pelvic",
+  "id": "ex018"
+ },
+ {
+  "name": "Foundation Endurance Holds (Men)",
+  "cat": 1,
+  "level": 0,
+  "equipment": "None",
+  "dose": "10 reps: hold 5–10 seconds, rest equal time",
+  "steps": [
+   "Get into your comfortable position: lying, sitting or standing.",
+   "Lift and tighten the pelvic floor gently, as if drawing up away from the chair.",
+   "Hold for 5 seconds, building toward 10.",
+   "Release completely for the same amount of time."
+  ],
+  "tip": "Use about 50% of your maximum squeeze, not 100%.",
+  "seconds": 10,
+  "for": "male",
+  "emph": "pelvic",
+  "id": "ex019"
+ },
+ {
+  "name": "Foundation Quick Pulses (Men)",
+  "cat": 1,
+  "level": 0,
+  "equipment": "None",
+  "dose": "3 × 10 fast squeezes",
+  "steps": [
+   "Lie down or sit.",
+   "Squeeze the pelvic floor quickly, then release it right away.",
+   "Do 10 in a row, then rest 30 seconds."
+  ],
+  "tip": "Each flick should fully release. If you can't relax between squeezes, slow down.",
+  "seconds": 0,
+  "for": "male",
+  "emph": "pelvic",
+  "id": "ex020"
+ },
+ {
+  "name": "Foundation Elevator Lift (Men)",
+  "cat": 1,
+  "level": 1,
+  "equipment": "None",
+  "dose": "5 rounds",
+  "steps": [
+   "Imagine the pelvic floor as an elevator rising in 3 floors.",
+   "Tighten a little for floor 1, a bit more for floor 2, then more for floor 3.",
+   "Hold briefly, then lower one floor at a time until fully relaxed."
+  ],
+  "tip": "Controlled release matters as much as the lift.",
+  "seconds": 0,
+  "for": "male",
+  "emph": "pelvic",
+  "id": "ex021"
+ },
+ {
+  "name": "Bridge with Foundation Lift (Men)",
+  "cat": 1,
+  "level": 1,
+  "equipment": "Mat or towel",
+  "dose": "2 × 8 reps",
+  "steps": [
+   "Lie on your back with knees bent and feet flat.",
+   "Exhale, gently lift your pelvic floor, then raise your hips.",
+   "Hold 3 seconds at the top, lower down, and fully relax."
+  ],
+  "tip": "Don't arch your lower back. Lift with the glutes.",
+  "seconds": 0,
+  "for": "male",
+  "emph": "pelvic",
+  "id": "ex022"
+ },
+ {
+  "name": "Squat with Foundation Lift (Men)",
+  "cat": 1,
+  "level": 1,
+  "equipment": "None",
+  "dose": "2 × 8 reps",
+  "steps": [
+   "Stand with feet shoulder-width apart.",
+   "As you stand up from a squat, exhale and gently lift your pelvic floor.",
+   "Relax on the way down."
+  ],
+  "tip": "Think of it as a quiet lift, not a hard clench.",
+  "seconds": 0,
+  "for": "male",
+  "emph": "pelvic",
+  "id": "ex023"
+ },
+ {
+  "name": "Foundation Release (Men)",
+  "cat": 1,
+  "level": 0,
+  "equipment": "None",
+  "dose": "2 × 5 breaths",
+  "steps": [
+   "Sit or lie comfortably.",
+   "Breathe in and let your pelvic floor drop and widen, as if letting go to pass urine. Do not push or strain.",
+   "Breathe out and let the muscles settle."
+  ],
+  "tip": "Helpful if you tend to carry tension in your pelvic area. If you have pelvic pain, check with a clinician first.",
+  "seconds": 0,
+  "for": "male",
+  "emph": "pelvic",
+  "id": "ex024"
+ },
+ {
+  "name": "Foundation Lift Basics (Women)",
+  "cat": 1,
+  "level": 0,
+  "equipment": "None",
+  "dose": "3 × 5 gentle squeezes",
+  "steps": [
+   "Lie on your back with knees bent.",
+   "Gently tighten as if stopping gas and lifting a blueberry up and in, deep inside.",
+   "Hold 3 seconds, then fully relax for 3 seconds.",
+   "Do not squeeze your buttocks, thighs or abs, and keep breathing."
+  ],
+  "tip": "Don't practice these while urinating. If you are pregnant, postpartum or have pelvic pain, check with your provider or a pelvic floor physiotherapist.",
+  "seconds": 0,
+  "for": "female",
+  "emph": "pelvic",
+  "id": "ex025"
+ },
+ {
+  "name": "Foundation Endurance Holds (Women)",
+  "cat": 1,
+  "level": 0,
+  "equipment": "None",
+  "dose": "10 reps: hold 5–10 seconds, rest equal time",
+  "steps": [
+   "Get into a comfortable position: lying, sitting or standing.",
+   "Lift and tighten the pelvic floor gently, up and in.",
+   "Hold for 5 seconds, building toward 10.",
+   "Release completely for the same amount of time."
+  ],
+  "tip": "Use about 50% of your maximum squeeze, not 100%.",
+  "seconds": 10,
+  "for": "female",
+  "emph": "pelvic",
+  "id": "ex026"
+ },
+ {
+  "name": "Foundation Quick Pulses (Women)",
+  "cat": 1,
+  "level": 0,
+  "equipment": "None",
+  "dose": "3 × 10 fast squeezes",
+  "steps": [
+   "Lie down or sit.",
+   "Squeeze the pelvic floor quickly, then release right away.",
+   "Do 10 in a row, then rest 30 seconds."
+  ],
+  "tip": "Each flick should fully release.",
+  "seconds": 0,
+  "for": "female",
+  "emph": "pelvic",
+  "id": "ex027"
+ },
+ {
+  "name": "Foundation Elevator Lift (Women)",
+  "cat": 1,
+  "level": 1,
+  "equipment": "None",
+  "dose": "5 rounds",
+  "steps": [
+   "Imagine the pelvic floor as an elevator rising in 3 floors.",
+   "Tighten a little for floor 1, a bit more for floor 2, then more for floor 3.",
+   "Hold briefly, then lower one floor at a time until fully relaxed."
+  ],
+  "tip": "Controlled release matters as much as the lift.",
+  "seconds": 0,
+  "for": "female",
+  "emph": "pelvic",
+  "id": "ex028"
+ },
+ {
+  "name": "Bridge with Foundation Lift (Women)",
+  "cat": 1,
+  "level": 1,
+  "equipment": "Mat or towel",
+  "dose": "2 × 8 reps",
+  "steps": [
+   "Lie on your back with knees bent and feet flat.",
+   "Exhale, gently lift your pelvic floor, then raise your hips.",
+   "Hold 3 seconds at the top, lower down, and fully relax."
+  ],
+  "tip": "Keep your ribs down and avoid arching your back.",
+  "seconds": 0,
+  "for": "female",
+  "emph": "pelvic",
+  "id": "ex029"
+ },
+ {
+  "name": "Squat with Foundation Lift (Women)",
+  "cat": 1,
+  "level": 1,
+  "equipment": "None",
+  "dose": "2 × 8 reps",
+  "steps": [
+   "Stand with feet shoulder-width apart.",
+   "As you stand up from a squat, exhale and gently lift your pelvic floor.",
+   "Relax on the way down."
+  ],
+  "tip": "Think of it as a quiet lift, not a hard clench.",
+  "seconds": 0,
+  "for": "female",
+  "emph": "pelvic",
+  "id": "ex030"
+ },
+ {
+  "name": "Foundation Release (Women)",
+  "cat": 1,
+  "level": 0,
+  "equipment": "None",
+  "dose": "2 × 5 breaths",
+  "steps": [
+   "Sit or lie comfortably with knees apart.",
+   "Breathe in and allow your pelvic floor to drop and widen. Do not push or strain.",
+   "Breathe out and let the muscles settle."
+  ],
+  "tip": "Helpful if you tend to hold tension in the pelvic area. If you have pelvic pain, check with a clinician first.",
+  "seconds": 0,
+  "for": "female",
+  "emph": "pelvic",
+  "id": "ex031"
+ },
+ {
+  "name": "Mountain Pose",
+  "cat": 2,
+  "level": 0,
+  "equipment": "None",
+  "dose": "30–60 seconds",
+  "steps": [
+   "Stand with feet hip-width apart and arms at your sides.",
+   "Press evenly through both feet and lengthen your spine.",
+   "Relax your shoulders and breathe slowly."
+  ],
+  "tip": "Use it to reset your posture between other poses.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex032"
+ },
+ {
+  "name": "Cat-Cow",
+  "cat": 2,
+  "level": 0,
+  "equipment": "None",
+  "dose": "8–10 slow rounds",
+  "steps": [
+   "Start on hands and knees, wrists under shoulders, knees under hips.",
+   "Inhale, drop your belly and lift your chest and tailbone (cow).",
+   "Exhale, round your spine and tuck your chin and tailbone (cat)."
+  ],
+  "tip": "Move with your breath. Keep the motion pain-free.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex033"
+ },
+ {
+  "name": "Child's Pose",
+  "cat": 2,
+  "level": 0,
+  "equipment": "Mat or towel",
+  "dose": "30–90 seconds",
+  "steps": [
+   "Kneel and sit back toward your heels, knees wide or together.",
+   "Fold forward and rest your forehead on the floor with arms reaching out or by your sides.",
+   "Breathe into your back."
+  ],
+  "tip": "Place a pillow under your hips or forehead if it feels tight.",
+  "seconds": 60,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex034"
+ },
+ {
+  "name": "Downward-Facing Dog",
+  "cat": 2,
+  "level": 1,
+  "equipment": "Mat or towel",
+  "dose": "3 × 30 seconds",
+  "steps": [
+   "Start on hands and knees, tuck your toes and lift your hips up and back.",
+   "Press hands into the floor and lengthen your spine.",
+   "Bend your knees as much as needed and relax your head."
+  ],
+  "tip": "Pedal your feet to loosen your calves and hamstrings.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex035"
+ },
+ {
+  "name": "Cobra Pose",
+  "cat": 2,
+  "level": 1,
+  "equipment": "Mat or towel",
+  "dose": "3 × 15–20 seconds",
+  "steps": [
+   "Lie on your stomach with hands under shoulders.",
+   "Press gently into your hands and lift your chest, keeping your hips down.",
+   "Keep elbows slightly bent and shoulders away from ears."
+  ],
+  "tip": "Lift with your back muscles, not by pushing hard with your arms.",
+  "seconds": 15,
+  "for": "all",
+  "emph": "upper",
+  "id": "ex036"
+ },
+ {
+  "name": "Low Lunge",
+  "cat": 2,
+  "level": 1,
+  "equipment": "Mat or towel",
+  "dose": "2 × 30 seconds per side",
+  "steps": [
+   "From hands and knees, step one foot forward between your hands.",
+   "Lower the back knee to the floor and sink your hips forward.",
+   "Lift your torso and reach arms overhead if comfortable."
+  ],
+  "tip": "Pad your back knee with a folded towel.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "lower",
+  "id": "ex037"
+ },
+ {
+  "name": "Warrior I",
+  "cat": 2,
+  "level": 1,
+  "equipment": "None",
+  "dose": "2 × 30 seconds per side",
+  "steps": [
+   "Step one foot back about a leg's length, back foot turned out 45°.",
+   "Bend your front knee over your ankle and square your hips forward.",
+   "Reach arms overhead and breathe."
+  ],
+  "tip": "Shorten your stance if your balance is shaky.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "lower",
+  "id": "ex038"
+ },
+ {
+  "name": "Warrior II",
+  "cat": 2,
+  "level": 1,
+  "equipment": "None",
+  "dose": "2 × 30 seconds per side",
+  "steps": [
+   "Step feet wide apart, front toes forward, back foot parallel to the short edge of your mat.",
+   "Bend your front knee and extend arms out to the sides.",
+   "Gaze over your front hand and keep shoulders over hips."
+  ],
+  "tip": "Keep your front knee tracking over your second toe.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "lower",
+  "id": "ex039"
+ },
+ {
+  "name": "Triangle Pose",
+  "cat": 2,
+  "level": 2,
+  "equipment": "None",
+  "dose": "2 × 30 seconds per side",
+  "steps": [
+   "Stand in a wide stance with front foot forward.",
+   "Reach forward with your front hand, then hinge at the hip.",
+   "Rest your hand on your shin or a chair, and reach the other arm up."
+  ],
+  "tip": "Use a chair or block for support to keep the chest open.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex040"
+ },
+ {
+  "name": "Tree Pose",
+  "cat": 2,
+  "level": 1,
+  "equipment": "Wall (optional)",
+  "dose": "2 × 30 seconds per side",
+  "steps": [
+   "Stand on one leg and place the other foot on your calf or inner thigh, never on the knee.",
+   "Bring hands to your chest or overhead.",
+   "Fix your eyes on a still point."
+  ],
+  "tip": "Keep a finger on a wall or counter if you wobble.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex041"
+ },
+ {
+  "name": "Chair Pose",
+  "cat": 2,
+  "level": 1,
+  "equipment": "None",
+  "dose": "3 × 20–30 seconds",
+  "steps": [
+   "Stand with feet together or hip-width apart.",
+   "Bend your knees and sit back as if into a chair.",
+   "Reach arms overhead and keep your chest lifted."
+  ],
+  "tip": "Don't let your knees pass your toes.",
+  "seconds": 20,
+  "for": "all",
+  "emph": "lower",
+  "id": "ex042"
+ },
+ {
+  "name": "Bridge Pose",
+  "cat": 2,
+  "level": 0,
+  "equipment": "Mat or towel",
+  "dose": "3 × 20–30 seconds",
+  "steps": [
+   "Lie on your back with knees bent and feet hip-width apart.",
+   "Press into your feet and lift your hips.",
+   "Keep your thighs parallel and breathe steadily."
+  ],
+  "tip": "Squeeze your glutes rather than arching your lower back.",
+  "seconds": 20,
+  "for": "all",
+  "emph": "lower",
+  "id": "ex043"
+ },
+ {
+  "name": "Seated Forward Fold",
+  "cat": 2,
+  "level": 0,
+  "equipment": "None",
+  "dose": "30–60 seconds",
+  "steps": [
+   "Sit with legs straight out in front.",
+   "Hinge forward at the hips, keeping your spine long.",
+   "Rest your hands on your legs, and stop when you feel a stretch."
+  ],
+  "tip": "Bend your knees or sit on a folded blanket if your hamstrings are tight.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex044"
+ },
+ {
+  "name": "Reclined Spinal Twist",
+  "cat": 2,
+  "level": 0,
+  "equipment": "Mat or towel",
+  "dose": "30–60 seconds per side",
+  "steps": [
+   "Lie on your back with knees pulled in.",
+   "Drop your knees to one side and extend your arms out.",
+   "Look the opposite way, breathe, then switch."
+  ],
+  "tip": "Place a pillow between your knees if it feels strained.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex045"
+ },
+ {
+  "name": "Happy Baby",
+  "cat": 2,
+  "level": 0,
+  "equipment": "Mat or towel",
+  "dose": "30–60 seconds",
+  "steps": [
+   "Lie on your back and bring your knees toward your armpits.",
+   "Hold the outsides of your feet or your shins.",
+   "Gently rock side to side."
+  ],
+  "tip": "Hold behind the thighs if you can't reach your feet.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex046"
+ },
+ {
+  "name": "Legs Up the Wall",
+  "cat": 2,
+  "level": 0,
+  "equipment": "Wall",
+  "dose": "2–5 minutes",
+  "steps": [
+   "Sit sideways next to a wall, then swing your legs up as you lie back.",
+   "Rest your arms by your sides, hips near the wall.",
+   "Breathe slowly and relax."
+  ],
+  "tip": "Slide your hips farther from the wall if your hamstrings feel tight.",
+  "seconds": 120,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex047"
+ },
+ {
+  "name": "Pigeon Pose (Figure-Four Version)",
+  "cat": 2,
+  "level": 1,
+  "equipment": "Mat or towel",
+  "dose": "30–45 seconds per side",
+  "steps": [
+   "Lie on your back with knees bent.",
+   "Cross one ankle over the opposite thigh.",
+   "Pull the lower thigh gently toward your chest."
+  ],
+  "tip": "This is a gentler version of pigeon that is easier on the knees.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex048"
+ },
+ {
+  "name": "Sun Salutation Flow",
+  "cat": 2,
+  "level": 1,
+  "equipment": "Mat or towel",
+  "dose": "3–5 rounds",
+  "steps": [
+   "Stand tall, then reach up and fold forward.",
+   "Step back to plank, lower down, then rise into cobra.",
+   "Press to downward dog, step forward, then stand and reach up."
+  ],
+  "tip": "Link each move to one inhale or exhale and go at your own pace.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex049"
+ },
+ {
+  "name": "Boat Pose",
+  "cat": 2,
+  "level": 2,
+  "equipment": "None",
+  "dose": "3 × 15–20 seconds",
+  "steps": [
+   "Sit with knees bent and feet on the floor.",
+   "Lean back slightly and lift your feet until shins are parallel to the floor.",
+   "Reach arms forward and keep your chest lifted."
+  ],
+  "tip": "Keep your knees bent or hold the back of your thighs to make it easier.",
+  "seconds": 15,
+  "for": "all",
+  "emph": "core",
+  "id": "ex050"
+ },
+ {
+  "name": "Savasana (Final Rest)",
+  "cat": 2,
+  "level": 0,
+  "equipment": "Mat or towel",
+  "dose": "3–5 minutes",
+  "steps": [
+   "Lie on your back with arms and legs relaxed.",
+   "Close your eyes and let your breath return to normal.",
+   "Release tension from your face, jaw and shoulders."
+  ],
+  "tip": "Use it to finish a session and let your body absorb the work.",
+  "seconds": 180,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex051"
+ },
+ {
+  "name": "Glute Bridge",
+  "cat": 3,
+  "level": 0,
+  "equipment": "Mat or towel",
+  "dose": "3 × 12–15 reps",
+  "steps": [
+   "Lie on your back with knees bent and feet flat.",
+   "Press through your heels and lift your hips.",
+   "Squeeze your glutes at the top, then lower."
+  ],
+  "tip": "Place a heavy backpack on your hips for more load later.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "lower",
+  "id": "ex052"
+ },
+ {
+  "name": "Wall Sit",
+  "cat": 3,
+  "level": 1,
+  "equipment": "Wall",
+  "dose": "3 × 30–45 seconds",
+  "steps": [
+   "Lean back against a wall and slide down until knees are about 90°.",
+   "Keep your back flat on the wall and weight in your heels.",
+   "Hold and breathe."
+  ],
+  "tip": "Raise your hips a bit if your knees complain.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "lower",
+  "id": "ex053"
+ },
+ {
+  "name": "Dead Bug",
+  "cat": 3,
+  "level": 0,
+  "equipment": "Mat or towel",
+  "dose": "2 × 8 reps per side",
+  "steps": [
+   "Lie on your back with arms up and knees bent over hips.",
+   "Slowly lower your opposite arm and leg toward the floor.",
+   "Return and switch sides, keeping your lower back on the floor."
+  ],
+  "tip": "Move slowly. This builds deep core control.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "core",
+  "id": "ex054"
+ },
+ {
+  "name": "Bird Dog",
+  "cat": 3,
+  "level": 0,
+  "equipment": "Mat or towel",
+  "dose": "2 × 8 reps per side",
+  "steps": [
+   "Start on hands and knees.",
+   "Reach one arm forward and the opposite leg back.",
+   "Hold briefly and return."
+  ],
+  "tip": "Keep your hips level, as if balancing a cup on your lower back.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "core",
+  "id": "ex055"
+ },
+ {
+  "name": "Side Plank",
+  "cat": 3,
+  "level": 1,
+  "equipment": "Mat or towel",
+  "dose": "2 × 20–30 seconds per side",
+  "steps": [
+   "Lie on your side with your elbow under your shoulder.",
+   "Lift your hips so your body forms a line.",
+   "Hold, then switch sides."
+  ],
+  "tip": "Bend your bottom knee for an easier version.",
+  "seconds": 20,
+  "for": "all",
+  "emph": "core",
+  "id": "ex056"
+ },
+ {
+  "name": "Superman",
+  "cat": 3,
+  "level": 0,
+  "equipment": "Mat or towel",
+  "dose": "3 × 10 reps",
+  "steps": [
+   "Lie face down with arms extended.",
+   "Lift arms, chest and legs a few inches off the floor.",
+   "Pause, then lower slowly."
+  ],
+  "tip": "Look at the floor to keep your neck neutral.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "upper",
+  "id": "ex057"
+ },
+ {
+  "name": "Calf Raises",
+  "cat": 3,
+  "level": 0,
+  "equipment": "Stair or none",
+  "dose": "3 × 15–20 reps",
+  "steps": [
+   "Stand on the edge of a stair or flat ground, holding a rail.",
+   "Rise onto your toes as high as you can.",
+   "Lower slowly."
+  ],
+  "tip": "Do single-leg raises to progress.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "lower",
+  "id": "ex058"
+ },
+ {
+  "name": "Step-Ups",
+  "cat": 3,
+  "level": 0,
+  "equipment": "Stairs or sturdy step",
+  "dose": "3 × 10 per leg",
+  "steps": [
+   "Place one foot fully on the step.",
+   "Press through that heel and stand tall.",
+   "Step down slowly and repeat."
+  ],
+  "tip": "Hold a backpack for added load.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "lower",
+  "id": "ex059"
+ },
+ {
+  "name": "Chair Dips",
+  "cat": 3,
+  "level": 1,
+  "equipment": "Sturdy chair",
+  "dose": "3 × 8–12 reps",
+  "steps": [
+   "Sit on the edge of a sturdy chair, hands beside your hips.",
+   "Slide forward and lower by bending your elbows to about 90°.",
+   "Press back up."
+  ],
+  "tip": "Bend your knees for an easier version. Place the chair against a wall so it can't slide.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "upper",
+  "id": "ex060"
+ },
+ {
+  "name": "Incline Push-Up",
+  "cat": 3,
+  "level": 0,
+  "equipment": "Counter or sturdy table",
+  "dose": "3 × 8–15 reps",
+  "steps": [
+   "Place hands on the edge of a counter, body in a straight line.",
+   "Lower your chest to the counter.",
+   "Press back up."
+  ],
+  "tip": "The higher the surface, the easier it is. Lower the surface to progress.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "upper",
+  "id": "ex061"
+ },
+ {
+  "name": "Pike Push-Up",
+  "cat": 3,
+  "level": 2,
+  "equipment": "None",
+  "dose": "3 × 6–10 reps",
+  "steps": [
+   "Start in downward dog with hips high.",
+   "Bend your elbows and lower your head toward the floor between your hands.",
+   "Press back up."
+  ],
+  "tip": "This builds shoulder strength. Stop if your shoulders feel pinched.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "upper",
+  "id": "ex062"
+ },
+ {
+  "name": "Backpack Squat",
+  "cat": 3,
+  "level": 1,
+  "equipment": "Backpack with books",
+  "dose": "3 × 10–15 reps",
+  "steps": [
+   "Hold a packed backpack against your chest.",
+   "Squat down with your chest up.",
+   "Stand back up."
+  ],
+  "tip": "Use a load that you can control for all reps.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "lower",
+  "id": "ex063"
+ },
+ {
+  "name": "Backpack Bent-Over Row",
+  "cat": 3,
+  "level": 1,
+  "equipment": "Backpack with books",
+  "dose": "3 × 10–12 reps",
+  "steps": [
+   "Hold the backpack by its handle with one hand and hinge forward.",
+   "Pull it toward your hip while keeping your back flat.",
+   "Lower slowly. Switch sides."
+  ],
+  "tip": "Rest your other hand on a chair to support your back.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "upper",
+  "id": "ex064"
+ },
+ {
+  "name": "Single-Leg Romanian Deadlift",
+  "cat": 3,
+  "level": 1,
+  "equipment": "None",
+  "dose": "2 × 8 per leg",
+  "steps": [
+   "Stand on one leg with a slight knee bend.",
+   "Hinge forward and extend the other leg behind you.",
+   "Return to standing by squeezing your glutes."
+  ],
+  "tip": "Touch a chair or wall with a finger for balance.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "lower",
+  "id": "ex065"
+ },
+ {
+  "name": "Bicycle Crunch",
+  "cat": 3,
+  "level": 1,
+  "equipment": "Mat or towel",
+  "dose": "3 × 12–20 reps",
+  "steps": [
+   "Lie on your back with hands behind your head.",
+   "Bring one elbow toward the opposite knee while extending the other leg.",
+   "Switch sides in a smooth, controlled pedaling motion."
+  ],
+  "tip": "Slow down and rotate from the ribs, not by pulling on your neck.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "core",
+  "id": "ex066"
+ },
+ {
+  "name": "Hollow Hold",
+  "cat": 3,
+  "level": 2,
+  "equipment": "Mat or towel",
+  "dose": "3 × 15–25 seconds",
+  "steps": [
+   "Lie on your back and press your lower back into the floor.",
+   "Lift your shoulders and legs a few inches off the floor.",
+   "Hold and breathe."
+  ],
+  "tip": "Bend your knees or raise your legs higher to make it easier.",
+  "seconds": 20,
+  "for": "all",
+  "emph": "core",
+  "id": "ex067"
+ },
+ {
+  "name": "Reverse Crunch",
+  "cat": 3,
+  "level": 1,
+  "equipment": "Mat or towel",
+  "dose": "3 × 10–15 reps",
+  "steps": [
+   "Lie on your back with knees bent over hips.",
+   "Curl your hips off the floor, bringing your knees toward your chest.",
+   "Lower slowly."
+  ],
+  "tip": "Avoid swinging with momentum.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "core",
+  "id": "ex068"
+ },
+ {
+  "name": "Split Squat with Back Foot on Couch",
+  "cat": 3,
+  "level": 2,
+  "equipment": "Sturdy couch",
+  "dose": "3 × 8 per leg",
+  "steps": [
+   "Stand facing away from a couch and place one foot on the cushion behind you.",
+   "Lower your back knee toward the floor.",
+   "Press through the front foot to stand."
+  ],
+  "tip": "Hold a backpack for added load. Keep the front knee over the ankle.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "lower",
+  "id": "ex069"
+ },
+ {
+  "name": "Water Jug Farmer Carry",
+  "cat": 3,
+  "level": 1,
+  "equipment": "Two filled water jugs or bags",
+  "dose": "3 × 30–40 seconds",
+  "steps": [
+   "Hold a jug or loaded bag in each hand with arms at your sides.",
+   "Stand tall and walk steadily.",
+   "Set the jugs down carefully."
+  ],
+  "tip": "Choose loads you can carry with good posture and a firm grip.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "full",
+  "id": "ex070"
+ },
+ {
+  "name": "Neck Half-Circles",
+  "cat": 4,
+  "level": 0,
+  "equipment": "None",
+  "dose": "5 slow rounds",
+  "steps": [
+   "Sit or stand tall.",
+   "Slowly tilt your ear toward your shoulder, then roll your chin down across your chest to the other side.",
+   "Avoid tipping your head back."
+  ],
+  "tip": "Keep it gentle and pain-free.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex071"
+ },
+ {
+  "name": "Shoulder Rolls",
+  "cat": 4,
+  "level": 0,
+  "equipment": "None",
+  "dose": "10 forward, 10 backward",
+  "steps": [
+   "Stand tall with arms relaxed.",
+   "Draw big circles with your shoulders.",
+   "Switch directions."
+  ],
+  "tip": "Roll slowly and breathe.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex072"
+ },
+ {
+  "name": "Thread the Needle",
+  "cat": 4,
+  "level": 0,
+  "equipment": "Mat or towel",
+  "dose": "5 reps per side",
+  "steps": [
+   "Start on hands and knees.",
+   "Slide one arm under your chest, palm up.",
+   "Rest your shoulder and ear on the floor, then return."
+  ],
+  "tip": "Move slowly to stretch the upper back and shoulders.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex073"
+ },
+ {
+  "name": "Kneeling Hip Flexor Stretch",
+  "cat": 4,
+  "level": 0,
+  "equipment": "Mat or towel",
+  "dose": "2 × 30 seconds per side",
+  "steps": [
+   "Kneel on one knee with the other foot forward.",
+   "Tuck your tailbone and shift your hips forward.",
+   "Reach the same arm as the back knee overhead."
+  ],
+  "tip": "Pad your knee with a folded towel.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex074"
+ },
+ {
+  "name": "Standing Hamstring Stretch",
+  "cat": 4,
+  "level": 0,
+  "equipment": "Stair or sturdy chair",
+  "dose": "2 × 30 seconds per side",
+  "steps": [
+   "Place one heel on a low step or chair, leg straight.",
+   "Hinge forward from your hips with a flat back.",
+   "Stop when you feel a stretch in the back of your thigh."
+  ],
+  "tip": "Don't round your back to reach further.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex075"
+ },
+ {
+  "name": "Doorway Chest Stretch",
+  "cat": 4,
+  "level": 0,
+  "equipment": "Doorway",
+  "dose": "2 × 30 seconds",
+  "steps": [
+   "Place your forearms on both sides of a doorframe.",
+   "Step one foot forward and lean gently.",
+   "Feel the stretch across your chest."
+  ],
+  "tip": "Keep your ribs down and shoulders relaxed.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex076"
+ },
+ {
+  "name": "90/90 Hip Switches",
+  "cat": 4,
+  "level": 1,
+  "equipment": "Mat or towel",
+  "dose": "8 slow reps per side",
+  "steps": [
+   "Sit with both knees bent at 90° and rotated to the same side.",
+   "Lift your knees and rotate them to the other side.",
+   "Keep your torso tall."
+  ],
+  "tip": "Place your hands behind you for support.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex077"
+ },
+ {
+  "name": "Ankle Circles",
+  "cat": 4,
+  "level": 0,
+  "equipment": "None",
+  "dose": "10 circles each way per foot",
+  "steps": [
+   "Sit and lift one foot off the floor.",
+   "Draw slow circles with your toes.",
+   "Switch directions, then switch feet."
+  ],
+  "tip": "Do these any time your ankles feel stiff.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex078"
+ },
+ {
+  "name": "World's Greatest Stretch",
+  "cat": 4,
+  "level": 1,
+  "equipment": "Mat or towel",
+  "dose": "5 reps per side",
+  "steps": [
+   "From a plank, step one foot beside your hand.",
+   "Rotate your chest and reach the inside arm to the ceiling.",
+   "Return, then switch sides."
+  ],
+  "tip": "Go slow and breathe into the stretch.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex079"
+ },
+ {
+  "name": "Cross-Body Shoulder Stretch",
+  "cat": 4,
+  "level": 0,
+  "equipment": "None",
+  "dose": "2 × 20–30 seconds per arm",
+  "steps": [
+   "Bring one arm across your chest.",
+   "Use the other hand to hold it gently in place.",
+   "Keep your shoulders relaxed."
+  ],
+  "tip": "Don't pull on the elbow joint.",
+  "seconds": 20,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex080"
+ },
+ {
+  "name": "Standing Quad Stretch",
+  "cat": 4,
+  "level": 0,
+  "equipment": "Wall (optional)",
+  "dose": "2 × 30 seconds per leg",
+  "steps": [
+   "Hold a wall for balance.",
+   "Bend one knee and hold your ankle behind you.",
+   "Keep your knees close and hips level."
+  ],
+  "tip": "Squeeze the glute of the stretched leg.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex081"
+ },
+ {
+  "name": "Wrist Circles and Stretches",
+  "cat": 4,
+  "level": 0,
+  "equipment": "None",
+  "dose": "10 circles each way, 20 seconds stretch",
+  "steps": [
+   "Make circles with your wrists.",
+   "Extend one arm with your palm up and gently pull your fingers back.",
+   "Repeat with your palm down."
+  ],
+  "tip": "Great after long periods at a keyboard.",
+  "seconds": 20,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex082"
+ },
+ {
+  "name": "March in Place",
+  "cat": 5,
+  "level": 0,
+  "equipment": "None",
+  "dose": "2–5 minutes",
+  "steps": [
+   "Stand tall and lift your knees alternately.",
+   "Swing your arms.",
+   "Keep a steady rhythm."
+  ],
+  "tip": "A great warm-up or low-impact option.",
+  "seconds": 60,
+  "for": "all",
+  "emph": "cardio",
+  "id": "ex083"
+ },
+ {
+  "name": "Jumping Jacks",
+  "cat": 5,
+  "level": 0,
+  "equipment": "None",
+  "dose": "3 × 30–45 seconds",
+  "steps": [
+   "Stand with feet together and arms down.",
+   "Jump your feet wide as your arms rise overhead.",
+   "Jump back to the start."
+  ],
+  "tip": "Step side to side instead of jumping for low impact.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "cardio",
+  "id": "ex084"
+ },
+ {
+  "name": "High Knees",
+  "cat": 5,
+  "level": 1,
+  "equipment": "None",
+  "dose": "3 × 20–30 seconds",
+  "steps": [
+   "Run in place, lifting your knees to hip height.",
+   "Pump your arms.",
+   "Land softly."
+  ],
+  "tip": "Slow down to a march if you need to.",
+  "seconds": 20,
+  "for": "all",
+  "emph": "cardio",
+  "id": "ex085"
+ },
+ {
+  "name": "Shadow Boxing",
+  "cat": 5,
+  "level": 0,
+  "equipment": "None",
+  "dose": "3 × 1–2 minutes",
+  "steps": [
+   "Stand with a staggered stance, fists up.",
+   "Throw jabs and crosses at the air.",
+   "Stay light on your feet."
+  ],
+  "tip": "Add footwork and slips as you get comfortable.",
+  "seconds": 60,
+  "for": "all",
+  "emph": "cardio",
+  "id": "ex086"
+ },
+ {
+  "name": "Skater Hops",
+  "cat": 5,
+  "level": 1,
+  "equipment": "None",
+  "dose": "3 × 30 seconds",
+  "steps": [
+   "Hop sideways from one leg to the other.",
+   "Swing your arms and let your back foot trail behind.",
+   "Land softly with a slight knee bend."
+  ],
+  "tip": "Step instead of hop for a gentler version.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "lower",
+  "id": "ex087"
+ },
+ {
+  "name": "Stair Climbing",
+  "cat": 5,
+  "level": 1,
+  "equipment": "Stairs",
+  "dose": "3–5 minutes",
+  "steps": [
+   "Walk or jog up a flight of stairs at a steady pace.",
+   "Walk down carefully.",
+   "Repeat for the time."
+  ],
+  "tip": "Use the handrail and wear supportive shoes.",
+  "seconds": 120,
+  "for": "all",
+  "emph": "cardio",
+  "id": "ex088"
+ },
+ {
+  "name": "Squat Jumps",
+  "cat": 5,
+  "level": 2,
+  "equipment": "None",
+  "dose": "3 × 8–12 reps",
+  "steps": [
+   "Squat down, then explode upward into a jump.",
+   "Land softly, bending your knees.",
+   "Immediately squat again."
+  ],
+  "tip": "Skip this if you have knee or ankle problems.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "lower",
+  "id": "ex089"
+ },
+ {
+  "name": "Step Jacks",
+  "cat": 5,
+  "level": 0,
+  "equipment": "None",
+  "dose": "3 × 30–45 seconds",
+  "steps": [
+   "Step one foot out to the side while raising your arms.",
+   "Step it back and repeat on the other side.",
+   "Keep moving at a steady rhythm."
+  ],
+  "tip": "A low-impact jumping-jack alternative.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "cardio",
+  "id": "ex090"
+ },
+ {
+  "name": "Butt Kicks",
+  "cat": 5,
+  "level": 0,
+  "equipment": "None",
+  "dose": "3 × 20–30 seconds",
+  "steps": [
+   "Jog in place.",
+   "Kick your heels toward your glutes.",
+   "Keep your posture tall."
+  ],
+  "tip": "Good warm-up for your hamstrings.",
+  "seconds": 20,
+  "for": "all",
+  "emph": "cardio",
+  "id": "ex091"
+ },
+ {
+  "name": "Imaginary Jump Rope",
+  "cat": 5,
+  "level": 1,
+  "equipment": "None",
+  "dose": "3 × 30–60 seconds",
+  "steps": [
+   "Hop lightly on the balls of your feet.",
+   "Circle your wrists as if turning a rope.",
+   "Keep your jumps small."
+  ],
+  "tip": "Alternate feet to reduce impact.",
+  "seconds": 30,
+  "for": "all",
+  "emph": "cardio",
+  "id": "ex092"
+ },
+ {
+  "name": "Living Room Dance Break",
+  "cat": 5,
+  "level": 0,
+  "equipment": "None",
+  "dose": "1 song (3–4 minutes)",
+  "steps": [
+   "Put on an upbeat song.",
+   "Move however you like.",
+   "Keep your heart rate up for the whole track."
+  ],
+  "tip": "The best workout is the one you enjoy.",
+  "seconds": 180,
+  "for": "all",
+  "emph": "cardio",
+  "id": "ex093"
+ },
+ {
+  "name": "Decline Push-Up (Feet on Chair)",
+  "cat": 3,
+  "level": 1,
+  "equipment": "Sturdy chair",
+  "dose": "3 × 6–12 reps",
+  "steps": [
+   "Place your feet on a sturdy chair or low couch arm and hands on the floor.",
+   "Keep your body in one line and lower your chest toward the floor.",
+   "Press back up without letting your hips sag."
+  ],
+  "tip": "Builds the upper chest and shoulders. Make sure the chair can't slide.",
+  "seconds": 0,
+  "for": "male",
+  "emph": "upper",
+  "id": "ex094"
+ },
+ {
+  "name": "Archer Push-Up",
+  "cat": 3,
+  "level": 2,
+  "equipment": "None",
+  "dose": "3 × 4–8 per side",
+  "steps": [
+   "Start in a wide push-up position.",
+   "Lower toward one hand while the other arm stays straight.",
+   "Press back up and switch sides."
+  ],
+  "tip": "Work up to this from regular push-ups. Keep the straight arm's elbow soft.",
+  "seconds": 0,
+  "for": "male",
+  "emph": "upper",
+  "id": "ex095"
+ },
+ {
+  "name": "Backpack Curl",
+  "cat": 3,
+  "level": 0,
+  "equipment": "Backpack with books",
+  "dose": "3 × 10–15 reps",
+  "steps": [
+   "Stand holding the backpack by its handle, arm at your side.",
+   "Bend your elbow to lift it toward your shoulder, keeping your upper arm still.",
+   "Lower slowly. Switch arms."
+  ],
+  "tip": "Choose a load you can lift for all reps without swinging.",
+  "seconds": 0,
+  "for": "male",
+  "emph": "upper",
+  "id": "ex096"
+ },
+ {
+  "name": "Backpack Overhead Press",
+  "cat": 3,
+  "level": 1,
+  "equipment": "Backpack with books",
+  "dose": "3 × 8–12 reps",
+  "steps": [
+   "Hold a packed backpack at chest height with both hands.",
+   "Brace your core and press it overhead.",
+   "Lower under control."
+  ],
+  "tip": "Keep ribs down and avoid leaning back.",
+  "seconds": 0,
+  "for": "male",
+  "emph": "upper",
+  "id": "ex097"
+ },
+ {
+  "name": "Prone Y-T-W Raises",
+  "cat": 3,
+  "level": 0,
+  "equipment": "Mat or towel",
+  "dose": "2 × 8 per position",
+  "steps": [
+   "Lie face down with arms in a Y shape and lift them a few inches.",
+   "Lower, then repeat with arms out like a T, then bent in a W.",
+   "Squeeze your shoulder blades together each time."
+  ],
+  "tip": "Great for posture and the muscles that support your shoulders.",
+  "seconds": 0,
+  "for": "male",
+  "emph": "upper",
+  "id": "ex098"
+ },
+ {
+  "name": "Donkey Kick",
+  "cat": 3,
+  "level": 0,
+  "equipment": "Mat or towel",
+  "dose": "2 × 12 per leg",
+  "steps": [
+   "Start on hands and knees.",
+   "Keeping your knee bent at 90°, press your heel toward the ceiling.",
+   "Squeeze the glute at the top, lower, and repeat."
+  ],
+  "tip": "Keep your hips level and avoid arching your lower back.",
+  "seconds": 0,
+  "for": "female",
+  "emph": "lower",
+  "id": "ex099"
+ },
+ {
+  "name": "Fire Hydrant",
+  "cat": 3,
+  "level": 0,
+  "equipment": "Mat or towel",
+  "dose": "2 × 12 per leg",
+  "steps": [
+   "Start on hands and knees.",
+   "Lift one knee out to the side, keeping the knee bent.",
+   "Lower slowly and repeat."
+  ],
+  "tip": "Move from the hip, not by twisting your back.",
+  "seconds": 0,
+  "for": "female",
+  "emph": "lower",
+  "id": "ex100"
+ },
+ {
+  "name": "Sumo Squat",
+  "cat": 3,
+  "level": 0,
+  "equipment": "None",
+  "dose": "3 × 12–15 reps",
+  "steps": [
+   "Stand with feet wider than your shoulders, toes turned out.",
+   "Bend your knees and lower your hips straight down.",
+   "Press through your heels and squeeze your glutes at the top."
+  ],
+  "tip": "Hold a backpack at your chest to add load later.",
+  "seconds": 0,
+  "for": "female",
+  "emph": "lower",
+  "id": "ex101"
+ },
+ {
+  "name": "Curtsy Lunge",
+  "cat": 3,
+  "level": 1,
+  "equipment": "None",
+  "dose": "2 × 8–10 per leg",
+  "steps": [
+   "Stand tall, then step one foot back and across behind the other.",
+   "Lower both knees, keeping the front knee over your ankle.",
+   "Return to standing and switch sides."
+  ],
+  "tip": "Hold a counter for balance at first.",
+  "seconds": 0,
+  "for": "female",
+  "emph": "lower",
+  "id": "ex102"
+ },
+ {
+  "name": "Single-Leg Glute Bridge",
+  "cat": 3,
+  "level": 1,
+  "equipment": "Mat or towel",
+  "dose": "2 × 8–10 per leg",
+  "steps": [
+   "Lie on your back with knees bent. Extend one leg straight.",
+   "Press through the other heel and lift your hips.",
+   "Lower slowly. Switch legs."
+  ],
+  "tip": "Keep your hips level. Don't let one side drop.",
+  "seconds": 0,
+  "for": "female",
+  "emph": "lower",
+  "id": "ex103"
+ },
+ {
+  "name": "Side-Lying Leg Raise",
+  "cat": 3,
+  "level": 0,
+  "equipment": "Mat or towel",
+  "dose": "2 × 12–15 per leg",
+  "steps": [
+   "Lie on your side with legs stacked and bottom knee bent.",
+   "Lift your top leg a little behind your body's centerline.",
+   "Lower slowly."
+  ],
+  "tip": "Squeeze the side of your hip. Don't roll backward.",
+  "seconds": 0,
+  "for": "female",
+  "emph": "lower",
+  "id": "ex104"
+ },
+ {
+  "name": "Heel Drops",
+  "cat": 3,
+  "level": 0,
+  "equipment": "None",
+  "dose": "2 × 15–20 drops",
+  "steps": [
+   "Stand tall and rise onto your toes.",
+   "Let your heels drop to the floor with a firm but controlled thump.",
+   "Repeat. Hold a counter if needed."
+  ],
+  "tip": "A gentle impact exercise that supports bone health. Skip if you have foot, ankle or balance problems.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "lower",
+  "id": "ex105"
+ },
+ {
+  "name": "Single-Leg Balance",
+  "cat": 4,
+  "level": 0,
+  "equipment": "Wall or counter nearby",
+  "dose": "3 × 20–30 seconds per leg",
+  "steps": [
+   "Stand tall near a counter and lift one foot a few inches.",
+   "Keep your hips level and eyes on a fixed point.",
+   "Hold, then switch legs."
+  ],
+  "tip": "Progress by closing your eyes or standing on a folded towel.",
+  "seconds": 20,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex106"
+ },
+ {
+  "name": "Heel-to-Toe Walk",
+  "cat": 4,
+  "level": 0,
+  "equipment": "None",
+  "dose": "3 passes of 10 steps",
+  "steps": [
+   "Place the heel of one foot directly in front of the toes of the other.",
+   "Walk in a straight line with arms out for balance.",
+   "Look ahead, not down."
+  ],
+  "tip": "Use a wall for support if you need it.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex107"
+ },
+ {
+  "name": "Wall Angels",
+  "cat": 4,
+  "level": 0,
+  "equipment": "Wall",
+  "dose": "2 × 10 slow reps",
+  "steps": [
+   "Stand with your back, head and hips lightly against a wall.",
+   "Raise your arms to the sides in a goalpost shape.",
+   "Slide them up and down the wall without arching your back."
+  ],
+  "tip": "Stop short of any pinching in your shoulders.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex108"
+ },
+ {
+  "name": "Chin Tucks",
+  "cat": 4,
+  "level": 0,
+  "equipment": "None",
+  "dose": "2 × 10 reps, 3-second holds",
+  "steps": [
+   "Sit or stand tall.",
+   "Gently glide your chin straight back as if making a double chin.",
+   "Hold, then relax."
+  ],
+  "tip": "Great to counter long hours looking at a screen.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex109"
+ },
+ {
+  "name": "Posture Reset",
+  "cat": 4,
+  "level": 0,
+  "equipment": "Doorway or wall",
+  "dose": "1 minute, any time",
+  "steps": [
+   "Stand tall with feet hip-width apart.",
+   "Roll your shoulders back and down, lengthen the crown of your head toward the ceiling.",
+   "Take 3 slow breaths."
+  ],
+  "tip": "Set a reminder to do this a few times a day.",
+  "seconds": 60,
+  "for": "all",
+  "emph": "flex",
+  "id": "ex110"
+ },
+ {
+  "name": "Box Breathing",
+  "cat": 6,
+  "level": 0,
+  "equipment": "None",
+  "dose": "2–4 minutes",
+  "steps": [
+   "Breathe in through your nose for 4 counts.",
+   "Hold for 4. Breathe out for 4. Hold for 4.",
+   "Repeat, keeping your shoulders relaxed."
+  ],
+  "tip": "Shorten the counts to 3 if 4 feels strained.",
+  "seconds": 120,
+  "for": "all",
+  "emph": "mind",
+  "id": "ex111"
+ },
+ {
+  "name": "4-7-8 Calming Breath",
+  "cat": 6,
+  "level": 0,
+  "equipment": "None",
+  "dose": "4 rounds",
+  "steps": [
+   "Breathe in quietly through your nose for 4 counts.",
+   "Hold for 7.",
+   "Breathe out slowly through your mouth for 8."
+  ],
+  "tip": "Stop if you feel lightheaded. Gentle breathing is enough.",
+  "seconds": 0,
+  "for": "all",
+  "emph": "mind",
+  "id": "ex112"
+ },
+ {
+  "name": "Body Scan",
+  "cat": 6,
+  "level": 0,
+  "equipment": "Mat or bed",
+  "dose": "5–10 minutes",
+  "steps": [
+   "Lie down and close your eyes.",
+   "Move your attention slowly from your toes to the top of your head.",
+   "Notice each area without trying to change it."
+  ],
+  "tip": "If your mind wanders, gently return to the area you were on.",
+  "seconds": 300,
+  "for": "all",
+  "emph": "mind",
+  "id": "ex113"
+ },
+ {
+  "name": "Progressive Muscle Relaxation",
+  "cat": 6,
+  "level": 0,
+  "equipment": "Mat or bed",
+  "dose": "6–10 minutes",
+  "steps": [
+   "Tense one muscle group (feet, calves, thighs, hands, arms, shoulders, face) for 5 seconds.",
+   "Release suddenly and notice the relaxation for 10 seconds.",
+   "Move up through your body."
+  ],
+  "tip": "Tense gently, about 60% effort. Never to the point of pain.",
+  "seconds": 300,
+  "for": "all",
+  "emph": "mind",
+  "id": "ex114"
+ },
+ {
+  "name": "Mindful Walking",
+  "cat": 6,
+  "level": 0,
+  "equipment": "None",
+  "dose": "5–10 minutes",
+  "steps": [
+   "Walk slowly, noticing the feeling of each footstep.",
+   "Notice sounds, air on your skin and your breathing.",
+   "When your mind drifts, return to your steps."
+  ],
+  "tip": "Works indoors or out, with no phone.",
+  "seconds": 300,
+  "for": "all",
+  "emph": "mind",
+  "id": "ex115"
+ },
+ {
+  "name": "Three Good Things",
+  "cat": 6,
+  "level": 0,
+  "equipment": "Pen and paper (optional)",
+  "dose": "3–5 minutes",
+  "steps": [
+   "Sit quietly and think of three good things from your day, however small.",
+   "For each one, think about why it happened or what it means to you.",
+   "Write them down or say them aloud."
+  ],
+  "tip": "A simple habit that supports mood and sleep.",
+  "seconds": 180,
+  "for": "all",
+  "emph": "mind",
+  "id": "ex116"
+ },
+ {
+  "name": "Loving-Kindness Minute",
+  "cat": 6,
+  "level": 0,
+  "equipment": "None",
+  "dose": "3–5 minutes",
+  "steps": [
+   "Sit comfortably and breathe slowly.",
+   "Silently say: 'May I be well. May I be safe. May I be kind to myself.'",
+   "Repeat for a friend, then for someone you find difficult."
+  ],
+  "tip": "Be patient. The feeling is less important than the intention.",
+  "seconds": 180,
+  "for": "all",
+  "emph": "mind",
+  "id": "ex117"
+ },
+ {
+  "name": "Shake It Out",
+  "cat": 6,
+  "level": 0,
+  "equipment": "None",
+  "dose": "1–2 minutes",
+  "steps": [
+   "Stand and shake your hands, arms, then legs loosely.",
+   "Add your shoulders and torso, then your whole body.",
+   "Finish with 3 deep breaths."
+  ],
+  "tip": "A quick way to release stress and reset.",
+  "seconds": 60,
+  "for": "all",
+  "emph": "mind",
+  "id": "ex118"
+ },
+ {
+  "name": "Gratitude Stretch",
+  "cat": 6,
+  "level": 0,
+  "equipment": "None",
+  "dose": "2 minutes",
+  "steps": [
+   "Reach your arms overhead and breathe in.",
+   "As you lower them, think of one thing you're grateful for.",
+   "Repeat 5 times with a different thought each time."
+  ],
+  "tip": "Pairs naturally with your morning routine.",
+  "seconds": 120,
+  "for": "all",
+  "emph": "mind",
+  "id": "ex119"
+ },
+ {
+  "name": "Five Senses Grounding",
+  "cat": 6,
+  "level": 0,
+  "equipment": "None",
+  "dose": "2–3 minutes",
+  "steps": [
+   "Name 5 things you can see, 4 you can feel, 3 you can hear, 2 you can smell and 1 you can taste.",
+   "Breathe slowly between each group."
+  ],
+  "tip": "Helpful when your mind is racing.",
+  "seconds": 120,
+  "for": "all",
+  "emph": "mind",
+  "id": "ex120"
+ },
+ {
+  "name": "Slow Exhale Reset",
+  "cat": 6,
+  "level": 0,
+  "equipment": "None",
+  "dose": "1–2 minutes",
+  "steps": [
+   "Breathe in through your nose for 4 counts.",
+   "Breathe out slowly through pursed lips for 6–8 counts.",
+   "Repeat for 10 breaths."
+  ],
+  "tip": "A longer exhale helps your body settle.",
+  "seconds": 90,
+  "for": "all",
+  "emph": "mind",
+  "id": "ex121"
+ }
+]

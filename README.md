@@ -51,3 +51,10 @@ Find APK at `build/app/outputs/flutter-apk/app-debug.apk`.
 ## Connect (added)
 
 Solo and two-person modes with four categories: Ice Breakers, Confessions, Getting Deep and Challenge (625 original prompts each, 2,500 total, stored in assets/questions). Play one category, or select several to shuffle between them; questions do not repeat until a category is used up. Solo reflections are saved locally and included in the data export.
+
+## Fitness, body tracking, daily thoughts and data export (added)
+
+- **Fitness tab:** 120+ at-home exercises in seven categories (Military Calisthenics, Deep Core Foundation, Yoga, Strength & Core, Mobility & Posture, Cardio, Mind & Breath), with a Male/Female setting in Settings that tailors routines and builds a daily workout.
+- **Body tab:** height, weight and tape measurements, with BMI, waist ratios and shape guidance (screening only), change tracking and a weight trend chart.
+- **Daily thought:** 366 original shareable quotes, shown on the Today tab and in the morning notification. Plus daily connection nudges for yourself, friends and love.
+- **Data:** Settings > Export creates a zip (CSV + JSON) containing only the sections you choose. Import restores it on a new phone. Nothing is collected or sent anywhere.
