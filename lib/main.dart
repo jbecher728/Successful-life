@@ -163,7 +163,7 @@ class _HomePageState extends State<HomePage> {
       ])
     ])),
     const SizedBox(height:12),title('Past entries'),
-    ...entries.keys.toList().reversed.map((key){final e=Map<String,dynamic>.from(entries[key]);return Card(child:ListTile(title:Text(key),subtitle:Text('${e['journal']??''}',maxLines:2,overflow:TextOverflow.ellipsis),onTap:()=>showDialog(context:context,builder:(ctx)=>AlertDialog(title:Text(key),content:SingleChildScrollView(child:Text('Priority: ${e['priority']??''}\n\n${e['journal']??''}')),actions:[TextButton(onPressed:()=>Navigator.pop(ctx),child:const Text('Close'))])));}),
+    ...entries.keys.toList().reversed.map((key){final e=Map<String,dynamic>.from(entries[key]);return Card(child:ListTile(title:Text(key),subtitle:Text('${e['journal']??''}',maxLines:2,overflow:TextOverflow.ellipsis),onTap:()=>showDialog(context:context,builder:(ctx)=>AlertDialog(title:Text(key),content:SingleChildScrollView(child:Text('Priority: ${e['priority']??''}\n\n${e['journal']??''}')),actions:[TextButton(onPressed:()=>Navigator.pop(ctx),child:const Text('Close'))]))));}),
   ]);
   Widget _rating(String label,int value,ValueChanged<int> change)=>Row(children:[Text(label),const Spacer(),...List.generate(5,(i)=>IconButton(visualDensity:VisualDensity.compact,onPressed:()=>change(i+1),icon:Icon(i<value?Icons.circle:Icons.circle_outlined,color:const Color(0xFF21877C),size:20)))]);
   Widget _progress(){final completedDays=entries.values.where((v)=>v is Map && v['completed']==true).length;return ListView(padding:const EdgeInsets.all(18),children:[
