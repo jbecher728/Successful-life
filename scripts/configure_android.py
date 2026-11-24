@@ -42,3 +42,25 @@ gp=Path('android/gradle.properties')
 gtext=gp.read_text() if gp.exists() else ''
 if 'kotlin.jvm.target.validation.mode' not in gtext:
     gp.write_text(gtext.rstrip('\n')+'\nkotlin.jvm.target.validation.mode=IGNORE\n')
+
+# Some plugins are compiled against older Android APIs than their dependencies require. Raise them to 36.
+root=Path('android/build.gradle.kts')
+if root.exists():
+    rt=root.read_text()
+    if 'compileSdkVersion(36)' not in rt:
+        hook='''subprojects {
+    afterEvaluate {
+        if (project.name != "app") {
+            val androidExt = extensions.findByName("android")
+            if (androidExt != null) {
+                androidExt.withGroovyBuilder { "compileSdkVersion"(36) }
+            }
+        }
+    }
+}
+
+'''
+        i=rt.find('subprojects {')
+        rt=hook+rt if i<0 else rt[:i]+hook+rt[i:]
+        root.write_text(rt)
+print('Plugin compileSdk override applied')
