@@ -1,4 +1,4 @@
-name: Build test apps (Android + iOS)
+name: Build test apps (Android, iOS, Web)
 on:
   workflow_dispatch:
   push:
@@ -73,6 +73,42 @@ jobs:
           name: ios-ipa
           path: out/successful-life-ios-unsigned.ipa
           if-no-files-found: error
+
+  web:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Generate web platform from Flutter template
+        run: flutter create --platforms=web --project-name successful_life --org com.successfullife .
+      - name: Remove default template test
+        run: rm -rf test
+      - name: Web configuration
+        run: python3 scripts/configure_web.py
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Build web app (all files self-hosted, no third-party requests)
+        run: flutter build web --release --no-web-resources-cdn --base-href "/${{ github.event.repository.name }}/"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+
+  deploy-web:
+    needs: web
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
 
   release:
     needs: [android, ios]

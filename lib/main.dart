@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -46,9 +47,11 @@ DateTime parseDate(String s) => DateTime.parse(s);
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  if (!kIsWeb) {
   tzdata.initializeTimeZones();
   try { tz.setLocalLocation(tz.getLocation(await FlutterTimezone.getLocalTimezone())); } catch (_) {}
   await notifications.initialize(const InitializationSettings(android: AndroidInitializationSettings('@mipmap/ic_launcher'), iOS: DarwinInitializationSettings()));
+  }
   runApp(const SuccessfulLife());
 }
 
@@ -156,6 +159,7 @@ class _HomePageState extends State<HomePage> {
     return prefs!.setString('entries',jsonEncode(entries));
   }
   Future<void> _schedule() async {
+    if(kIsWeb)return;
     await notifications.cancelAll();
     const labels=['Plan your day','Take your next step','Reflect on today'];
     const details=NotificationDetails(android:AndroidNotificationDetails('daily_routine','Daily reminders',channelDescription:'Your private daily routine',importance:Importance.defaultImportance,priority:Priority.defaultPriority),iOS:DarwinNotificationDetails());
@@ -193,7 +197,7 @@ class _HomePageState extends State<HomePage> {
     await prefs!.disableCloud();
     await prefs!.clear();
     await AppLock.clearPin();
-    await notifications.cancelAll();
+    if(!kIsWeb)await notifications.cancelAll();
     if(!mounted)return;
     await showDialog<void>(context:context,barrierDismissible:false,builder:(ctx)=>const AlertDialog(title:Text('Data deleted'),content:Text('Close the app completely and reopen it to start fresh.')));
   }
@@ -218,6 +222,7 @@ class _HomePageState extends State<HomePage> {
     ]));
   }
   Future<void> _askPermission() async {
+    if(kIsWeb)return;
     await notifications.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.requestNotificationsPermission();
     await notifications.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()?.requestPermissions(alert:true,badge:true,sound:true);
   }
@@ -286,13 +291,14 @@ class _HomePageState extends State<HomePage> {
     ...List.generate(13,(i)=>ListTile(leading:CircleAvatar(child:Text('${i+1}')),title:Text(themes[i]),subtitle:Text('Days ${i*7+1}–${((i+1)*7).clamp(1,90)}'),trailing:Icon(i<week?Icons.check_circle_outline:i==week?Icons.radio_button_checked:Icons.circle_outlined))),
   ]);}
   Widget _settings()=>ListView(padding:const EdgeInsets.all(18),children:[
-    title('Reminders'),const Text('On-device notifications. No account or internet required.'),const SizedBox(height:12),
+    if(kIsWeb)...[title('Reminders'),const Text('Notifications are not available in the web version. Your daily thought still appears on the Today tab. Install the Android or iPhone app if you want reminders.')] else ...[title('Reminders'),const Text('On-device notifications. No account or internet required.'),const SizedBox(height:12),
     ...List.generate(3,(i)=>panel(Row(children:[
       Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Text(['Morning plan','Midday action','Evening reflection'][i],style:const TextStyle(fontWeight:FontWeight.bold)),Text(TimeOfDay(hour:hours[i],minute:minutes[i]).format(context))])),
       IconButton(onPressed:()async{final t=await showTimePicker(context:context,initialTime:TimeOfDay(hour:hours[i],minute:minutes[i]));if(t!=null){setState((){hours[i]=t.hour;minutes[i]=t.minute;});await _askPermission();await _schedule();}},icon:const Icon(Icons.schedule)),
       Switch(value:reminders[i],onChanged:(v)async{setState(()=>reminders[i]=v);if(v)await _askPermission();await _schedule();}),
     ]))),
     const SizedBox(height:6),const Text('Morning reminders show a new shareable thought each day. Open the app every couple of weeks to refresh upcoming ones.',style:TextStyle(fontSize:12,color:Colors.grey)),
+    ],
     const SizedBox(height:14),title('Your profile'),
     panel(Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
       const Text('Body type for exercise (required)',style:TextStyle(fontWeight:FontWeight.bold)),

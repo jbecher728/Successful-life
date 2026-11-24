@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 import 'package:cryptography/cryptography.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:path_provider/path_provider.dart';
+import 'platform.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Keystore-backed secure storage (holds the encryption key and app-lock data).
@@ -17,22 +16,21 @@ class Store {
   static final _algo = AesGcm.with256bits();
 
   final Map<String, Object> _m;
-  final File _file;
   final SecretKey _key;
   Future<void> _writing = Future<void>.value();
-  Store._(this._m, this._file, this._key);
-  File? _cloudFile;
+  Store._(this._m, this._key);
   SecretKey? _cloudKey;
   List<int>? _cloudSalt;
   static const _magic = [0x53, 0x4c, 0x42, 0x31]; // 'SLB1'
   bool get cloudOn => _cloudKey != null;
 
+  static const _main = 'store.enc';
+
   static Future<Store> _open() async {
-    final dir = await getApplicationDocumentsDirectory();
-    final file = File('${dir.path}/store.enc');
+    final hasFile = await disk.exists(_main);
     // On iOS the keychain survives uninstalling. If there is no data file this is a fresh install,
     // so drop any leftover key, PIN or backup secrets from a previous install.
-    if (!await file.exists()) {
+    if (!hasFile) {
       try {
         await secure.deleteAll();
       } catch (_) {}
@@ -45,9 +43,9 @@ class Store {
     }
     final key = SecretKey(base64Decode(keyB64));
     final m = <String, Object>{};
-    if (await file.exists()) {
+    if (hasFile) {
       try {
-        final bytes = await file.readAsBytes();
+        final bytes = (await disk.read(_main))!;
         final box = SecretBox.fromConcatenation(bytes, nonceLength: 12, macLength: 16);
         final clear = await _algo.decrypt(box, secretKey: key);
         final j = jsonDecode(utf8.decode(clear)) as Map<String, dynamic>;
@@ -60,15 +58,13 @@ class Store {
         });
       } catch (_) {
         try {
-          await file.rename('${file.path}.unreadable');
+          await disk.rename(_main, 'store.enc.unreadable');
         } catch (_) {}
       }
     }
-    final s = Store._(m, file, key);
+    final s = Store._(m, key);
     try {
-      final sdir = await getApplicationSupportDirectory();
-      s._cloudFile = File('${sdir.path}/$_cloudName');
-      final ck = await secure.read(key: 'cloud_key');
+    final ck = await secure.read(key: 'cloud_key');
       final cs = await secure.read(key: 'cloud_salt');
       if (ck != null && cs != null) {
         s._cloudKey = SecretKey(base64Decode(ck));
@@ -103,8 +99,7 @@ class Store {
   /// True when an encrypted backup file (restored by Android from the user's Google account) is on this phone.
   static Future<bool> cloudBackupExists() async {
     try {
-      final d = await getApplicationSupportDirectory();
-      return File('${d.path}/$_cloudName').exists();
+      return await disk.exists(_cloudName);
     } catch (_) {
       return false;
     }
@@ -112,9 +107,7 @@ class Store {
 
   static Future<void> deleteCloudFile() async {
     try {
-      final d = await getApplicationSupportDirectory();
-      final f = File('${d.path}/$_cloudName');
-      if (await f.exists()) await f.delete();
+      await disk.delete(_cloudName);
     } catch (_) {}
   }
 
@@ -144,8 +137,7 @@ class Store {
   /// Restores data from the backup file. Returns false if the passphrase is wrong or the file is unreadable.
   Future<bool> restoreFromCloud(String pass) async {
     try {
-      final d = await getApplicationSupportDirectory();
-      final bytes = await File('${d.path}/$_cloudName').readAsBytes();
+      final bytes = (await disk.read(_cloudName))!;
       final salt = bytes.sublist(4, 20);
       final k = await _derive(pass, salt);
       final box = SecretBox.fromConcatenation(bytes.sublist(20), nonceLength: 12, macLength: 16);
@@ -172,24 +164,20 @@ class Store {
   }
 
   Future<void> _writeCloud(String json) async {
-    final f = _cloudFile, k = _cloudKey, s = _cloudSalt;
-    if (f == null || k == null || s == null) return;
+    final k = _cloudKey, s = _cloudSalt;
+    if (k == null || s == null) return;
     try {
       final box = await _algo.encrypt(utf8.encode(json), secretKey: k);
-      final tmp = File('${f.path}.tmp');
-      await tmp.writeAsBytes([..._magic, ...s, ...box.concatenation()], flush: true);
-      await tmp.rename(f.path);
+      await disk.write(_cloudName, [..._magic, ...s, ...box.concatenation()]);
     } catch (_) {}
   }
 
   /// Erases everything, including the key and any app lock. Used by "forgot PIN".
   static Future<void> wipeEverything() async {
     try {
-      final dir = await getApplicationDocumentsDirectory();
       await deleteCloudFile();
       for (final n in ['store.enc', 'store.enc.tmp', 'store.enc.unreadable']) {
-        final f = File('${dir.path}/$n');
-        if (await f.exists()) await f.delete();
+        await disk.delete(n);
       }
     } catch (_) {}
     try {
@@ -259,9 +247,7 @@ class Store {
   Future<void> _write(String json) async {
     try {
       final box = await _algo.encrypt(utf8.encode(json), secretKey: _key);
-      final tmp = File('${_file.path}.tmp');
-      await tmp.writeAsBytes(box.concatenation(), flush: true);
-      await tmp.rename(_file.path);
+      await disk.write(_main, box.concatenation());
     } catch (_) {}
     await _writeCloud(json);
   }

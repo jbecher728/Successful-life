@@ -1,4 +1,4 @@
-import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'store.dart';
 
@@ -73,7 +73,10 @@ class _CloudBackupPanelState extends State<CloudBackupPanel> {
 
   @override
   Widget build(BuildContext context) {
-    if (Platform.isIOS) {
+    if (kIsWeb) {
+      return const Text('Backups are not available in the web version, and nothing is sent anywhere. Your data lives only in this browser on this device. Use Settings > Export regularly to save a copy to your Files, and Import to restore it.', style: TextStyle(height: 1.4));
+    }
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
       return const Text('iCloud backup is planned for a later version. For now, your data stays only on this iPhone and is not included in iCloud or iTunes backups. To move to a new phone, use Settings > Export, then Import.', style: TextStyle(height: 1.4));
     }
     final on = widget.prefs.cloudOn;

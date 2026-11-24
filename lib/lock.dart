@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:cryptography/cryptography.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart' show SystemNavigator;
 import 'package:local_auth/local_auth.dart';
 import 'store.dart';
@@ -50,6 +51,7 @@ class AppLock {
   }
 
   static Future<bool> bioAvailable() async {
+    if (kIsWeb) return false;
     try {
       final a = LocalAuthentication();
       return (await a.canCheckBiometrics) && (await a.getAvailableBiometrics()).isNotEmpty;
@@ -239,7 +241,7 @@ class _LockScreenState extends State<LockScreen> {
       barrierDismissible: false,
       builder: (ctx) => AlertDialog(
         title: const Text('Data erased'),
-        content: const Text('Open the app again to start fresh.'),
+        content: Text(kIsWeb ? 'Reload this page to start fresh.' : 'Open the app again to start fresh.'),
         actions: [TextButton(onPressed: () => SystemNavigator.pop(), child: const Text('Close app'))],
       ),
     );

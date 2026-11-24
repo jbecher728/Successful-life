@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:archive/archive.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
+import 'platform.dart';
 import 'store.dart';
 import 'body.dart';
 import 'common.dart';
@@ -163,10 +161,7 @@ Share this file only with people you trust, such as a coach, doctor or therapist
 ''');
     final bytes = ZipEncoder().encode(archive);
     if (bytes == null) throw Exception('zip failed');
-    final dir = await getTemporaryDirectory();
-    final file = File('${dir.path}/successful_life_export_${dayKey(now)}.zip');
-    await file.writeAsBytes(bytes, flush: true);
-    await Share.shareXFiles([XFile(file.path, mimeType: 'application/zip')], subject: 'Successful Life data export');
+    await saveDownload('successful_life_export_${dayKey(now)}.zip', bytes, 'application/zip', 'Successful Life data export');
   } catch (e) {
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Export failed: $e')));
