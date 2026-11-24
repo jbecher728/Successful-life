@@ -10,6 +10,9 @@ import 'package:timezone/data/latest.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
 import 'about.dart';
 import 'lock.dart';
+import 'tabs.dart';
+import 'cloud.dart';
+import 'setup.dart';
 import 'onboarding.dart';
 import 'exercise.dart';
 import 'export.dart';
@@ -63,6 +66,7 @@ class _HomePageState extends State<HomePage> {
   Store? prefs;
   late DateTime start;
   int tab=0;
+  TabConfig tabs=TabConfig(allTabs.map((t)=>t.id).toList(),<String>{},'today');
   bool inSettings=false;
   Map<String,dynamic> entries={};
   List<bool> reminders=[true,true,true];
@@ -90,11 +94,26 @@ class _HomePageState extends State<HomePage> {
     minutes=List<int>.from(jsonDecode(p.getString('minutes')??'[0,0,0]'));
     sex=p.getString('sex');
     age=ageGroupFor(p);
+    _loadTabs(first:true);
     quotes=await _lines('assets/quotes.txt');
     nudges=await _lines('assets/nudges.txt');
     _refreshDay();
     await _schedule();
     if(mounted)setState((){});
+  }
+  void _loadTabs({bool first=false}){
+    tabs=TabConfig.load(prefs!);
+    final v=tabs.visible;
+    if(first){tab=v.indexOf(tabs.start);}
+    if(tab<0||tab>=v.length)tab=0;
+  }
+  Widget _pageFor(String id){
+    switch(id){
+      case 'journal':return _journal();
+      case 'connect':return ConnectPage(prefs:prefs!);
+      case 'fitness':return FitnessPage(prefs:prefs!,sex:sex,teen:teen,onSex:_setSex);
+      default:return _todayHome();
+    }
   }
   Future<List<String>> _lines(String path) async {
     try {
@@ -171,6 +190,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> _confirmDelete() async {
     final ok=await showDialog<bool>(context:context,builder:(ctx)=>AlertDialog(title:const Text('Delete all data?'),content:const Text('This permanently erases your journal, body log, workouts and settings from this phone. Export first if you want a copy.'),actions:[TextButton(onPressed:()=>Navigator.pop(ctx,false),child:const Text('Cancel')),FilledButton(onPressed:()=>Navigator.pop(ctx,true),child:const Text('Delete everything'))]));
     if(ok!=true)return;
+    await prefs!.disableCloud();
     await prefs!.clear();
     await AppLock.clearPin();
     await notifications.cancelAll();
@@ -212,12 +232,9 @@ class _HomePageState extends State<HomePage> {
         title:Text(inSettings?'Settings':'Successful Life',style:const TextStyle(fontWeight:FontWeight.bold)),
         actions:inSettings?null:[PopupMenuButton<String>(icon:const Icon(Icons.more_vert),iconSize:20,tooltip:'Menu',onSelected:(v){if(v=='settings'){setState(()=>inSettings=true);}else if(v=='about'){Navigator.push(context,MaterialPageRoute<void>(builder:(_)=>const AboutPage()));}else if(v=='privacy'){Navigator.push(context,MaterialPageRoute<void>(builder:(_)=>const PrivacyPage()));}},itemBuilder:(ctx)=>const [PopupMenuItem<String>(value:'settings',child:Text('Settings')),PopupMenuItem<String>(value:'privacy',child:Text('Privacy notice')),PopupMenuItem<String>(value:'about',child:Text('About'))])],
       ),
-      body:SafeArea(child:inSettings?_settings():IndexedStack(index:tab,children:[_todayHome(),_journal(),ConnectPage(prefs:prefs!),FitnessPage(prefs:prefs!,sex:sex,teen:teen,onSex:_setSex)])),
-      bottomNavigationBar:NavigationBar(selectedIndex:tab,onDestinationSelected:(v){setState((){tab=v;inSettings=false;});},destinations:const [
-        NavigationDestination(icon:Icon(Icons.check_circle_outline),label:'Today'),
-        NavigationDestination(icon:Icon(Icons.edit_note),label:'Journal'),
-        NavigationDestination(icon:Icon(Icons.forum_outlined),label:'Connect'),
-        NavigationDestination(icon:Icon(Icons.fitness_center),label:'Fitness'),
+      body:SafeArea(child:inSettings?_settings():IndexedStack(index:tab,children:[for(final id in tabs.visible)_pageFor(id)])),
+      bottomNavigationBar:tabs.visible.length<2?null:NavigationBar(selectedIndex:tab,onDestinationSelected:(v){setState((){tab=v;inSettings=false;});},destinations:[
+        for(final id in tabs.visible)NavigationDestination(icon:Icon(tabDef(id).icon),label:tabDef(id).label),
       ]),
     );
   }
@@ -243,7 +260,7 @@ class _HomePageState extends State<HomePage> {
       const Text('TODAY’S PRIORITY',style:TextStyle(fontWeight:FontWeight.bold)),
       TextField(controller:priority,maxLines:2,decoration:const InputDecoration(hintText:'One thing that matters today...',border:InputBorder.none),onChanged:(_)=>save()),
     ])),
-    TextButton.icon(onPressed:()=>setState(()=>tab=1),icon:const Icon(Icons.edit_note),label:const Text('Evening reflection')),
+    if(tabs.visible.contains('journal'))TextButton.icon(onPressed:()=>setState(()=>tab=tabs.visible.indexOf('journal')),icon:const Icon(Icons.edit_note),label:const Text('Evening reflection')),
   ]);
   Widget _journal()=>ListView(padding:const EdgeInsets.all(18),children:[
     title('Quick check-in'),
@@ -286,6 +303,10 @@ class _HomePageState extends State<HomePage> {
     ])),
     const SizedBox(height:14),title('Age group'),
     panel(Text(teen?'Teen mode (ages 13–17), used with a parent or guardian’s approval. It hides weight and BMI tracking, advanced workouts, Deep Core Foundation exercises and romantic prompts. The app switches to Adult mode automatically on your 18th birthday. Your birthday is only stored on this phone.':'Adult mode (18+). Your birthday is only stored on this phone.',style:const TextStyle(fontSize:13,height:1.4))),
+    const SizedBox(height:14),title('Tabs'),
+    panel(TabsEditor(prefs:prefs!,onChanged:()=>setState(()=>_loadTabs()))),
+    const SizedBox(height:14),title('Backup'),
+    panel(CloudBackupPanel(prefs:prefs!)),
     const SizedBox(height:14),title('App lock'),
     const LockSettingsPanel(),
     const SizedBox(height:14),title('Privacy & your data'),
@@ -297,7 +318,7 @@ class _HomePageState extends State<HomePage> {
     const SizedBox(height:8),
     OutlinedButton.icon(onPressed:_confirmDelete,icon:const Icon(Icons.delete_outline),label:const Text('Delete all my data')),
     const SizedBox(height:12),
-    const Text('Storage note: your data is encrypted on this phone, with the key kept in the Android Keystore. Cloud backup is turned off for this app. Uninstalling the app deletes its data, so export first if you want to keep it or move to a new phone. Export files are not encrypted.',style:TextStyle(fontSize:12,color:Colors.grey)),
+    const Text('Storage note: your data is encrypted on this phone, with the key kept in the Android Keystore. Google backup is off unless you turn it on above, and then only a passphrase-locked copy is uploaded. Uninstalling the app deletes its data, so export first if you want to keep it or move to a new phone. Export files are not encrypted.',style:TextStyle(fontSize:12,color:Colors.grey)),
   ]);
 }
 
@@ -460,17 +481,24 @@ class _RootState extends State<Root> {
   Store? store;
   String? age;
   bool ready = false;
+  bool restore = false;
+  bool setupDone = false;
   @override void initState() {
     super.initState();
-    Store.getInstance().then((s) {
+    Store.getInstance().then((s) async {
       if (!mounted) return;
-      setState(() { store = s; age = ageGroupFor(s); ready = true; });
+      final fresh = !s.containsKey('birth_year');
+      final has = fresh ? await Store.cloudBackupExists() : false;
+      if (!mounted) return;
+      setState(() { store = s; age = ageGroupFor(s); setupDone = s.getBool('setup_done') == true; restore = has; ready = true; });
     });
   }
   @override Widget build(BuildContext context) {
     if (!ready) return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    if (restore) return RestoreScreen(prefs: store!, onDone: () => setState(() { restore = false; age = ageGroupFor(store!); setupDone = store!.getBool('setup_done') == true; }));
     if (age == 'child') return AgeGate(prefs: store!, blocked: true, onDone: (g) => setState(() => age = g));
     if (age == null) return AgeGate(prefs: store!, onDone: (g) => setState(() => age = g));
+    if (!setupDone) return SetupPage(prefs: store!, onDone: () => setState(() => setupDone = true));
     return const LockGate(child: HomePage());
   }
 }

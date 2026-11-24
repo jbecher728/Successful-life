@@ -21,6 +21,11 @@ class Store {
   final SecretKey _key;
   Future<void> _writing = Future<void>.value();
   Store._(this._m, this._file, this._key);
+  File? _cloudFile;
+  SecretKey? _cloudKey;
+  List<int>? _cloudSalt;
+  static const _magic = [0x53, 0x4c, 0x42, 0x31]; // 'SLB1'
+  bool get cloudOn => _cloudKey != null;
 
   static Future<Store> _open() async {
     final dir = await getApplicationDocumentsDirectory();
@@ -53,6 +58,16 @@ class Store {
       }
     }
     final s = Store._(m, file, key);
+    try {
+      final sdir = await getApplicationSupportDirectory();
+      s._cloudFile = File('${sdir.path}/$_cloudName');
+      final ck = await secure.read(key: 'cloud_key');
+      final cs = await secure.read(key: 'cloud_salt');
+      if (ck != null && cs != null) {
+        s._cloudKey = SecretKey(base64Decode(ck));
+        s._cloudSalt = base64Decode(cs);
+      }
+    } catch (_) {}
     await s._migrateLegacy();
     return s;
   }
@@ -76,10 +91,95 @@ class Store {
     await _flush();
   }
 
+  static const _cloudName = 'cloud_backup.bin';
+
+  /// True when an encrypted backup file (restored by Android from the user's Google account) is on this phone.
+  static Future<bool> cloudBackupExists() async {
+    try {
+      final d = await getApplicationSupportDirectory();
+      return File('${d.path}/$_cloudName').exists();
+    } catch (_) {
+      return false;
+    }
+  }
+
+  static Future<void> deleteCloudFile() async {
+    try {
+      final d = await getApplicationSupportDirectory();
+      final f = File('${d.path}/$_cloudName');
+      if (await f.exists()) await f.delete();
+    } catch (_) {}
+  }
+
+  static Future<SecretKey> _derive(String pass, List<int> salt) =>
+      Pbkdf2(macAlgorithm: Hmac.sha256(), iterations: 100000, bits: 256).deriveKeyFromPassword(password: pass, nonce: salt);
+
+  /// Turns on the optional Google backup: an encrypted copy that only the backup passphrase can open.
+  Future<void> enableCloud(String pass) async {
+    final r = Random.secure();
+    final salt = List<int>.generate(16, (_) => r.nextInt(256));
+    final k = await _derive(pass, salt);
+    await secure.write(key: 'cloud_key', value: base64Encode(await k.extractBytes()));
+    await secure.write(key: 'cloud_salt', value: base64Encode(salt));
+    _cloudKey = k;
+    _cloudSalt = salt;
+    await _writeCloud(jsonEncode(_m));
+  }
+
+  Future<void> disableCloud() async {
+    _cloudKey = null;
+    _cloudSalt = null;
+    await secure.delete(key: 'cloud_key');
+    await secure.delete(key: 'cloud_salt');
+    await deleteCloudFile();
+  }
+
+  /// Restores data from the backup file. Returns false if the passphrase is wrong or the file is unreadable.
+  Future<bool> restoreFromCloud(String pass) async {
+    try {
+      final d = await getApplicationSupportDirectory();
+      final bytes = await File('${d.path}/$_cloudName').readAsBytes();
+      final salt = bytes.sublist(4, 20);
+      final k = await _derive(pass, salt);
+      final box = SecretBox.fromConcatenation(bytes.sublist(20), nonceLength: 12, macLength: 16);
+      final clear = await _algo.decrypt(box, secretKey: k);
+      final j = jsonDecode(utf8.decode(clear)) as Map<String, dynamic>;
+      _m.clear();
+      j.forEach((key, v) {
+        if (v is List) {
+          _m[key] = List<String>.from(v);
+        } else if (v is String || v is int || v is double || v is bool) {
+          _m[key] = v as Object;
+        }
+      });
+      _m['_migrated'] = true;
+      await secure.write(key: 'cloud_key', value: base64Encode(await k.extractBytes()));
+      await secure.write(key: 'cloud_salt', value: base64Encode(salt));
+      _cloudKey = k;
+      _cloudSalt = salt;
+      await _flush();
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<void> _writeCloud(String json) async {
+    final f = _cloudFile, k = _cloudKey, s = _cloudSalt;
+    if (f == null || k == null || s == null) return;
+    try {
+      final box = await _algo.encrypt(utf8.encode(json), secretKey: k);
+      final tmp = File('${f.path}.tmp');
+      await tmp.writeAsBytes([..._magic, ...s, ...box.concatenation()], flush: true);
+      await tmp.rename(f.path);
+    } catch (_) {}
+  }
+
   /// Erases everything, including the key and any app lock. Used by "forgot PIN".
   static Future<void> wipeEverything() async {
     try {
       final dir = await getApplicationDocumentsDirectory();
+      await deleteCloudFile();
       for (final n in ['store.enc', 'store.enc.tmp', 'store.enc.unreadable']) {
         final f = File('${dir.path}/$n');
         if (await f.exists()) await f.delete();
@@ -156,5 +256,6 @@ class Store {
       await tmp.writeAsBytes(box.concatenation(), flush: true);
       await tmp.rename(_file.path);
     } catch (_) {}
+    await _writeCloud(json);
   }
 }

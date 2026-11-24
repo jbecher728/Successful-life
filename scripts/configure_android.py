@@ -10,8 +10,8 @@ for name in ['android.permission.POST_NOTIFICATIONS','android.permission.RECEIVE
     if not any(x.get(ns+'name')==name for x in root.findall('uses-permission')):
         ET.SubElement(root,'uses-permission',{ns+'name':name})
 app=root.find('application')
-app.set(ns+'allowBackup','false')
-app.set(ns+'fullBackupContent','false')
+app.set(ns+'allowBackup','true')
+app.set(ns+'fullBackupContent','@xml/backup_rules')
 app.set(ns+'dataExtractionRules','@xml/data_extraction_rules')
 # Notifications plugin requires receivers for scheduled delivery after reboot.
 for cls in ['com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver',
@@ -24,8 +24,11 @@ for cls in ['com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiv
             for action in ['android.intent.action.BOOT_COMPLETED','android.intent.action.MY_PACKAGE_REPLACED','android.intent.action.QUICKBOOT_POWERON','com.htc.intent.action.QUICKBOOT_POWERON']:
                 ET.SubElement(intent,'action',{ns+'name':action})
 xml=Path('android/app/src/main/res/xml');xml.mkdir(parents=True,exist_ok=True)
+# Only one opt-in, passphrase-encrypted file may ever be backed up; it exists only if the user turns Google backup on.
 (xml/'data_extraction_rules.xml').write_text('''<?xml version="1.0" encoding="utf-8"?>
-<data-extraction-rules><cloud-backup><exclude domain="root" path="."/></cloud-backup><device-transfer><exclude domain="root" path="."/></device-transfer></data-extraction-rules>''')
+<data-extraction-rules><cloud-backup><include domain="file" path="cloud_backup.bin"/></cloud-backup><device-transfer><include domain="file" path="cloud_backup.bin"/></device-transfer></data-extraction-rules>''')
+(xml/'backup_rules.xml').write_text('''<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content><include domain="file" path="cloud_backup.bin"/></full-backup-content>''')
 tree.write(p,encoding='utf-8',xml_declaration=True)
 # Local notification plugin may require core library desugaring on newer Android Gradle plugins.
 gradle=Path('android/app/build.gradle.kts')
