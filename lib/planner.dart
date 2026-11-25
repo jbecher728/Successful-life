@@ -6,6 +6,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'challenges.dart';
 import 'common.dart';
+import 'theme.dart';
 import 'store.dart';
 
 const _wd = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -494,7 +495,7 @@ class _PlannerPageState extends State<PlannerPage> {
     final dayN = g.multi ? (t.difference(s).inDays + 1).clamp(1, total) : 1;
     return Card(
       elevation: 0,
-      color: over ? const Color(0xFFFFF3E8) : Colors.white,
+      color: over ? tint(context, const Color(0xFFFFF3E8)) : cardBg(context),
       margin: const EdgeInsets.only(bottom: 8),
       child: Column(children: [
         ListTile(
@@ -552,7 +553,7 @@ class _PlannerPageState extends State<PlannerPage> {
     return ListView(padding: const EdgeInsets.all(18), children: [
       Card(
         elevation: 0,
-        color: const Color(0xFFE8F4F2),
+        color: tint(context, const Color(0xFFE8F4F2)),
         child: Padding(
           padding: const EdgeInsets.all(14),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

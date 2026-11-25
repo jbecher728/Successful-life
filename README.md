@@ -30,6 +30,15 @@ Install the latest APK from the [Releases page](../../releases). Install `succes
 | **Notifications** | Morning shareable thought, midday action, evening reflection, optional birthday greeting. All on-device |
 | **Export / import** | Settings > Export builds a zip (CSV + JSON) with only the sections you pick; Import restores it on a new phone |
 
+### Self-improvement extras (all optional, Settings > Look and extras)
+
+- **Repeating goals** (daily, weekly or certain days) with forgiving streaks: one missed day never breaks a streak.
+- **Weekly review** with a summary, three reflection questions and a shareable image card (numbers only, no personal text).
+- **Hatching egg** progress, **mood patterns**, **"I am becoming..."** line and a **journal prompt** each day.
+- **Calm** breathing timer, **rough-day mode** (gentler plan, 988 / findahelpline.com), **focus timer**, **7-day challenges**.
+- **Letters to future me** delivered by notification on a date you pick.
+- **Add to my goals** buttons on exercises and Connect questions, a monthly **backup reminder**, **dark mode** and larger text.
+
 ## Customization and safety
 
 - **Tabs:** turn tabs on or off, drag to reorder, and choose which opens first (during setup or later in Settings). Settings, Privacy and About are in the small top-right menu.
@@ -58,7 +67,7 @@ To build locally you need Flutter and the Android SDK:
 
 ## Project layout
 
-- `lib/` app code: `main.dart` (home, settings), `store.dart` (encrypted storage and backup), `lock.dart`, `onboarding.dart`, `setup.dart`, `tabs.dart`, `cloud.dart`, `exercise.dart`, `body.dart`, `figure.dart`, `export.dart`, `about.dart`
+- `lib/` app code: `main.dart` (home, settings), `store.dart` (encrypted storage and backup), `lock.dart`, `onboarding.dart`, `setup.dart`, `tabs.dart`, `cloud.dart`, `exercise.dart`, `body.dart`, `figure.dart`, `export.dart`, `about.dart`, `planner.dart` (goals), `review.dart`, `letters.dart`, `calm.dart`, `rough.dart`, `challenges.dart`, `extras_ui.dart`, `theme.dart`
 - `assets/` questions, quotes, nudges, exercises and stick-figure motion data
 - `scripts/configure_android.py` Android permissions, backup rules, biometrics and build fixes
 - `scripts/configure_ios.py` iOS Face ID text, iPhone-only, notifications and backup exclusion

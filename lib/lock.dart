@@ -1,3 +1,4 @@
+import 'theme.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
@@ -119,7 +120,7 @@ class _LockGateState extends State<LockGate> with WidgetsBindingObserver {
     return Stack(children: [
       widget.child,
       if (locked == null)
-        const Positioned.fill(child: ColoredBox(color: Color(0xFFF8FAF8), child: Center(child: CircularProgressIndicator())))
+        Positioned.fill(child: ColoredBox(color: Theme.of(context).scaffoldBackgroundColor, child: const Center(child: CircularProgressIndicator())))
       else if (locked == true)
         Positioned.fill(child: LockScreen(onUnlocked: () => setState(() => locked = false))),
     ]);
@@ -261,7 +262,7 @@ class _LockScreenState extends State<LockScreen> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: const Color(0xFFF8FAF8),
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -432,7 +433,7 @@ class _LockSettingsPanelState extends State<LockSettingsPanel> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 0,
-      color: Colors.white,
+      color: cardBg(context),
       child: Padding(
         padding: const EdgeInsets.all(18),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

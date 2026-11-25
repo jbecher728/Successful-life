@@ -98,7 +98,7 @@ Future<void> showExportDialog(BuildContext context, Store p) async {
     final data = <String, dynamic>{};
     if (picked['journal'] == true) {
       final entries = _readEntries(p);
-      data['journal'] = {'start': p.getString('start'), 'entries': entries};
+      data['journal'] = {'start': p.getString('start'), 'entries': entries, 'identity': p.getString('identity'), 'reviews': p.getString('reviews'), 'letters': p.getString('letters')};
       final keys = entries.keys.toList()..sort();
       final sb = StringBuffer('﻿')..writeln(csvRow(['date', 'program_day', 'priority', 'mood_1_to_5', 'energy_1_to_5', 'action_completed', 'journal']));
       for (final k in keys) {
@@ -210,6 +210,9 @@ Future<void> importFromZip(BuildContext context, Store p) async {
       final j = Map<String, dynamic>.from(sec['journal'] as Map);
       if (j['start'] != null) await p.setString('start', j['start'] as String);
       await p.setString('entries', jsonEncode(j['entries'] ?? {}));
+      for (final k in ['identity', 'reviews', 'letters']) {
+        if (j[k] is String) await p.setString(k, j[k] as String);
+      }
     }
     if (sec['body'] is Map) {
       await p.setString('body_log', jsonEncode((sec['body'] as Map)['body_log'] ?? []));

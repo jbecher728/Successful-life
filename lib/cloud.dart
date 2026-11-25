@@ -127,7 +127,6 @@ class _RestoreScreenState extends State<RestoreScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: const Color(0xFFF8FAF8),
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(

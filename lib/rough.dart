@@ -4,6 +4,7 @@ import 'calm.dart';
 import 'common.dart';
 import 'planner.dart';
 import 'store.dart';
+import 'theme.dart';
 
 const _kind = [
   'You do not have to be at your best today. Showing up gently still counts.',
@@ -81,7 +82,7 @@ class _RoughDayPageState extends State<RoughDayPage> {
         const SizedBox(height: 14),
         Card(
           elevation: 0,
-          color: const Color(0xFFFFF3E8),
+          color: tint(context, const Color(0xFFFFF3E8)),
           child: const Padding(
             padding: EdgeInsets.all(14),
             child: Text('If you feel unsafe or are thinking about hurting yourself, please reach out right now. In the US you can call or text 988. Elsewhere, findahelpline.com lists free lines by country. In an emergency, call your local emergency number.', style: TextStyle(height: 1.4)),

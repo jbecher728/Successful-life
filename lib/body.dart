@@ -1,3 +1,4 @@
+import 'theme.dart';
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -176,7 +177,7 @@ class _BodyPageState extends State<BodyPage> {
 
   int _count(String key) => log.where((e) => e[key] is num).length;
 
-  Widget _card(Widget child) => Card(elevation: 0, color: Colors.white, child: Padding(padding: const EdgeInsets.all(16), child: child));
+  Widget _card(Widget child) => Card(elevation: 0, color: cardBg(context), child: Padding(padding: const EdgeInsets.all(16), child: child));
 
   Widget _h(String t) => Padding(padding: const EdgeInsets.only(top: 18, bottom: 8), child: Text(t, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)));
 

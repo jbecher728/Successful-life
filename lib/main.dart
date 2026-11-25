@@ -17,6 +17,8 @@ import 'setup.dart';
 import 'splash.dart';
 import 'planner.dart';
 import 'review.dart';
+import 'theme.dart';
+import 'extras_ui.dart';
 import 'rough.dart';
 import 'letters.dart';
 import 'goal_actions.dart';
@@ -64,11 +66,14 @@ Future<void> main() async {
 
 class SuccessfulLife extends StatelessWidget {
   const SuccessfulLife({super.key});
-  @override Widget build(BuildContext context) => MaterialApp(
+  @override Widget build(BuildContext context) => ValueListenableBuilder<(ThemeMode,double)>(valueListenable:look,builder:(context,v,_)=>MaterialApp(
     title: 'Shell', debugShowCheckedModeBanner: false,
-    theme: ThemeData(useMaterial3: true, colorSchemeSeed: const Color(0xFF21877C), scaffoldBackgroundColor: const Color(0xFFF8FAF8)),
+    theme: buildTheme(Brightness.light),
+    darkTheme: buildTheme(Brightness.dark),
+    themeMode: v.$1,
+    builder:(c,child)=>MediaQuery(data:MediaQuery.of(c).copyWith(textScaler:TextScaler.linear(v.$2)),child:child!),
     home: const Root(),
-  );
+  ));
 }
 
 class HomePage extends StatefulWidget { const HomePage({super.key}); @override State<HomePage> createState()=>_HomePageState(); }
@@ -237,7 +242,7 @@ class _HomePageState extends State<HomePage> {
     await notifications.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.requestNotificationsPermission();
     await notifications.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()?.requestPermissions(alert:true,badge:true,sound:true);
   }
-  Widget panel(Widget child)=>Card(elevation:0,color:Colors.white,child:Padding(padding:const EdgeInsets.all(18),child:child));
+  Widget panel(Widget child)=>Card(elevation:0,color:cardBg(context),child:Padding(padding:const EdgeInsets.all(18),child:child));
   Widget title(String text)=>Padding(padding:const EdgeInsets.only(bottom:10),child:Text(text,style:const TextStyle(fontSize:22,fontWeight:FontWeight.bold)));
   @override Widget build(BuildContext context){
     if(prefs==null)return const Scaffold(body:Center(child:CircularProgressIndicator()));
@@ -264,7 +269,7 @@ class _HomePageState extends State<HomePage> {
   }
   Widget _goalsCard(){
     final (d,t)=goalsSummary(prefs!);
-    return Builder(builder:(c)=>Card(elevation:0,color:const Color(0xFFE8F4F2),margin:const EdgeInsets.only(top:10),child:ListTile(
+    return Builder(builder:(c)=>Card(elevation:0,color:tint(c,const Color(0xFFE8F4F2)),margin:const EdgeInsets.only(top:10),child:ListTile(
       onTap:()=>DefaultTabController.of(c).animateTo(1),
       leading:const Icon(Icons.checklist,color:Color(0xFF21877C)),
       title:Text(t==0?'Add a goal for today':'Goals today: $d of $t done',style:const TextStyle(fontWeight:FontWeight.w700)),
@@ -295,9 +300,9 @@ class _HomePageState extends State<HomePage> {
   Widget _journal()=>ListView(padding:const EdgeInsets.all(18),children:[
     title('Quick check-in'),
     if(extraOn(prefs!,'letters'))Align(alignment:Alignment.centerLeft,child:TextButton.icon(onPressed:()async{await Navigator.push(context,MaterialPageRoute(builder:(_)=>LettersPage(prefs:prefs!,onChanged:()async{await scheduleLetters(notifications,prefs!);await _askPermission();})));if(mounted)setState((){});},icon:const Icon(Icons.mail_outline),label:Text(unopenedLetters(prefs!)>0?'Letters to future me (1 arrived!)':'Letters to future me'))),
-    if(extraOn(prefs!,'prompt'))Card(elevation:0,color:const Color(0xFFFFF8E6),child:ListTile(
+    if(extraOn(prefs!,'prompt'))Card(elevation:0,color:tint(context,const Color(0xFFFFF8E6)),child:ListTile(
       title:const Text('TODAY’S PROMPT',style:TextStyle(fontSize:12,fontWeight:FontWeight.bold,color:Color(0xFFB7791F))),
-      subtitle:Text(journalPromptFor(DateTime.now()),style:const TextStyle(fontSize:16,height:1.3,color:Colors.black87)),
+      subtitle:Text(journalPromptFor(DateTime.now()),style:const TextStyle(fontSize:16,height:1.3)),
       trailing:TextButton(onPressed:(){if(!journal.text.contains(journalPromptFor(DateTime.now()))){journal.text='${journalPromptFor(DateTime.now())}\n${journal.text}';journal.selection=TextSelection.collapsed(offset:journal.text.length);save();}},child:const Text('Use')),
     )),
     panel(Column(children:[
@@ -314,7 +319,9 @@ class _HomePageState extends State<HomePage> {
   ]);
   Widget _rating(String label,int value,ValueChanged<int> change)=>Row(children:[Text(label),const Spacer(),...List.generate(5,(i)=>IconButton(visualDensity:VisualDensity.compact,onPressed:()=>change(i+1),icon:Icon(i<value?Icons.circle:Icons.circle_outlined,color:const Color(0xFF21877C),size:20)))]);
   Widget _progress(){final completedDays=entries.values.where((v)=>v is Map && v['completed']==true).length;return ListView(padding:const EdgeInsets.all(18),children:[
-    title('Your progress'),panel(Column(crossAxisAlignment:CrossAxisAlignment.stretch,children:[
+    title('Your progress'),
+    if(extraOn(prefs!,'egg'))HatchingEgg(prefs:prefs!),
+    if(extraOn(prefs!,'mood'))...[const SizedBox(height:10),MoodPatterns(prefs:prefs!)],panel(Column(crossAxisAlignment:CrossAxisAlignment.stretch,children:[
       Text('$completedDays',style:const TextStyle(fontSize:54,fontWeight:FontWeight.bold)),const Text('days with completed actions'),const SizedBox(height:8),Text('${(prefs!.getStringList('ex_log')??<String>[]).length} workouts finished'),const SizedBox(height:16),
       Text('Day $day of 90'),const SizedBox(height:8),LinearProgressIndicator(value:day/90,minHeight:10),
       const SizedBox(height:16),const Text('Missing a day never resets your progress.'),
@@ -340,6 +347,8 @@ class _HomePageState extends State<HomePage> {
     ])),
     const SizedBox(height:14),title('Age group'),
     panel(Text(teen?'Teen mode (ages 13–17), used with a parent or guardian’s approval. It hides weight and BMI tracking, advanced workouts, Deep Core Foundation exercises and romantic prompts. The app switches to Adult mode automatically on your 18th birthday. Your birthday is only stored on this phone.':'Adult mode (18+). Your birthday is only stored on this phone.',style:const TextStyle(fontSize:13,height:1.4))),
+    const SizedBox(height:14),title('Look and extras'),
+    panel(ExtrasPanel(prefs:prefs!,onChanged:()async{await _schedule();if(mounted)setState((){});})),
     const SizedBox(height:14),title('Opening animation'),
     panel(SwitchListTile(contentPadding:EdgeInsets.zero,title:const Text('Show opening animation'),subtitle:const Text('A short intro (about 2 seconds) when the app opens.'),value:prefs!.getBool('splash_off')!=true,onChanged:(v)async{await prefs!.setBool('splash_off',!v);setState((){});})),
     const SizedBox(height:14),title('Tabs'),
@@ -486,7 +495,7 @@ class _ConnectPageState extends State<ConnectPage> {
       const SizedBox(height: 6),
       const Text('Tap categories to add or remove them. Pick one to stay in it, or several to shuffle between them.', style: TextStyle(color: Colors.grey, fontSize: 12)),
       const SizedBox(height: 12),
-      Card(elevation: 0, color: Colors.white, child: Padding(padding: const EdgeInsets.all(20), child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      Card(elevation: 0, color: cardBg(context), child: Padding(padding: const EdgeInsets.all(20), child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         Text(connectCats[curCat].toUpperCase() + (two ? '  •  PLAYER ${player + 1} FIRST' : ''), style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF21877C))),
         const SizedBox(height: 14),
         Text(question, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600)),
@@ -531,6 +540,7 @@ class _RootState extends State<Root> {
       final fresh = !s.containsKey('birth_year');
       final has = fresh ? await Store.cloudBackupExists() : false;
       if (!mounted) return;
+      applyLook(s);
       setState(() { store = s; age = ageGroupFor(s); setupDone = s.getBool('setup_done') == true; restore = has; ready = true; });
     });
   }

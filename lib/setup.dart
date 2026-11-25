@@ -1,3 +1,4 @@
+import 'theme.dart';
 import 'package:flutter/material.dart';
 import 'cloud.dart';
 import 'store.dart';
@@ -11,18 +12,17 @@ class SetupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: const Color(0xFFF8FAF8),
         body: SafeArea(
           child: ListView(padding: const EdgeInsets.all(22), children: [
             const Text('Make it yours', style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Color(0xFF21877C))),
             const SizedBox(height: 8),
             const Text('Choose the tabs you want, put them in your order and pick which opens first. You can change all of this later in Settings.'),
             const SizedBox(height: 14),
-            Card(elevation: 0, color: Colors.white, child: Padding(padding: const EdgeInsets.all(14), child: TabsEditor(prefs: prefs))),
+            Card(elevation: 0, color: cardBg(context), child: Padding(padding: const EdgeInsets.all(14), child: TabsEditor(prefs: prefs))),
             const SizedBox(height: 18),
             const Text('Backup (optional)', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
-            Card(elevation: 0, color: Colors.white, child: Padding(padding: const EdgeInsets.all(14), child: CloudBackupPanel(prefs: prefs))),
+            Card(elevation: 0, color: cardBg(context), child: Padding(padding: const EdgeInsets.all(14), child: CloudBackupPanel(prefs: prefs))),
             const SizedBox(height: 18),
             FilledButton(
               onPressed: () async {

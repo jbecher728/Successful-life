@@ -3,6 +3,7 @@ import 'export.dart';
 import 'letters.dart';
 import 'review.dart';
 import 'store.dart';
+import 'theme.dart';
 
 const _teal = Color(0xFF21877C);
 
@@ -45,7 +46,7 @@ String journalPromptFor(DateTime d) {
   return journalPrompts[doy % journalPrompts.length];
 }
 
-Widget _card(Color c, Widget child) => Card(elevation: 0, color: c, margin: const EdgeInsets.only(top: 10), child: child);
+Widget _card(BuildContext ctx, Color c, Widget child) => Card(elevation: 0, color: tint(ctx, c), margin: const EdgeInsets.only(top: 10), child: child);
 
 /// "I am becoming..." one-liner at the top of Today.
 class IdentityLine extends StatelessWidget {
@@ -98,6 +99,7 @@ class TodayNudges extends StatelessWidget {
     final w = <Widget>[];
     if (extraOn(prefs, 'review') && (now.weekday >= DateTime.friday || now.weekday == DateTime.monday)) {
       w.add(_card(
+        context,
         const Color(0xFFFFF8E6),
         ListTile(
           leading: const Icon(Icons.insights, color: Color(0xFFB7791F)),
@@ -113,6 +115,7 @@ class TodayNudges extends StatelessWidget {
     }
     if (extraOn(prefs, 'letters') && unopenedLetters(prefs) > 0) {
       w.add(_card(
+        context,
         const Color(0xFFF3EAFB),
         ListTile(
           leading: const Icon(Icons.mark_email_unread_outlined, color: Color(0xFF7B4EA3)),
@@ -127,6 +130,7 @@ class TodayNudges extends StatelessWidget {
     }
     if (backupDue(prefs)) {
       w.add(_card(
+        context,
         const Color(0xFFEEF1FB),
         Padding(
           padding: const EdgeInsets.all(14),
