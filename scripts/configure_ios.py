@@ -15,6 +15,7 @@ proj = Path('ios/Runner.xcodeproj/project.pbxproj')
 if proj.exists():
     t = proj.read_text()
     t = t.replace('TARGETED_DEVICE_FAMILY = "1,2";', 'TARGETED_DEVICE_FAMILY = "1";')
+    t = re.sub(r'PRODUCT_BUNDLE_IDENTIFIER = com\.successfullife\.successfulLife(\.RunnerTests)?;', lambda m: 'PRODUCT_BUNDLE_IDENTIFIER = com.shellapp.shell%s;' % (m.group(1) or ''), t)
     proj.write_text(t)
     print('iPhone-only')
 

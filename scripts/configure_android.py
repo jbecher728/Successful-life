@@ -119,3 +119,16 @@ for d in Path('icons/android').glob('mipmap-*'):
 <resources><color name="ic_launcher_background">#21877C</color></resources>
 ''')
 print('Icon installed')
+
+# App ID (what Android and the Play Store use to identify the app). The code's package name stays as generated.
+APP_ID = 'com.shellapp.shell'
+for gname in ('android/app/build.gradle.kts', 'android/app/build.gradle'):
+    g = Path(gname)
+    if g.exists():
+        gt = g.read_text()
+        gt2 = re.sub(r'applicationId\s*=?\s*"[^"]+"', 'applicationId = "%s"' % APP_ID if gname.endswith('.kts') else 'applicationId "%s"' % APP_ID, gt)
+        if gt2 != gt:
+            g.write_text(gt2)
+            print('applicationId set to', APP_ID)
+        else:
+            print('WARNING: applicationId not found in', gname)
