@@ -139,9 +139,9 @@ Future<void> showExportDialog(BuildContext context, Store p) async {
     if (picked['goals'] == true) {
       final goals = loadGoals(p);
       data['goals'] = {'goals': [for (final g in goals) g.toJson()]};
-      final sb = StringBuffer('﻿')..writeln(csvRow(['title', 'importance_1_to_10', 'start_date', 'start_time', 'due_date', 'due_time', 'done', 'done_on', 'days_worked_on', 'notes']));
+      final sb = StringBuffer('﻿')..writeln(csvRow(['title', 'importance_1_to_10', 'start_date', 'start_time', 'due_date', 'due_time', 'done', 'done_on', 'days_worked_on', 'repeats', 'times_done', 'notes']));
       for (final g in goals) {
-        sb.writeln(csvRow([g.title, g.imp, g.start, g.stime, g.due, g.dtime, g.done, g.doneOn, g.worked.length, g.note]));
+        sb.writeln(csvRow([g.title, g.imp, g.start, g.stime, g.due, g.dtime, g.done, g.doneOn, g.worked.length, g.repLabel, g.dones.length, g.note]));
       }
       add('goals.csv', sb.toString());
     }
@@ -173,6 +173,7 @@ Share this file only with people you trust, such as a coach, doctor or therapist
     final bytes = ZipEncoder().encode(archive);
     if (bytes == null) throw Exception('zip failed');
     await saveDownload('shell_export_${dayKey(now)}.zip', bytes, 'application/zip', 'Shell data export');
+    await p.setString('last_export', dayKey(DateTime.now()));
   } catch (e) {
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Export failed: $e')));

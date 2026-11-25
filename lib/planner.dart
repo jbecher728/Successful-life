@@ -37,13 +37,18 @@ class Goal {
   String id, title, note, start, stime, due, dtime, doneOn;
   int imp;
   bool done;
-  List<String> worked;
-  Goal({required this.id, required this.title, this.note = '', required this.start, this.stime = '', this.due = '', this.dtime = '', this.doneOn = '', this.imp = 5, this.done = false, List<String>? worked})
-      : worked = worked ?? [];
+  List<String> worked, dones;
+  String rep; // '' (one time), 'daily', 'weekly', 'days'
+  List<int> rdays; // weekdays 1=Mon..7=Sun for rep == 'days'
+  Goal({required this.id, required this.title, this.note = '', required this.start, this.stime = '', this.due = '', this.dtime = '', this.doneOn = '', this.imp = 5, this.done = false, List<String>? worked, List<String>? dones, this.rep = '', List<int>? rdays})
+      : worked = worked ?? [],
+        dones = dones ?? [],
+        rdays = rdays ?? [];
 
   Map<String, dynamic> toJson() => {
         'id': id, 'title': title, 'note': note, 'importance': imp, 'start': start, 'start_time': stime,
         'due': due, 'due_time': dtime, 'done': done, 'done_on': doneOn, 'worked': worked,
+        'repeat': rep, 'repeat_days': rdays, 'done_dates': dones,
       };
 
   factory Goal.fromJson(Map<String, dynamic> j) => Goal(
@@ -51,9 +56,57 @@ class Goal {
         imp: ((j['importance'] ?? 5) as num).toInt().clamp(1, 10), start: '${j['start'] ?? dayKey(_today())}',
         stime: '${j['start_time'] ?? ''}', due: '${j['due'] ?? ''}', dtime: '${j['due_time'] ?? ''}',
         done: j['done'] == true, doneOn: '${j['done_on'] ?? ''}', worked: List<String>.from((j['worked'] ?? const []) as List),
+        rep: '${j['repeat'] ?? ''}', rdays: List<int>.from(((j['repeat_days'] ?? const []) as List).map((e) => (e as num).toInt())),
+        dones: List<String>.from((j['done_dates'] ?? const []) as List),
       );
 
-  bool get multi => due.isNotEmpty && due != start;
+  bool get multi => rep.isEmpty && due.isNotEmpty && due != start;
+  bool get repeats => rep.isNotEmpty;
+
+  bool scheduledOn(DateTime d) {
+    if (!repeats || _pd(start).isAfter(d)) return false;
+    if (rep == 'daily') return true;
+    if (rep == 'weekly') return d.weekday == _pd(start).weekday;
+    return rdays.contains(d.weekday);
+  }
+
+  bool doneOnDay(DateTime d) => repeats ? dones.contains(dayKey(d)) : (done && doneOn == dayKey(d));
+
+  /// Forgiving streak: one missed scheduled day never breaks it, two in a row do.
+  int streak(DateTime today) {
+    if (!repeats) return 0;
+    var n = 0, miss = 0;
+    for (var i = 0; i < 400; i++) {
+      final d = _addDays(today, -i);
+      if (_pd(start).isAfter(d)) break;
+      if (!scheduledOn(d)) continue;
+      if (dones.contains(dayKey(d))) {
+        n++;
+        miss = 0;
+      } else if (i == 0) {
+        continue;
+      } else if (++miss >= 2) {
+        break;
+      }
+    }
+    return n;
+  }
+
+  String get repLabel {
+    if (rep == 'daily') return 'Every day';
+    if (rep == 'weekly') return 'Every week';
+    if (rep == 'days') return rdays.isEmpty ? 'Repeats' : (List<int>.from(rdays)..sort()).map((d) => _wd[d - 1]).join(' ');
+    return '';
+  }
+}
+
+/// Adds a goal from elsewhere in the app (exercises, Connect, challenges).
+Future<void> addGoal(Store p, {required String title, String note = '', int imp = 5, String rep = '', List<int>? rdays, int? days, DateTime? start}) async {
+  final t = start ?? _today();
+  final g = Goal(id: '${DateTime.now().microsecondsSinceEpoch}${title.hashCode.abs()}', title: title, note: note, imp: imp, start: dayKey(t), rep: rep, rdays: rdays);
+  if (days != null && days > 1) g.due = dayKey(_addDays(t, days - 1));
+  final all = loadGoals(p)..add(g);
+  await saveGoals(p, all);
 }
 
 List<Goal> loadGoals(Store p) {
@@ -67,8 +120,8 @@ List<Goal> loadGoals(Store p) {
 
 Future<void> saveGoals(Store p, List<Goal> g) => p.setString('goals', jsonEncode([for (final x in g) x.toJson()]));
 
-bool _overdue(Goal g, DateTime t) => !g.done && g.due.isNotEmpty && _pd(g.due).isBefore(t);
-bool _activeToday(Goal g, DateTime t) => !g.done && !_pd(g.start).isAfter(t) && (g.due.isEmpty || !_pd(g.due).isBefore(t));
+bool _overdue(Goal g, DateTime t) => !g.repeats && !g.done && g.due.isNotEmpty && _pd(g.due).isBefore(t);
+bool _activeToday(Goal g, DateTime t) => g.repeats ? g.scheduledOn(t) : !g.done && !_pd(g.start).isAfter(t) && (g.due.isEmpty || !_pd(g.due).isBefore(t));
 bool _upcoming(Goal g, DateTime t) => !g.done && _pd(g.start).isAfter(t);
 
 int _cmp(Goal a, Goal b) {
@@ -83,9 +136,11 @@ int _cmp(Goal a, Goal b) {
 (int, int) goalsSummary(Store p) {
   final t = _today();
   final g = loadGoals(p);
-  final open = g.where((x) => _activeToday(x, t) || _overdue(x, t)).length;
-  final done = g.where((x) => x.done && x.doneOn == dayKey(t)).length;
-  return (done, open + done);
+  final open = g.where((x) => !x.repeats && (_activeToday(x, t) || _overdue(x, t))).length;
+  final done = g.where((x) => !x.repeats && x.done && x.doneOn == dayKey(t)).length;
+  final rp = g.where((x) => x.scheduledOn(t)).toList();
+  final rd = rp.where((x) => x.dones.contains(dayKey(t))).length;
+  return (done + rd, open + done + rp.length);
 }
 
 Color _impColor(int i) => Color.lerp(const Color(0xFF21877C), const Color(0xFFD9480F), (i - 1) / 9)!;
@@ -117,6 +172,16 @@ Future<void> schedulePlanner(FlutterLocalNotificationsPlugin n, Store p) async {
     }
 
     for (final g in goals) {
+      if (g.repeats) {
+        final (rh, rm) = hm(g.stime, 9, 0);
+        for (var day = today; !day.isAfter(_addDays(today, 6)); day = _addDays(day, 1)) {
+          if (g.scheduledOn(day) && !g.dones.contains(dayKey(day))) {
+            final k = g.streak(today);
+            add(day, rh, rm, g.title, k >= 2 ? '$k in a row. Keep it going, gently.' : 'Time for this one. A small step counts.');
+          }
+        }
+        continue;
+      }
       final s = _pd(g.start);
       final d = g.due.isEmpty ? null : _pd(g.due);
       final (sh, sm) = hm(g.stime, 9, 0);
@@ -190,8 +255,12 @@ class _PlannerPageState extends State<PlannerPage> {
 
   Future<void> _toggle(Goal g, bool v) async {
     final key = dayKey(_today());
-    g.done = v;
-    g.doneOn = v ? key : '';
+    if (g.repeats) {
+      v ? (g.dones.contains(key) ? null : g.dones.add(key)) : g.dones.remove(key);
+    } else {
+      g.done = v;
+      g.doneOn = v ? key : '';
+    }
     await _save();
     if (!v || !mounted) return;
     final (d, t) = goalsSummary(widget.prefs);
@@ -201,7 +270,8 @@ class _PlannerPageState extends State<PlannerPage> {
     } else if (g.imp >= 8) {
       _say('Big one finished! That mattered, and you did it.');
     } else {
-      _say('${cheers[g.id.hashCode.abs() % cheers.length]} ($d of $t today)');
+      final k = g.streak(_today());
+      _say(g.repeats && k >= 2 ? '$k in a row. That’s a real habit forming.' : '${cheers[g.id.hashCode.abs() % cheers.length]} ($d of $t today)');
     }
   }
 
@@ -269,6 +339,39 @@ class _PlannerPageState extends State<PlannerPage> {
                 if (g.stime.isNotEmpty) ActionChip(label: const Text('Clear time'), onPressed: () => setS(() => g.stime = '')),
               ]),
               const SizedBox(height: 12),
+              const Text('Repeat', style: TextStyle(fontWeight: FontWeight.w600)),
+              Wrap(spacing: 8, children: [
+                ChoiceChip(label: const Text('Just once'), selected: !g.repeats, onSelected: (_) => setS(() => g.rep = '')),
+                ChoiceChip(label: const Text('Every day'), selected: g.rep == 'daily', onSelected: (_) => setS(() {
+                      g.rep = 'daily';
+                      g.due = '';
+                      g.dtime = '';
+                    })),
+                ChoiceChip(label: const Text('Every week'), selected: g.rep == 'weekly', onSelected: (_) => setS(() {
+                      g.rep = 'weekly';
+                      g.due = '';
+                      g.dtime = '';
+                    })),
+                ChoiceChip(label: const Text('Certain days'), selected: g.rep == 'days', onSelected: (_) => setS(() {
+                      g.rep = 'days';
+                      g.due = '';
+                      g.dtime = '';
+                      if (g.rdays.isEmpty) g.rdays = [1, 3, 5];
+                    })),
+              ]),
+              if (g.rep == 'days')
+                Wrap(spacing: 6, children: [
+                  for (var i = 1; i <= 7; i++)
+                    FilterChip(
+                      label: Text(_wd[i - 1]),
+                      selected: g.rdays.contains(i),
+                      onSelected: (v) => setS(() => v ? g.rdays.add(i) : g.rdays.remove(i)),
+                    ),
+                ]),
+              if (g.repeats)
+                const Padding(padding: EdgeInsets.only(top: 4), child: Text('Missing a day is okay. Your streak only resets after two missed days in a row.', style: TextStyle(fontSize: 12, color: Colors.grey))),
+              if (!g.repeats) ...[
+              const SizedBox(height: 12),
               const Text('Done by', style: TextStyle(fontWeight: FontWeight.w600)),
               Wrap(spacing: 8, children: [
                 ChoiceChip(label: const Text('No deadline'), selected: g.due.isEmpty, onSelected: (_) => setDue(null)),
@@ -298,6 +401,7 @@ class _PlannerPageState extends State<PlannerPage> {
               ]),
               const SizedBox(height: 6),
               Text(g.multi ? 'This goal stretches over ${due!.difference(s).inDays + 1} days. You can mark progress on it each day.' : 'Pick a longer deadline for goals that take days or weeks.', style: const TextStyle(fontSize: 12, color: Colors.grey)),
+              ],
               const SizedBox(height: 14),
               Row(children: [
                 if (existing != null) TextButton(onPressed: () => Navigator.pop(ctx, 'delete'), child: const Text('Delete', style: TextStyle(color: Colors.red))),
@@ -324,6 +428,7 @@ class _PlannerPageState extends State<PlannerPage> {
       g.title = titleC.text.trim();
       g.note = noteC.text.trim();
       if (g.due.isNotEmpty && _pd(g.due).isBefore(_pd(g.start))) g.due = g.start;
+      if (g.rep == 'days' && g.rdays.isEmpty) g.rep = 'daily';
       if (existing == null) {
         goals.add(g);
       } else {
@@ -341,6 +446,11 @@ class _PlannerPageState extends State<PlannerPage> {
     final over = _overdue(g, t);
     final s = _pd(g.start);
     final bits = <String>[];
+    if (g.repeats) {
+      bits.add(g.repLabel);
+      final k = g.streak(t);
+      if (k >= 2) bits.add('$k in a row');
+    }
     if (g.multi) {
       final total = _pd(g.due).difference(s).inDays + 1;
       if (!s.isAfter(t)) bits.add('Day ${(t.difference(s).inDays + 1).clamp(1, total)} of $total');
@@ -366,8 +476,8 @@ class _PlannerPageState extends State<PlannerPage> {
       child: Column(children: [
         ListTile(
           onTap: () => _edit(g),
-          leading: Checkbox(value: g.done, onChanged: (v) => _toggle(g, v == true)),
-          title: Text(g.title, style: TextStyle(fontWeight: FontWeight.w600, decoration: g.done ? TextDecoration.lineThrough : null, color: g.done ? Colors.grey : null)),
+          leading: Checkbox(value: g.repeats ? g.dones.contains(dayKey(t)) : g.done, onChanged: (v) => _toggle(g, v == true)),
+          title: Text(g.title, style: TextStyle(fontWeight: FontWeight.w600, decoration: (g.repeats ? g.dones.contains(dayKey(t)) : g.done) ? TextDecoration.lineThrough : null, color: (g.repeats ? g.dones.contains(dayKey(t)) : g.done) ? Colors.grey : null)),
           subtitle: bits.isEmpty && g.note.isEmpty ? null : Text([...bits, if (g.note.isNotEmpty) g.note].join('  •  ')),
           trailing: CircleAvatar(radius: 14, backgroundColor: _impColor(g.imp), child: Text('${g.imp}', style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold))),
         ),
@@ -403,6 +513,7 @@ class _PlannerPageState extends State<PlannerPage> {
     final overdue = goals.where((g) => _overdue(g, t)).toList()..sort(_cmp);
     final today = goals.where((g) => _activeToday(g, t)).toList()..sort(_cmp);
     final upcoming = goals.where((g) => _upcoming(g, t)).toList()..sort((a, b) => a.start != b.start ? a.start.compareTo(b.start) : _cmp(a, b));
+    final other = goals.where((g) => g.repeats && !g.scheduledOn(t) && !_upcoming(g, t)).toList()..sort(_cmp);
     final done = goals.where((g) => g.done).toList()..sort((a, b) => b.doneOn.compareTo(a.doneOn));
     final (fin, total) = goalsSummary(widget.prefs);
     final msg = total == 0
@@ -431,6 +542,7 @@ class _PlannerPageState extends State<PlannerPage> {
       _section('Still on your list', overdue, hint: 'These slipped past their date. No pressure. Finish them, or edit the date.', color: const Color(0xFFD9480F)),
       _section('Today', today),
       _section('Coming up', upcoming),
+      _section('Repeating, not today', other),
       if (done.isNotEmpty)
         Padding(
           padding: const EdgeInsets.only(top: 10),

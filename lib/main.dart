@@ -16,6 +16,8 @@ import 'cloud.dart';
 import 'setup.dart';
 import 'splash.dart';
 import 'planner.dart';
+import 'review.dart';
+import 'today_extras.dart';
 import 'onboarding.dart';
 import 'exercise.dart';
 import 'export.dart';
@@ -93,6 +95,7 @@ class _HomePageState extends State<HomePage> {
     final p=prefs!;
     start=DateTime.tryParse(p.getString('start')??'')??DateTime.now();
     await p.setString('start',dateKey(start));
+    if(p.getString('first_run')==null)await p.setString('first_run',dateKey(DateTime.now()));
     try {entries=Map<String,dynamic>.from(jsonDecode(p.getString('entries')??'{}'));} catch (_) {entries={};}
     reminders=List<bool>.from((jsonDecode(p.getString('reminders')??'[true,true,true]') as List).map((e)=>e==true));
     hours=List<int>.from(jsonDecode(p.getString('hours')??'[8,13,20]'));
@@ -190,6 +193,7 @@ class _HomePageState extends State<HomePage> {
       await notifications.zonedSchedule(200,'Happy birthday! 🎂','Wishing you a great year ahead. A small step today still counts.',b,const NotificationDetails(android:AndroidNotificationDetails('birthday','Birthday greeting',channelDescription:'A yearly birthday greeting',importance:Importance.defaultImportance,priority:Priority.defaultPriority),iOS:DarwinNotificationDetails()),androidScheduleMode:AndroidScheduleMode.inexactAllowWhileIdle,uiLocalNotificationDateInterpretation:UILocalNotificationDateInterpretation.absoluteTime,matchDateTimeComponents:DateTimeComponents.dateAndTime);
     }
     await schedulePlanner(notifications,prefs!);
+    await scheduleExtras(notifications,prefs!);
     await prefs!.setString('reminders',jsonEncode(reminders));
     await prefs!.setString('hours',jsonEncode(hours));
     await prefs!.setString('minutes',jsonEncode(minutes));
@@ -266,7 +270,9 @@ class _HomePageState extends State<HomePage> {
   }
   Widget _today()=>ListView(padding:const EdgeInsets.all(18),children:[
     Text('DAY $day OF 90  •  WEEK ${week+1}',style:const TextStyle(fontWeight:FontWeight.w700,color:Color(0xFF21877C))),
+    IdentityLine(prefs:prefs!,onChanged:()=>setState((){})),
     _goalsCard(),
+    TodayNudges(prefs:prefs!,onChanged:()=>setState((){})),
     const SizedBox(height:10),LinearProgressIndicator(value:day/90,minHeight:8,borderRadius:BorderRadius.circular(8)),
     const SizedBox(height:16),_quoteCard(),const SizedBox(height:12),_nudgeCard(),
     const SizedBox(height:24),title(themes[week]),
@@ -283,6 +289,11 @@ class _HomePageState extends State<HomePage> {
   ]);
   Widget _journal()=>ListView(padding:const EdgeInsets.all(18),children:[
     title('Quick check-in'),
+    if(extraOn(prefs!,'prompt'))Card(elevation:0,color:const Color(0xFFFFF8E6),child:ListTile(
+      title:const Text('TODAY’S PROMPT',style:TextStyle(fontSize:12,fontWeight:FontWeight.bold,color:Color(0xFFB7791F))),
+      subtitle:Text(journalPromptFor(DateTime.now()),style:const TextStyle(fontSize:16,height:1.3,color:Colors.black87)),
+      trailing:TextButton(onPressed:(){if(!journal.text.contains(journalPromptFor(DateTime.now()))){journal.text='${journalPromptFor(DateTime.now())}\n${journal.text}';journal.selection=TextSelection.collapsed(offset:journal.text.length);save();}},child:const Text('Use')),
+    )),
     panel(Column(children:[
       _rating('Mood',mood,(v){setState(()=>mood=v);save();}),
       _rating('Energy',energy,(v){setState(()=>energy=v);save();}),
