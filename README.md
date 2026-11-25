@@ -6,7 +6,7 @@ A private, simple personal-development companion for Android (Flutter), plus an 
 
 ## Download a test build
 
-Install the latest APK from the [Releases page](../../releases). Pick `successful-life-arm64.apk` for almost every phone made since about 2017 (the `arm32` file is only for much older phones). **iPhone:** use the web app at https://jbecher728.github.io/Successful-life/ (open in Safari, tap Share, then Add to Home Screen). A native iOS app is planned for later. Android will ask you to allow installs from your browser or file manager.
+Install the latest APK from the [Releases page](../../releases). Install `successful-life-arm64.apk`, which works on almost every phone made since about 2017 (very old 32-bit phones are not supported). **iPhone:** use the web app at https://jbecher728.github.io/Successful-life/ (open in Safari, tap Share, then Add to Home Screen). A native iOS app is planned for later. Android will ask you to allow installs from your browser or file manager.
 
 ## Principles
 
@@ -45,7 +45,7 @@ The app collects nothing and sends nothing. Exported zips are **not** encrypted,
 
 ## Build
 
-Pushes to `main` run the GitHub Actions workflow (`.github/workflows/android-apk.yml`). The Android job generates the Android scaffolding, applies `scripts/configure_android.py`, analyzes, builds small release APKs (one per CPU type, each well under 25 MB) and the web job builds the installable web app and publishes it to GitHub Pages. The native iOS job (`scripts/configure_ios.py`) is switched off for now to save build minutes.
+Pushes to `main` run the GitHub Actions workflow (`.github/workflows/android-apk.yml`). The Android job generates the Android scaffolding, applies `scripts/configure_android.py`, analyzes, builds small release APKs (arm64 only, well under 25 MB) and the web job builds the installable web app and publishes it to GitHub Pages. The native iOS job (`scripts/configure_ios.py`) is switched off for now to save build minutes.
 
 To build locally you need Flutter and the Android SDK:
 
