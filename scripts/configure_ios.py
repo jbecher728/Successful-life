@@ -6,8 +6,8 @@ import plistlib
 pl = Path('ios/Runner/Info.plist')
 if pl.exists():
     d = plistlib.loads(pl.read_bytes())
-    d['CFBundleDisplayName'] = 'Successful Life'
-    d['NSFaceIDUsageDescription'] = 'Face ID is used to unlock Successful Life if you turn on the app lock. Nothing is stored or sent.'
+    d['CFBundleDisplayName'] = 'Shell'
+    d['NSFaceIDUsageDescription'] = 'Face ID is used to unlock Shell if you turn on the app lock. Nothing is stored or sent.'
     pl.write_bytes(plistlib.dumps(d))
     print('Info.plist updated')
 

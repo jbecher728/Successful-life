@@ -27,7 +27,7 @@ class AboutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return _page(context, 'About', [
       const SizedBox(height: 8),
-      const Text('Successful Life', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: _teal)),
+      const Text('Shell', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: _teal)),
       const SizedBox(height: 4),
       const Text('A private 90-day companion for body, mind and relationships.', style: TextStyle(fontSize: 15)),
       const SizedBox(height: 14),
@@ -37,18 +37,18 @@ class AboutPage extends StatelessWidget {
       _h('What this app is'),
       _p('A daily journal, guided questions, at-home workouts, body tracking and small daily thoughts, all designed to help you grow at your own pace. It works offline and keeps your information on your phone, encrypted.'),
       _h('Not medical advice'),
-      _p('Successful Life offers general wellness and fitness information. It is not medical, mental health or professional advice, and it does not diagnose or treat anything. Talk to a doctor before starting an exercise program, especially if you are pregnant, injured or have a health condition. Stop any exercise that causes pain, dizziness or distress.'),
+      _p('Shell offers general wellness and fitness information. It is not medical, mental health or professional advice, and it does not diagnose or treat anything. Talk to a doctor before starting an exercise program, especially if you are pregnant, injured or have a health condition. Stop any exercise that causes pain, dizziness or distress.'),
       _h('Need support?'),
       _p('This app is not a crisis service. If you are in immediate danger, call your local emergency number. In the United States you can call or text 988 (Suicide & Crisis Lifeline) at any time. Outside the US, findahelpline.com lists services by country. Reaching out to someone you trust, or a licensed professional, is a strong thing to do.'),
       _h('For parents and guardians'),
-      _p('Teens aged 13 to 17 can use Successful Life with a parent or guardian’s knowledge and approval. In Teen mode the app does not track weight or BMI, hides advanced workouts and the Deep Core Foundation exercises, and leaves out romantic prompts. The app has no accounts, no ads and no tracking, and nothing leaves the phone unless your teen chooses to share it. The journal is your teen’s private space, so we suggest talking openly about how they use it. The app is not for children under 13.'),
+      _p('Teens aged 13 to 17 can use Shell with a parent or guardian’s knowledge and approval. In Teen mode the app does not track weight or BMI, hides advanced workouts and the Deep Core Foundation exercises, and leaves out romantic prompts. The app has no accounts, no ads and no tracking, and nothing leaves the phone unless your teen chooses to share it. The journal is your teen’s private space, so we suggest talking openly about how they use it. The app is not for children under 13.'),
       _h('What’s new'),
       _p('Version 0.4: goals planner with importance levels, multi-day goals and gentle reminders, pull-up exercises and an optional opening animation. Version 0.3: choose, reorder and hide tabs, pick your start tab, optional Google backup, optional PIN and fingerprint/face lock, encrypted on-device storage, Teen mode with parent or guardian approval, stick-figure exercise guides, Fitness and Body tabs, daily thoughts, and zip export/import.'),
       _h('Contact and feedback'),
       if (contactEmail.isNotEmpty) SelectableText(contactEmail, style: const TextStyle(fontWeight: FontWeight.w600)),
       _p('Ideas and bug reports are welcome. Please do not include private journal text. The button below opens your phone’s share menu so you choose where to send a note.'),
       OutlinedButton.icon(
-        onPressed: () => Share.share('Successful Life feedback (version $appVersion):\n\n'),
+        onPressed: () => Share.share('Shell feedback (version $appVersion):\n\n'),
         icon: const Icon(Icons.feedback_outlined),
         label: const Text('Send feedback'),
       ),
@@ -58,7 +58,7 @@ class AboutPage extends StatelessWidget {
       OutlinedButton.icon(onPressed: () => _open(context, const TermsPage()), icon: const Icon(Icons.gavel_outlined), label: const Text('Terms of use')),
       const SizedBox(height: 8),
       OutlinedButton.icon(
-        onPressed: () => showLicensePage(context: context, applicationName: 'Successful Life', applicationVersion: appVersion),
+        onPressed: () => showLicensePage(context: context, applicationName: 'Shell', applicationVersion: appVersion),
         icon: const Icon(Icons.description_outlined),
         label: const Text('Open-source licenses'),
       ),
@@ -105,7 +105,7 @@ class TermsPage extends StatelessWidget {
     return _page(context, 'Terms of use', [
       const Text('Last updated: November 2026', style: TextStyle(color: Colors.grey)),
       _h('Using the app'),
-      _p('Successful Life is provided for personal, non-commercial use. By using it you agree to these terms. Adults may use it freely. Teens aged 13 to 17 may use it only with a parent or guardian’s knowledge and approval. It is not for children under 13.'),
+      _p('Shell is provided for personal, non-commercial use. By using it you agree to these terms. Adults may use it freely. Teens aged 13 to 17 may use it only with a parent or guardian’s knowledge and approval. It is not for children under 13.'),
       _h('Not professional advice'),
       _p('The app gives general wellness, fitness and self-reflection content. It is not medical, psychological or other professional advice and is not a substitute for a doctor, therapist or coach. Always consult a qualified professional about your health. If you are in crisis, contact local emergency services.'),
       _h('Exercise at your own risk'),
@@ -115,7 +115,7 @@ class TermsPage extends StatelessWidget {
       _h('No warranty'),
       _p('The app is provided “as is” and “as available”, without warranties of any kind. It is a test version and may contain errors. To the fullest extent allowed by law, the creator is not liable for any loss or harm arising from use of the app.'),
       _h('Content you share'),
-      _p('Quotes and prompts in the app are original to Successful Life. You are welcome to share them with friends and family for personal, positive use.'),
+      _p('Quotes and prompts in the app are original to Shell. You are welcome to share them with friends and family for personal, positive use.'),
       _h('Changes'),
       _p('These terms may be updated. Continued use after an update means you accept the new terms.'),
     ]);

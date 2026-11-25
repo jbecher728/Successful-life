@@ -63,7 +63,7 @@ class AppLock {
   static Future<bool> authBio() async {
     try {
       return await LocalAuthentication().authenticate(
-        localizedReason: 'Unlock Successful Life',
+        localizedReason: 'Unlock Shell',
         options: const AuthenticationOptions(biometricOnly: true, stickyAuth: true),
       );
     } catch (_) {
@@ -268,7 +268,7 @@ class _LockScreenState extends State<LockScreen> {
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               const Icon(Icons.lock_outline, size: 40, color: Color(0xFF21877C)),
               const SizedBox(height: 12),
-              const Text('Successful Life', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              const Text('Shell', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
               const SizedBox(height: 4),
               const Text('Enter your PIN'),
               const SizedBox(height: 18),

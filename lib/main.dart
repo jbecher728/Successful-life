@@ -60,7 +60,7 @@ Future<void> main() async {
 class SuccessfulLife extends StatelessWidget {
   const SuccessfulLife({super.key});
   @override Widget build(BuildContext context) => MaterialApp(
-    title: 'Successful Life', debugShowCheckedModeBanner: false,
+    title: 'Shell', debugShowCheckedModeBanner: false,
     theme: ThemeData(useMaterial3: true, colorSchemeSeed: const Color(0xFF21877C), scaffoldBackgroundColor: const Color(0xFFF8FAF8)),
     home: const Root(),
   );
@@ -180,7 +180,7 @@ class _HomePageState extends State<HomePage> {
       }
       var time=tz.TZDateTime(tz.local,now.year,now.month,now.day,hours[i],minutes[i]);
       if(!time.isAfter(now))time=tz.TZDateTime(tz.local,time.year,time.month,time.day+1,hours[i],minutes[i]);
-      await notifications.zonedSchedule(i,labels[i],i==1?'A small step counts. Open Successful Life.':'Open your private journal.',time,details,androidScheduleMode:AndroidScheduleMode.inexactAllowWhileIdle,uiLocalNotificationDateInterpretation:UILocalNotificationDateInterpretation.absoluteTime,matchDateTimeComponents:DateTimeComponents.time);
+      await notifications.zonedSchedule(i,labels[i],i==1?'A small step counts. Open Shell.':'Open your private journal.',time,details,androidScheduleMode:AndroidScheduleMode.inexactAllowWhileIdle,uiLocalNotificationDateInterpretation:UILocalNotificationDateInterpretation.absoluteTime,matchDateTimeComponents:DateTimeComponents.time);
     }
     final bd=prefs!.getInt('birth_day')??0,bm=prefs!.getInt('birth_month')??0;
     if(bd>0&&bm>0){
@@ -237,7 +237,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar:AppBar(
         leading:inSettings?IconButton(icon:const Icon(Icons.arrow_back),onPressed:()=>setState(()=>inSettings=false)):null,
-        title:Text(inSettings?'Settings':'Successful Life',style:const TextStyle(fontWeight:FontWeight.bold)),
+        title:Text(inSettings?'Settings':'Shell',style:const TextStyle(fontWeight:FontWeight.bold)),
         actions:inSettings?null:[PopupMenuButton<String>(icon:const Icon(Icons.more_vert),iconSize:20,tooltip:'Menu',onSelected:(v){if(v=='settings'){setState(()=>inSettings=true);}else if(v=='about'){Navigator.push(context,MaterialPageRoute<void>(builder:(_)=>const AboutPage()));}else if(v=='privacy'){Navigator.push(context,MaterialPageRoute<void>(builder:(_)=>const PrivacyPage()));}},itemBuilder:(ctx)=>const [PopupMenuItem<String>(value:'settings',child:Text('Settings')),PopupMenuItem<String>(value:'privacy',child:Text('Privacy notice')),PopupMenuItem<String>(value:'about',child:Text('About'))])],
       ),
       body:SafeArea(child:inSettings?_settings():IndexedStack(index:tab,children:[for(final id in tabs.visible)_pageFor(id)])),
@@ -289,7 +289,7 @@ class _HomePageState extends State<HomePage> {
       const SizedBox(height:12),TextField(controller:journal,maxLines:8,minLines:4,decoration:const InputDecoration(labelText:'What happened? What did I learn?',hintText:'Write as little or as much as you want.',border:OutlineInputBorder()),onChanged:(_)=>save()),
       const SizedBox(height:12),Row(children:[
         Expanded(child:FilledButton.icon(onPressed:()async{await save();if(mounted)ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content:Text('Saved on this device')));},icon:const Icon(Icons.save_outlined),label:const Text('Save'))),
-        const SizedBox(width:8),Expanded(child:OutlinedButton.icon(onPressed:()=>Share.share('Successful Life • Day $day\nPriority: ${priority.text}\nMood: $mood/5 • Energy: $energy/5\nJournal:\n${journal.text}\n\nHelp me reflect and suggest one small next action.'),icon:const Icon(Icons.ios_share),label:const Text('Share with AI'))),
+        const SizedBox(width:8),Expanded(child:OutlinedButton.icon(onPressed:()=>Share.share('Shell • Day $day\nPriority: ${priority.text}\nMood: $mood/5 • Energy: $energy/5\nJournal:\n${journal.text}\n\nHelp me reflect and suggest one small next action.'),icon:const Icon(Icons.ios_share),label:const Text('Share with AI'))),
       ])
     ])),
     const SizedBox(height:12),title('Past entries'),

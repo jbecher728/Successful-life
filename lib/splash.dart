@@ -223,6 +223,16 @@ class _EggPainter extends CustomPainter {
 
     canvas.drawPath(egg, line..strokeWidth = 3.5);
     canvas.restore();
+
+    // ---- the app name fades in under the egg
+    final np = _cl((t - 0.80) / 0.12);
+    if (np > 0) {
+      final tpnt = TextPainter(
+        text: TextSpan(text: 'Shell', style: TextStyle(color: _eggFill.withValues(alpha: np), fontSize: ew * 0.32, fontWeight: FontWeight.w800, letterSpacing: 3)),
+        textDirection: TextDirection.ltr,
+      )..layout();
+      tpnt.paint(canvas, Offset(cx - tpnt.width / 2, ground + ew * 0.18 + (1 - np) * 8));
+    }
   }
 
   @override

@@ -69,7 +69,7 @@ class _AgeGateState extends State<AgeGate> {
       body = Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const Text('Parent or guardian approval', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
         const SizedBox(height: 12),
-        const Text('Successful Life is designed to be used by teens with a parent or guardian’s knowledge and approval. Please show them this app and the Privacy notice (in the menu at the top right of the app).'),
+        const Text('Shell is designed to be used by teens with a parent or guardian’s knowledge and approval. Please show them this app and the Privacy notice (in the menu at the top right of the app).'),
         const SizedBox(height: 12),
         const Text('For teens, the app is in Teen mode. It does not track weight or BMI, hides advanced workouts and the Deep Core Foundation exercises, and leaves out romantic prompts. Everything stays on this phone.'),
         const SizedBox(height: 12),
@@ -88,12 +88,12 @@ class _AgeGateState extends State<AgeGate> {
       body = Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const Text('Sorry, you can’t use this app yet', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
         const SizedBox(height: 12),
-        const Text('Successful Life is only for people aged 13 and older, so we can’t let you in right now. This isn’t a punishment, it’s just to keep younger kids safe. The app remembers on this phone (and nowhere else) that you are not old enough yet, and it will open for you after your 13th birthday. Please ask a parent or guardian to help you find something that suits your age.'),
+        const Text('Shell is only for people aged 13 and older, so we can’t let you in right now. This isn’t a punishment, it’s just to keep younger kids safe. The app remembers on this phone (and nowhere else) that you are not old enough yet, and it will open for you after your 13th birthday. Please ask a parent or guardian to help you find something that suits your age.'),
       ]);
     } else {
       final now = DateTime.now();
       body = Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text('Welcome to Successful Life', style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Color(0xFF21877C))),
+        const Text('Welcome to Shell', style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Color(0xFF21877C))),
         const SizedBox(height: 12),
         const Text('To keep things safe and age-appropriate, please enter your birth month and year. It is checked on this phone only and never sent anywhere. No name, email or account is needed.'),
         const SizedBox(height: 16),

@@ -10,6 +10,7 @@ for name in ['android.permission.POST_NOTIFICATIONS','android.permission.RECEIVE
     if not any(x.get(ns+'name')==name for x in root.findall('uses-permission')):
         ET.SubElement(root,'uses-permission',{ns+'name':name})
 app=root.find('application')
+app.set(ns+'label','Shell')
 app.set(ns+'allowBackup','true')
 app.set(ns+'fullBackupContent','@xml/backup_rules')
 app.set(ns+'dataExtractionRules','@xml/data_extraction_rules')
@@ -97,3 +98,24 @@ if g.exists():
         print('Release shrinking enabled')
     else:
         print('WARNING: release shrinking marker not found')
+
+# App icon: legacy PNGs plus an adaptive icon (teal background + egg-and-fist foreground).
+import shutil
+res = Path('android/app/src/main/res')
+for d in Path('icons/android').glob('mipmap-*'):
+    dst = res / d.name
+    dst.mkdir(parents=True, exist_ok=True)
+    for f in d.glob('*.png'):
+        shutil.copy(f, dst / f.name)
+(res / 'mipmap-anydpi-v26').mkdir(parents=True, exist_ok=True)
+(res / 'mipmap-anydpi-v26' / 'ic_launcher.xml').write_text('''<?xml version="1.0" encoding="utf-8"?>
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/ic_launcher_background"/>
+    <foreground android:drawable="@mipmap/ic_launcher_foreground"/>
+</adaptive-icon>
+''')
+(res / 'values').mkdir(parents=True, exist_ok=True)
+(res / 'values' / 'ic_launcher_background.xml').write_text('''<?xml version="1.0" encoding="utf-8"?>
+<resources><color name="ic_launcher_background">#21877C</color></resources>
+''')
+print('Icon installed')

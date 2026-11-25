@@ -157,12 +157,12 @@ Future<void> showExportDialog(BuildContext context, Store p) async {
       'exported_on': dayKey(now),
       'sections': data,
     }));
-    add('README.txt', '''Successful Life data export (${dayKey(now)})
+    add('README.txt', '''Shell data export (${dayKey(now)})
 
 This zip contains only what you chose to include. The app never collects your name, address, city, ZIP code, phone number or email, and this file contains none of those unless you typed them into your own journal.
 
 Files:
-- data.json: everything in one file. Use it to restore into Successful Life on a new phone (Settings > Import).
+- data.json: everything in one file. Use it to restore into Shell on a new phone (Settings > Import).
 - journal.csv, body_measurements.csv, workout_log.csv, connect_reflections.csv, goals.csv: spreadsheet-friendly (open in Excel, Google Sheets, Numbers).
 - profile.json: your Male/Female setting, units and height, if included.
 
@@ -172,7 +172,7 @@ Share this file only with people you trust, such as a coach, doctor or therapist
 ''');
     final bytes = ZipEncoder().encode(archive);
     if (bytes == null) throw Exception('zip failed');
-    await saveDownload('successful_life_export_${dayKey(now)}.zip', bytes, 'application/zip', 'Successful Life data export');
+    await saveDownload('shell_export_${dayKey(now)}.zip', bytes, 'application/zip', 'Shell data export');
   } catch (e) {
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Export failed: $e')));
@@ -190,7 +190,7 @@ Future<void> importFromZip(BuildContext context, Store p) async {
     final f = archive.findFile('data.json');
     if (f == null) throw Exception('data.json not found. Use a zip made by this app.');
     final root = jsonDecode(utf8.decode(f.content as List<int>)) as Map;
-    if (root['format'] != 'successful_life_export') throw Exception('not a Successful Life export');
+    if (root['format'] != 'successful_life_export') throw Exception('not a Shell export');
     final sec = Map<String, dynamic>.from(root['sections'] as Map);
     if (!context.mounted) return;
     final ok = await showDialog<bool>(

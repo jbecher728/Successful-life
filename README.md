@@ -1,4 +1,6 @@
-# Successful Life
+# Shell
+
+*(Formerly “Successful Life”. The repository and web address keep the old name for now.)*
 
 A private, simple personal-development companion for Android (Flutter), plus an installable web app for iPhone: daily focus, journaling, genuine-connection prompts, at-home fitness and body tracking. Everything stays on your phone.
 
