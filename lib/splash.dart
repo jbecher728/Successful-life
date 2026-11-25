@@ -125,16 +125,17 @@ class _EggPainter extends CustomPainter {
     canvas.drawPath(egg, Paint()..color = _eggFill);
     canvas.drawOval(Rect.fromCenter(center: Offset(-ew * 0.18, -eh * 0.24), width: ew * 0.16, height: eh * 0.22), Paint()..color = Colors.white.withValues(alpha: 0.45));
 
-    final hc = Offset(0, -eh * 0.12); // where the fist breaks out
+    final hc = Offset(ew * 0.13, -eh * 0.27); // top right: where the fist breaks out
+    final shift = hc - Offset(0, -eh * 0.12);
     final tp = _cl((t - 0.76) / 0.24);
 
     // ---- cracks
     final cp = _cl((t - 0.64) / 0.12);
     if (cp > 0) {
       for (final pts in [
-        [hc, Offset(-ew * .10, -eh * .02), Offset(-ew * .04, eh * .08), Offset(-ew * .20, eh * .20)],
-        [hc, Offset(ew * .12, -eh * .20), Offset(ew * .06, -eh * .30), Offset(ew * .20, -eh * .36)],
-        [hc, Offset(ew * .16, eh * .01), Offset(ew * .26, eh * .10)],
+        [hc, Offset(-ew * .10, -eh * .02) + shift, Offset(-ew * .04, eh * .08) + shift, Offset(-ew * .20, eh * .20) + shift],
+        [hc, Offset(-ew * .02, -eh * .21) + shift, Offset(-ew * .10, -eh * .27) + shift],
+        [hc, Offset(ew * .10, eh * .02) + shift, Offset(ew * .16, eh * .12) + shift],
       ]) {
         final path = Path()..moveTo(pts[0].dx, pts[0].dy);
         for (final p in pts.skip(1)) {
@@ -149,7 +150,7 @@ class _EggPainter extends CustomPainter {
     // ---- hole, arm, fist
     if (tp > 0) {
       final hp = _cl(tp / 0.3);
-      final r = ew * 0.33 * hp;
+      final r = ew * 0.28 * hp;
       final hole = Path();
       const n = 9;
       for (var i = 0; i < n * 2; i++) {
@@ -170,16 +171,20 @@ class _EggPainter extends CustomPainter {
       if (fp > 0) {
         final fw = ew * 0.50, fh = fw * 0.95;
         final sc = 0.15 + 0.9 * _easeOutBack(fp);
-        final up = -ew * 0.24 * (1 - math.pow(1 - fp, 2).toDouble());
-        final fc = Offset(hc.dx, hc.dy + up);
+        final ease = 1 - math.pow(1 - fp, 2).toDouble();
+        final fc = Offset(hc.dx + ew * 0.09 * ease, hc.dy - ew * 0.20 * ease);
+        final tilt = 0.30 * ease; // leans out toward the upper right
         // forearm, visible only inside the hole
         canvas.save();
         canvas.clipPath(hole);
-        canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(fc.dx, fc.dy + fh * sc * 0.9), width: fw * 0.62 * sc, height: fh * 1.2 * sc), const Radius.circular(8)), Paint()..color = _skin);
+        canvas.translate(fc.dx, fc.dy);
+        canvas.rotate(tilt);
+        canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: Offset(0, fh * sc * 0.9), width: fw * 0.62 * sc, height: fh * 1.2 * sc), const Radius.circular(8)), Paint()..color = _skin);
         canvas.restore();
         // fist
         canvas.save();
         canvas.translate(fc.dx, fc.dy);
+        canvas.rotate(tilt);
         canvas.scale(sc, sc);
         final body = RRect.fromRectAndRadius(Rect.fromCenter(center: Offset.zero, width: fw, height: fh), Radius.circular(fw * 0.22));
         canvas.drawRRect(body, Paint()..color = _skin);
