@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'export.dart';
+import 'letters.dart';
 import 'review.dart';
 import 'store.dart';
 
@@ -105,6 +106,20 @@ class TodayNudges extends StatelessWidget {
           trailing: const Icon(Icons.chevron_right),
           onTap: () async {
             await Navigator.push(context, MaterialPageRoute(builder: (_) => WeeklyReviewPage(prefs: prefs)));
+            onChanged();
+          },
+        ),
+      ));
+    }
+    if (extraOn(prefs, 'letters') && unopenedLetters(prefs) > 0) {
+      w.add(_card(
+        const Color(0xFFF3EAFB),
+        ListTile(
+          leading: const Icon(Icons.mark_email_unread_outlined, color: Color(0xFF7B4EA3)),
+          title: const Text('A letter from past you has arrived', style: TextStyle(fontWeight: FontWeight.w700)),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () async {
+            await Navigator.push(context, MaterialPageRoute(builder: (_) => LettersPage(prefs: prefs, onChanged: () async {})));
             onChanged();
           },
         ),

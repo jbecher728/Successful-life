@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
+import 'challenges.dart';
 import 'common.dart';
 import 'store.dart';
 
@@ -286,6 +288,27 @@ class _PlannerPageState extends State<PlannerPage> {
     await _save();
   }
 
+  Future<void> _focus(Goal g) async {
+    final mins = await showModalBottomSheet<int>(
+      context: context,
+      showDragHandle: true,
+      builder: (ctx) => SafeArea(
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          Padding(padding: const EdgeInsets.fromLTRB(20, 0, 20, 8), child: Text('Focus on: ${g.title}', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
+          for (final m in [15, 25, 45]) ListTile(leading: const Icon(Icons.timer_outlined), title: Text('$m minutes'), onTap: () => Navigator.pop(ctx, m)),
+        ]),
+      ),
+    );
+    if (mins == null || !mounted) return;
+    final finished = await showDialog<bool>(context: context, barrierDismissible: false, builder: (_) => _FocusDialog(title: g.title, minutes: mins));
+    if (finished == true) {
+      final key = dayKey(_today());
+      if (!g.worked.contains(key)) g.worked.add(key);
+      await _save();
+      _say('Focus session done. That counts as working on it today.');
+    }
+  }
+
   Future<void> _edit(Goal? existing) async {
     final t = _today();
     final g = existing == null
@@ -479,7 +502,10 @@ class _PlannerPageState extends State<PlannerPage> {
           leading: Checkbox(value: g.repeats ? g.dones.contains(dayKey(t)) : g.done, onChanged: (v) => _toggle(g, v == true)),
           title: Text(g.title, style: TextStyle(fontWeight: FontWeight.w600, decoration: (g.repeats ? g.dones.contains(dayKey(t)) : g.done) ? TextDecoration.lineThrough : null, color: (g.repeats ? g.dones.contains(dayKey(t)) : g.done) ? Colors.grey : null)),
           subtitle: bits.isEmpty && g.note.isEmpty ? null : Text([...bits, if (g.note.isNotEmpty) g.note].join('  •  ')),
-          trailing: CircleAvatar(radius: 14, backgroundColor: _impColor(g.imp), child: Text('${g.imp}', style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold))),
+          trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+            if (!g.done && _activeToday(g, t)) IconButton(tooltip: 'Focus timer', icon: const Icon(Icons.timer_outlined), onPressed: () => _focus(g)),
+            CircleAvatar(radius: 14, backgroundColor: _impColor(g.imp), child: Text('${g.imp}', style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold))),
+          ]),
         ),
         if (activeMulti)
           Padding(
@@ -539,6 +565,14 @@ class _PlannerPageState extends State<PlannerPage> {
       ),
       const SizedBox(height: 12),
       FilledButton.icon(onPressed: () => _edit(null), icon: const Icon(Icons.add), label: const Text('Add a goal')),
+      TextButton.icon(
+        onPressed: () async {
+          await Navigator.push(context, MaterialPageRoute(builder: (_) => ChallengesPage(prefs: widget.prefs, onChanged: widget.onChanged)));
+          if (mounted) setState(() => goals = loadGoals(widget.prefs));
+        },
+        icon: const Icon(Icons.flag_outlined),
+        label: const Text('Try a 7-day challenge'),
+      ),
       _section('Still on your list', overdue, hint: 'These slipped past their date. No pressure. Finish them, or edit the date.', color: const Color(0xFFD9480F)),
       _section('Today', today),
       _section('Coming up', upcoming),
@@ -554,5 +588,53 @@ class _PlannerPageState extends State<PlannerPage> {
         ),
       if (goals.isEmpty) const Padding(padding: EdgeInsets.only(top: 24), child: Text('Nothing here yet. Goals can be for today, or stretch over days or weeks. Higher importance gets a few extra gentle reminders.', style: TextStyle(color: Colors.grey, height: 1.4))),
     ]);
+  }
+}
+
+class _FocusDialog extends StatefulWidget {
+  final String title;
+  final int minutes;
+  const _FocusDialog({required this.title, required this.minutes});
+  @override
+  State<_FocusDialog> createState() => _FocusDialogState();
+}
+
+class _FocusDialogState extends State<_FocusDialog> {
+  late int left = widget.minutes * 60;
+  Timer? _t;
+
+  @override
+  void initState() {
+    super.initState();
+    _t = Timer.periodic(const Duration(seconds: 1), (t) {
+      if (!mounted) return;
+      setState(() => left--);
+      if (left <= 0) {
+        t.cancel();
+        Navigator.pop(context, true);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _t?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(widget.title, maxLines: 2, overflow: TextOverflow.ellipsis),
+      content: Column(mainAxisSize: MainAxisSize.min, children: [
+        Text('${left ~/ 60}:${(left % 60).toString().padLeft(2, '0')}', style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold)),
+        const SizedBox(height: 8),
+        const Text('One thing. Keep this screen open and give it your attention.', textAlign: TextAlign.center, style: TextStyle(color: Colors.grey)),
+      ]),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Stop')),
+        TextButton(onPressed: () => Navigator.pop(context, widget.minutes * 60 - left >= 300), child: const Text('Finish early')),
+      ],
+    );
   }
 }

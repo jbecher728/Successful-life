@@ -1,3 +1,6 @@
+import 'calm.dart';
+import 'goal_actions.dart';
+import 'review.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
@@ -54,14 +57,16 @@ class FitnessPage extends StatelessWidget {
   const FitnessPage({super.key, required this.prefs, required this.sex, required this.teen, required this.onSex});
   @override
   Widget build(BuildContext context) {
+    final calm = extraOn(prefs, 'calm');
     return DefaultTabController(
-      length: 2,
+      length: calm ? 3 : 2,
       child: Column(children: [
-        const TabBar(tabs: [Tab(text: 'Workouts'), Tab(text: 'Body')]),
+        TabBar(tabs: [const Tab(text: 'Workouts'), const Tab(text: 'Body'), if (calm) const Tab(text: 'Calm')]),
         Expanded(
           child: TabBarView(children: [
             ExercisePage(prefs: prefs, sex: sex, teen: teen, onSex: onSex),
             BodyPage(prefs: prefs, sex: sex, teen: teen, onSex: onSex),
+            if (calm) CalmPage(prefs: prefs),
           ]),
         ),
       ]),
@@ -216,6 +221,15 @@ class _ExercisePageState extends State<ExercisePage> {
               const SizedBox(height: 8),
               Text('Tip: ${e.tip}', style: const TextStyle(fontStyle: FontStyle.italic)),
             ],
+            const SizedBox(height: 8),
+            OutlinedButton.icon(
+              onPressed: () {
+                Navigator.pop(ctx);
+                addToGoalsSheet(context, widget.prefs, e.name, note: e.dose);
+              },
+              icon: const Icon(Icons.flag_outlined),
+              label: const Text('Add to my goals'),
+            ),
             if (e.seconds > 0) ...[
               const SizedBox(height: 14),
               FilledButton.icon(

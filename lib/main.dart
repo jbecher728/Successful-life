@@ -17,6 +17,9 @@ import 'setup.dart';
 import 'splash.dart';
 import 'planner.dart';
 import 'review.dart';
+import 'rough.dart';
+import 'letters.dart';
+import 'goal_actions.dart';
 import 'today_extras.dart';
 import 'onboarding.dart';
 import 'exercise.dart';
@@ -194,6 +197,7 @@ class _HomePageState extends State<HomePage> {
     }
     await schedulePlanner(notifications,prefs!);
     await scheduleExtras(notifications,prefs!);
+    await scheduleLetters(notifications,prefs!);
     await prefs!.setString('reminders',jsonEncode(reminders));
     await prefs!.setString('hours',jsonEncode(hours));
     await prefs!.setString('minutes',jsonEncode(minutes));
@@ -286,9 +290,11 @@ class _HomePageState extends State<HomePage> {
       TextField(controller:priority,maxLines:2,decoration:const InputDecoration(hintText:'One thing that matters today...',border:InputBorder.none),onChanged:(_)=>save()),
     ])),
     if(tabs.visible.contains('journal'))TextButton.icon(onPressed:()=>setState(()=>tab=tabs.visible.indexOf('journal')),icon:const Icon(Icons.edit_note),label:const Text('Evening reflection')),
+    if(extraOn(prefs!,'rough'))TextButton.icon(onPressed:()async{await Navigator.push(context,MaterialPageRoute(builder:(_)=>RoughDayPage(prefs:prefs!,onChanged:()async{await schedulePlanner(notifications,prefs!);if(mounted)setState((){});})));},icon:const Icon(Icons.favorite_border),label:const Text('Having a rough day?')),
   ]);
   Widget _journal()=>ListView(padding:const EdgeInsets.all(18),children:[
     title('Quick check-in'),
+    if(extraOn(prefs!,'letters'))Align(alignment:Alignment.centerLeft,child:TextButton.icon(onPressed:()async{await Navigator.push(context,MaterialPageRoute(builder:(_)=>LettersPage(prefs:prefs!,onChanged:()async{await scheduleLetters(notifications,prefs!);await _askPermission();})));if(mounted)setState((){});},icon:const Icon(Icons.mail_outline),label:Text(unopenedLetters(prefs!)>0?'Letters to future me (1 arrived!)':'Letters to future me'))),
     if(extraOn(prefs!,'prompt'))Card(elevation:0,color:const Color(0xFFFFF8E6),child:ListTile(
       title:const Text('TODAY’S PROMPT',style:TextStyle(fontSize:12,fontWeight:FontWeight.bold,color:Color(0xFFB7791F))),
       subtitle:Text(journalPromptFor(DateTime.now()),style:const TextStyle(fontSize:16,height:1.3,color:Colors.black87)),
@@ -494,6 +500,7 @@ class _ConnectPageState extends State<ConnectPage> {
           Expanded(child: FilledButton(onPressed: () => _next(switchPlayer: true), child: Text(two ? 'Done, next' : 'Next'))),
         ]),
         TextButton.icon(onPressed: () => Share.share(question), icon: const Icon(Icons.ios_share), label: const Text('Share this question')),
+        TextButton.icon(onPressed: () => addToGoalsSheet(context, widget.prefs, 'Talk about: $question'), icon: const Icon(Icons.flag_outlined), label: const Text('Add to my goals')),
       ]))),
       if (!two) ...[
         const SizedBox(height: 12),
