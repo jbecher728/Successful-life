@@ -20,6 +20,7 @@ Install the latest APK from the [Releases page](../../releases). Pick `successfu
 | Area | What it does |
 |---|---|
 | **Today** | Daily goal, 90-day timeline with weekly themes, progress view, daily shareable thought |
+| **Goals** (inside Today) | Planner and to-do list: importance 1-10, start and done-by dates and times, goals that stretch over days or weeks, check boxes, encouraging reminders |
 | **Journal** | Private journal with mood and energy ratings and history |
 | **Connect** | Solo and two-person question cards: Ice Breakers, Confessions, Getting Deep, Challenge (2,500 prompts). Play one category or shuffle several |
 | **Fitness** | 125+ at-home exercises, including a pull-up progression, in 7 categories, tailored to Male/Female, with a daily workout builder, timers and looping stick-figure form guides |

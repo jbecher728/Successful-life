@@ -15,6 +15,7 @@ import 'tabs.dart';
 import 'cloud.dart';
 import 'setup.dart';
 import 'splash.dart';
+import 'planner.dart';
 import 'onboarding.dart';
 import 'exercise.dart';
 import 'export.dart';
@@ -188,6 +189,7 @@ class _HomePageState extends State<HomePage> {
       if(!b.isAfter(now))b=tz.TZDateTime(tz.local,now.year+1,bm,dd,hours[0],minutes[0]);
       await notifications.zonedSchedule(200,'Happy birthday! 🎂','Wishing you a great year ahead. A small step today still counts.',b,const NotificationDetails(android:AndroidNotificationDetails('birthday','Birthday greeting',channelDescription:'A yearly birthday greeting',importance:Importance.defaultImportance,priority:Priority.defaultPriority),iOS:DarwinNotificationDetails()),androidScheduleMode:AndroidScheduleMode.inexactAllowWhileIdle,uiLocalNotificationDateInterpretation:UILocalNotificationDateInterpretation.absoluteTime,matchDateTimeComponents:DateTimeComponents.dateAndTime);
     }
+    await schedulePlanner(notifications,prefs!);
     await prefs!.setString('reminders',jsonEncode(reminders));
     await prefs!.setString('hours',jsonEncode(hours));
     await prefs!.setString('minutes',jsonEncode(minutes));
@@ -244,16 +246,27 @@ class _HomePageState extends State<HomePage> {
       ]),
     );
   }
-  Widget _todayHome()=>DefaultTabController(length:2,child:Column(children:[
-    const TabBar(tabs:[Tab(text:'Today'),Tab(text:'Progress')]),
-    Expanded(child:TabBarView(children:[_today(),_progress()])),
+  Widget _todayHome()=>DefaultTabController(length:3,child:Column(children:[
+    const TabBar(tabs:[Tab(text:'Today'),Tab(text:'Goals'),Tab(text:'Progress')]),
+    Expanded(child:TabBarView(children:[_today(),PlannerPage(prefs:prefs!,onChanged:()async{if(mounted)setState((){});await _askPermission();await schedulePlanner(notifications,prefs!);}),_progress()])),
   ]));
   Future<void> _setSex(String s) async {
     setState(()=>sex=s);
     await prefs!.setString('sex',s);
   }
+  Widget _goalsCard(){
+    final (d,t)=goalsSummary(prefs!);
+    return Builder(builder:(c)=>Card(elevation:0,color:const Color(0xFFE8F4F2),margin:const EdgeInsets.only(top:10),child:ListTile(
+      onTap:()=>DefaultTabController.of(c).animateTo(1),
+      leading:const Icon(Icons.checklist,color:Color(0xFF21877C)),
+      title:Text(t==0?'Add a goal for today':'Goals today: $d of $t done',style:const TextStyle(fontWeight:FontWeight.w700)),
+      subtitle:Text(t==0?'Tap to plan something you want to get done.':(d==t?'All done. Well done!':'Tap to see your list and check things off.')),
+      trailing:const Icon(Icons.chevron_right),
+    )));
+  }
   Widget _today()=>ListView(padding:const EdgeInsets.all(18),children:[
     Text('DAY $day OF 90  •  WEEK ${week+1}',style:const TextStyle(fontWeight:FontWeight.w700,color:Color(0xFF21877C))),
+    _goalsCard(),
     const SizedBox(height:10),LinearProgressIndicator(value:day/90,minHeight:8,borderRadius:BorderRadius.circular(8)),
     const SizedBox(height:16),_quoteCard(),const SizedBox(height:12),_nudgeCard(),
     const SizedBox(height:24),title(themes[week]),

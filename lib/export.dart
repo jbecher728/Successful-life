@@ -7,12 +7,14 @@ import 'store.dart';
 import 'body.dart';
 import 'common.dart';
 import 'exercise.dart';
+import 'planner.dart';
 
 const _sections = <List<String>>[
   ['journal', 'Journal and daily check-ins'],
   ['body', 'Weight and body measurements'],
   ['exercise', 'Workout log'],
   ['connect', 'Connect reflections'],
+  ['goals', 'Goals and planner'],
   ['profile', 'Profile settings (Male/Female, units, height)'],
 ];
 
@@ -134,6 +136,15 @@ Future<void> showExportDialog(BuildContext context, Store p) async {
       }
       add('connect_reflections.csv', sb.toString());
     }
+    if (picked['goals'] == true) {
+      final goals = loadGoals(p);
+      data['goals'] = {'goals': [for (final g in goals) g.toJson()]};
+      final sb = StringBuffer('﻿')..writeln(csvRow(['title', 'importance_1_to_10', 'start_date', 'start_time', 'due_date', 'due_time', 'done', 'done_on', 'days_worked_on', 'notes']));
+      for (final g in goals) {
+        sb.writeln(csvRow([g.title, g.imp, g.start, g.stime, g.due, g.dtime, g.done, g.doneOn, g.worked.length, g.note]));
+      }
+      add('goals.csv', sb.toString());
+    }
     if (picked['profile'] == true) {
       final prof = {'sex': p.getString('sex'), 'units': p.getString('units'), 'height_cm': p.getDouble('height_cm')};
       data['profile'] = prof;
@@ -152,7 +163,7 @@ This zip contains only what you chose to include. The app never collects your na
 
 Files:
 - data.json: everything in one file. Use it to restore into Successful Life on a new phone (Settings > Import).
-- journal.csv, body_measurements.csv, workout_log.csv, connect_reflections.csv: spreadsheet-friendly (open in Excel, Google Sheets, Numbers).
+- journal.csv, body_measurements.csv, workout_log.csv, connect_reflections.csv, goals.csv: spreadsheet-friendly (open in Excel, Google Sheets, Numbers).
 - profile.json: your Male/Female setting, units and height, if included.
 
 Units: weights are in kilograms and measurements in centimeters. Dates are YYYY-MM-DD.
@@ -213,6 +224,9 @@ Future<void> importFromZip(BuildContext context, Store p) async {
     if (sec['connect'] is Map) {
       final notes = ((sec['connect'] as Map)['notes'] ?? []) as List;
       await p.setStringList('connect_notes', notes.map((n) => jsonEncode(n)).toList());
+    }
+    if (sec['goals'] is Map) {
+      await p.setString('goals', jsonEncode((sec['goals'] as Map)['goals'] ?? []));
     }
     if (sec['profile'] is Map) {
       final pr = Map<String, dynamic>.from(sec['profile'] as Map);
