@@ -14,6 +14,7 @@ import 'lock.dart';
 import 'tabs.dart';
 import 'cloud.dart';
 import 'setup.dart';
+import 'splash.dart';
 import 'onboarding.dart';
 import 'exercise.dart';
 import 'export.dart';
@@ -309,6 +310,8 @@ class _HomePageState extends State<HomePage> {
     ])),
     const SizedBox(height:14),title('Age group'),
     panel(Text(teen?'Teen mode (ages 13–17), used with a parent or guardian’s approval. It hides weight and BMI tracking, advanced workouts, Deep Core Foundation exercises and romantic prompts. The app switches to Adult mode automatically on your 18th birthday. Your birthday is only stored on this phone.':'Adult mode (18+). Your birthday is only stored on this phone.',style:const TextStyle(fontSize:13,height:1.4))),
+    const SizedBox(height:14),title('Opening animation'),
+    panel(SwitchListTile(contentPadding:EdgeInsets.zero,title:const Text('Show opening animation'),subtitle:const Text('A short intro (about 2 seconds) when the app opens.'),value:prefs!.getBool('splash_off')!=true,onChanged:(v)async{await prefs!.setBool('splash_off',!v);setState((){});})),
     const SizedBox(height:14),title('Tabs'),
     panel(TabsEditor(prefs:prefs!,onChanged:()=>setState(()=>_loadTabs()))),
     const SizedBox(height:14),title('Backup'),
@@ -488,6 +491,7 @@ class _RootState extends State<Root> {
   String? age;
   bool ready = false;
   bool restore = false;
+  bool splashDone = false;
   bool setupDone = false;
   @override void initState() {
     super.initState();
@@ -500,7 +504,17 @@ class _RootState extends State<Root> {
     });
   }
   @override Widget build(BuildContext context) {
-    if (!ready) return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    if (!ready) return const ColoredBox(color: Color(0xFF21877C));
+    final show = !splashDone && store!.getBool('splash_off') != true && !MediaQuery.of(context).disableAnimations;
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      child: show
+          ? SplashScreen(key: const ValueKey('splash'), onDone: () => setState(() => splashDone = true))
+          : KeyedSubtree(key: const ValueKey('app'), child: _content(context)),
+    );
+  }
+
+  Widget _content(BuildContext context) {
     if (restore) return RestoreScreen(prefs: store!, onDone: () => setState(() { restore = false; age = ageGroupFor(store!); setupDone = store!.getBool('setup_done') == true; }));
     if (age == 'child') return AgeGate(prefs: store!, blocked: true, onDone: (g) => setState(() => age = g));
     if (age == null) return AgeGate(prefs: store!, onDone: (g) => setState(() => age = g));
