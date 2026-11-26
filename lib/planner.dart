@@ -6,6 +6,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'challenges.dart';
 import 'common.dart';
+import 'review.dart';
 import 'theme.dart';
 import 'store.dart';
 
@@ -301,7 +302,18 @@ class _PlannerPageState extends State<PlannerPage> {
       ),
     );
     if (mins == null || !mounted) return;
+    try {
+      if (!kIsWeb && notifier != null) {
+        await notifier!.zonedSchedule(4000, 'Focus time is up', 'Nice. ${g.title} got your full attention.', tz.TZDateTime.now(tz.local).add(Duration(minutes: mins)),
+            const NotificationDetails(android: AndroidNotificationDetails('focus', 'Focus sessions', channelDescription: 'Tells you when a focus session ends', importance: Importance.high, priority: Priority.high), iOS: DarwinNotificationDetails()),
+            androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+            uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
+      }
+    } catch (_) {}
     final finished = await showDialog<bool>(context: context, barrierDismissible: false, builder: (_) => _FocusDialog(title: g.title, minutes: mins));
+    try {
+      if (!kIsWeb) await notifier?.cancel(4000);
+    } catch (_) {}
     if (finished == true) {
       final key = dayKey(_today());
       if (!g.worked.contains(key)) g.worked.add(key);

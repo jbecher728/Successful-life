@@ -61,6 +61,7 @@ Future<void> main() async {
   try { tz.setLocalLocation(tz.getLocation(await FlutterTimezone.getLocalTimezone())); } catch (_) {}
   await notifications.initialize(const InitializationSettings(android: AndroidInitializationSettings('@mipmap/ic_launcher'), iOS: DarwinInitializationSettings()));
   }
+  notifier = notifications;
   runApp(const SuccessfulLife());
 }
 

@@ -52,8 +52,7 @@ class _RoughDayPageState extends State<RoughDayPage> {
         g.start = dayKey(tomorrow);
         if (g.due.isNotEmpty) g.due = dayKey(tomorrow);
       } else {
-        // keep long goals as they are; just skip pressure today
-        continue;
+        g.due = dayKey(DateTime.parse(g.due).add(const Duration(days: 1)));
       }
     }
     await saveGoals(widget.prefs, goals);

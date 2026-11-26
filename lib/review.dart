@@ -11,6 +11,9 @@ import 'common.dart';
 import 'planner.dart';
 import 'store.dart';
 
+/// Set once at startup so screens can schedule notifications.
+FlutterLocalNotificationsPlugin? notifier;
+
 /// Optional extras, all on by default but switchable in Settings > Extras.
 bool extraOn(Store p, String key, {bool def = true}) => p.getBool('x_$key') ?? def;
 
