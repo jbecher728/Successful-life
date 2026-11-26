@@ -52,15 +52,18 @@ class _ExtrasPanelState extends State<ExtrasPanel> {
         },
       ),
       const SizedBox(height: 10),
-      SegmentedButton<double>(
-        segments: const [ButtonSegment(value: 1.0, label: Text('Normal')), ButtonSegment(value: 1.2, label: Text('Large')), ButtonSegment(value: 1.4, label: Text('Larger'))],
-        selected: {[1.0, 1.2, 1.4].reduce((a, b) => (a - scale).abs() < (b - scale).abs() ? a : b)},
-        onSelectionChanged: (s) async {
-          await p.setDouble('text_scale', s.first);
-          applyLook(p);
-          setState(() {});
-        },
-      ),
+      Wrap(spacing: 8, runSpacing: 4, children: [
+        for (final o in const [(0.85, 'Smaller'), (0.92, 'Small'), (1.0, 'Normal'), (1.2, 'Large'), (1.4, 'Larger')])
+          ChoiceChip(
+            label: Text(o.$2),
+            selected: (scale - o.$1).abs() < 0.03,
+            onSelected: (_) async {
+              await p.setDouble('text_scale', o.$1);
+              applyLook(p);
+              setState(() {});
+            },
+          ),
+      ]),
       const SizedBox(height: 4),
       const Text('Text size', style: TextStyle(fontSize: 12, color: Colors.grey)),
       const Divider(height: 24),
