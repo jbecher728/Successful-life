@@ -225,7 +225,7 @@ class _ExercisePageState extends State<ExercisePage> {
             OutlinedButton.icon(
               onPressed: () {
                 Navigator.pop(ctx);
-                addToGoalsSheet(context, widget.prefs, e.name, note: e.dose);
+                addToGoalsSheet(context, widget.prefs, e.name, note: e.dose, area: 'physical');
               },
               icon: const Icon(Icons.flag_outlined),
               label: const Text('Add to my goals'),

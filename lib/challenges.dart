@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'planner.dart';
 import 'store.dart';
 
+const challengeArea = {'Movement': 'physical', 'Focus': 'intellectual', 'Mind': 'intellectual', 'Connection': 'social', 'Body': 'physical', 'Home': 'work', 'Rest': 'emotional'};
+
 const challenges = <(String, String, String)>[
   ('Move every day', 'Walk or stretch for at least 10 minutes.', 'Movement'),
   ('Phone-free first hour', 'Skip your phone for the first hour after waking.', 'Focus'),
@@ -33,7 +35,7 @@ class ChallengesPage extends StatelessWidget {
               subtitle: Text(c.$2),
               trailing: FilledButton.tonal(
                 onPressed: () async {
-                  await addGoal(prefs, title: '7 days: ${c.$1}', note: c.$2, imp: 6, days: 7);
+                  await addGoal(prefs, title: '7 days: ${c.$1}', note: c.$2, imp: 6, days: 7, area: challengeArea[c.$3] ?? '');
                   await onChanged();
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Started: ${c.$1}. Find it under Goals.')));

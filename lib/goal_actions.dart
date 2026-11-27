@@ -3,7 +3,7 @@ import 'planner.dart';
 import 'store.dart';
 
 /// "Add to my goals" from exercises and Connect questions.
-Future<void> addToGoalsSheet(BuildContext context, Store p, String title, {String note = ''}) async {
+Future<void> addToGoalsSheet(BuildContext context, Store p, String title, {String note = '', String area = ''}) async {
   final pick = await showModalBottomSheet<String>(
     context: context,
     showDragHandle: true,
@@ -22,13 +22,13 @@ Future<void> addToGoalsSheet(BuildContext context, Store p, String title, {Strin
   final today = DateTime(now.year, now.month, now.day);
   switch (pick) {
     case 'today':
-      await addGoal(p, title: title, note: note);
+      await addGoal(p, title: title, note: note, area: area);
     case 'tomorrow':
-      await addGoal(p, title: title, note: note, start: DateTime(today.year, today.month, today.day + 1));
+      await addGoal(p, title: title, note: note, start: DateTime(today.year, today.month, today.day + 1), area: area);
     case 'daily':
-      await addGoal(p, title: title, note: note, rep: 'daily');
+      await addGoal(p, title: title, note: note, rep: 'daily', area: area);
     default:
-      await addGoal(p, title: title, note: note, rep: 'days', rdays: [1, 3, 5]);
+      await addGoal(p, title: title, note: note, rep: 'days', rdays: [1, 3, 5], area: area);
   }
   if (context.mounted) {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Added. Find it under Today > Goals.')));

@@ -30,6 +30,10 @@ Install the latest APK from the [Releases page](../../releases). Install `succes
 | **Notifications** | Morning shareable thought, midday action, evening reflection, optional birthday greeting. All on-device |
 | **Export / import** | Settings > Export builds a zip (CSV + JSON) with only the sections you pick; Import restores it on a new phone |
 
+### Six areas of life
+
+Physical, Intellectual, Emotional, Social, Occupational & financial, and Spiritual (purpose and values, not necessarily religion). A life-balance wheel in Progress compares how satisfied you feel (1 to 10) with what you actually did in the last 30 days. Goals can be tagged by area, exercises count as Physical and Connect questions as Social, Today suggests the quietest area with an idea, the daily journal prompt rotates through the areas, and the weekly review shows activity by area. Switch it off in Settings > Look and extras.
+
 ### Self-improvement extras (all optional, Settings > Look and extras)
 
 - **Repeating goals** (daily, weekly or certain days) with forgiving streaks: one missed day never breaks a streak.

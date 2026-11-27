@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:timezone/timezone.dart' as tz;
+import 'areas.dart';
 import 'common.dart';
 import 'planner.dart';
 import 'store.dart';
@@ -209,6 +210,7 @@ class _WeeklyReviewPageState extends State<WeeklyReviewPage> {
               ]),
               const SizedBox(height: 14),
               Text(weekSummaryLine(st), style: const TextStyle(fontSize: 16, height: 1.4)),
+              if (extraOn(widget.prefs, 'areas') && areaWeekLine(widget.prefs).isNotEmpty) Padding(padding: const EdgeInsets.only(top: 8), child: Text(areaWeekLine(widget.prefs), style: const TextStyle(height: 1.4))),
             ]),
           ),
         ),

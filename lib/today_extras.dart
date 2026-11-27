@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'areas.dart';
 import 'export.dart';
 import 'letters.dart';
 import 'review.dart';
@@ -159,6 +160,7 @@ class TodayNudges extends StatelessWidget {
         ),
       ));
     }
+    w.add(AreaNudge(prefs: prefs, onChanged: onChanged));
     return Column(children: w);
   }
 }

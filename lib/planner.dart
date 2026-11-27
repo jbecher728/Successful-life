@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'challenges.dart';
+import 'areas.dart';
 import 'common.dart';
 import 'review.dart';
 import 'theme.dart';
@@ -43,8 +44,9 @@ class Goal {
   bool done;
   List<String> worked, dones;
   String rep; // '' (one time), 'daily', 'weekly', 'days'
+  String area; // life area id or ''
   List<int> rdays; // weekdays 1=Mon..7=Sun for rep == 'days'
-  Goal({required this.id, required this.title, this.note = '', required this.start, this.stime = '', this.due = '', this.dtime = '', this.doneOn = '', this.imp = 5, this.done = false, List<String>? worked, List<String>? dones, this.rep = '', List<int>? rdays})
+  Goal({required this.id, required this.title, this.note = '', required this.start, this.stime = '', this.due = '', this.dtime = '', this.doneOn = '', this.imp = 5, this.done = false, List<String>? worked, List<String>? dones, this.rep = '', List<int>? rdays, this.area = ''})
       : worked = worked ?? [],
         dones = dones ?? [],
         rdays = rdays ?? [];
@@ -52,7 +54,7 @@ class Goal {
   Map<String, dynamic> toJson() => {
         'id': id, 'title': title, 'note': note, 'importance': imp, 'start': start, 'start_time': stime,
         'due': due, 'due_time': dtime, 'done': done, 'done_on': doneOn, 'worked': worked,
-        'repeat': rep, 'repeat_days': rdays, 'done_dates': dones,
+        'repeat': rep, 'repeat_days': rdays, 'done_dates': dones, 'area': area,
       };
 
   factory Goal.fromJson(Map<String, dynamic> j) => Goal(
@@ -60,7 +62,7 @@ class Goal {
         imp: ((j['importance'] ?? 5) as num).toInt().clamp(1, 10), start: '${j['start'] ?? dayKey(_today())}',
         stime: '${j['start_time'] ?? ''}', due: '${j['due'] ?? ''}', dtime: '${j['due_time'] ?? ''}',
         done: j['done'] == true, doneOn: '${j['done_on'] ?? ''}', worked: List<String>.from((j['worked'] ?? const []) as List),
-        rep: '${j['repeat'] ?? ''}', rdays: List<int>.from(((j['repeat_days'] ?? const []) as List).map((e) => (e as num).toInt())),
+        area: '${j['area'] ?? ''}', rep: '${j['repeat'] ?? ''}', rdays: List<int>.from(((j['repeat_days'] ?? const []) as List).map((e) => (e as num).toInt())),
         dones: List<String>.from((j['done_dates'] ?? const []) as List),
       );
 
@@ -105,9 +107,9 @@ class Goal {
 }
 
 /// Adds a goal from elsewhere in the app (exercises, Connect, challenges).
-Future<void> addGoal(Store p, {required String title, String note = '', int imp = 5, String rep = '', List<int>? rdays, int? days, DateTime? start}) async {
+Future<void> addGoal(Store p, {required String title, String note = '', int imp = 5, String rep = '', List<int>? rdays, int? days, DateTime? start, String area = ''}) async {
   final t = start ?? _today();
-  final g = Goal(id: '${DateTime.now().microsecondsSinceEpoch}${title.hashCode.abs()}', title: title, note: note, imp: imp, start: dayKey(t), rep: rep, rdays: rdays);
+  final g = Goal(id: '${DateTime.now().microsecondsSinceEpoch}${title.hashCode.abs()}', title: title, note: note, imp: imp, start: dayKey(t), rep: rep, rdays: rdays, area: area);
   if (days != null && days > 1) g.due = dayKey(_addDays(t, days - 1));
   final all = loadGoals(p)..add(g);
   await saveGoals(p, all);
@@ -375,6 +377,11 @@ class _PlannerPageState extends State<PlannerPage> {
                 if (g.stime.isNotEmpty) ActionChip(label: const Text('Clear time'), onPressed: () => setS(() => g.stime = '')),
               ]),
               const SizedBox(height: 12),
+              const Text('Life area (optional)', style: TextStyle(fontWeight: FontWeight.w600)),
+              Wrap(spacing: 6, children: [
+                for (final a in areas) ChoiceChip(avatar: Icon(a.icon, size: 16, color: a.color), label: Text(a.short), selected: g.area == a.id, onSelected: (v) => setS(() => g.area = v ? a.id : '')),
+              ]),
+              const SizedBox(height: 12),
               const Text('Repeat', style: TextStyle(fontWeight: FontWeight.w600)),
               Wrap(spacing: 8, children: [
                 ChoiceChip(label: const Text('Just once'), selected: !g.repeats, onSelected: (_) => setS(() => g.rep = '')),
@@ -482,6 +489,7 @@ class _PlannerPageState extends State<PlannerPage> {
     final over = _overdue(g, t);
     final s = _pd(g.start);
     final bits = <String>[];
+    if (hasArea(g.area)) bits.add(areaById(g.area).short);
     if (g.repeats) {
       bits.add(g.repLabel);
       final k = g.streak(t);
