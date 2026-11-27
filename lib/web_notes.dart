@@ -11,6 +11,7 @@ class UpdateNote {
 
 /// Newest first. Only the latest five are shown.
 const updateNotes = <UpdateNote>[
+  UpdateNote('u0.7', 'Short lessons for each life area', '48 quick lessons (6 areas, 8 each). Each is a couple of sentences plus one small action. Tap Explain for the longer version.'),
   UpdateNote('u0.6', 'Six areas of life', 'New life-balance wheel for Physical, Intellectual, Emotional, Social, Occupational & financial, and Spiritual. Rate each area, tag goals by area, and get ideas and prompts for the one that needs attention.'),
   UpdateNote('u0.5.2', 'Text size options', 'Added Smaller and Small text sizes in Settings > Look and extras, for fitting more on screen.'),
   UpdateNote('u0.5.1', 'Focus timer and gentler days', 'Focus sessions now notify you when time is up (app versions). “Lighten my day” also pushes back multi-day goals.'),

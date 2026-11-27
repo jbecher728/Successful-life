@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'common.dart';
 import 'goal_actions.dart';
+import 'lessons.dart';
 import 'planner.dart';
 import 'review.dart';
 import 'store.dart';
@@ -135,6 +136,13 @@ int? ratingOf(Store p, String id) {
   return (l.last[1] as num).toInt();
 }
 
+/// e.g. "4 → 5 → 7"
+String ratingTrend(Store p, String id) {
+  final l = _ratings(p)[id] ?? [];
+  if (l.length < 2) return '';
+  return l.sublist(l.length > 5 ? l.length - 5 : 0).map((e) => '${e[1]}').join(' → ');
+}
+
 String? ratingDate(Store p) {
   String? best;
   for (final l in _ratings(p).values) {
@@ -171,6 +179,9 @@ Map<String, int> areaActivity(Store p, {int days = 30}) {
     var n = g.dones.where(keys.contains).length + g.worked.where(keys.contains).length;
     if (!g.repeats && g.done && keys.contains(g.doneOn)) n++;
     add(g.area, n);
+  }
+  for (final e in lessonsDone(p).entries) {
+    if (keys.contains(e.value)) add(e.key.split(':').first, 1);
   }
   add('physical', (p.getStringList('ex_log') ?? <String>[]).where(keys.contains).length);
   add('emotional', (p.getStringList('calm_log') ?? <String>[]).where(keys.contains).length);
@@ -364,6 +375,19 @@ class _AreasPageState extends State<AreasPage> {
                     setState(() {});
                   },
                 ),
+                if (ratingTrend(p, a.id).isNotEmpty) Text('Your ratings: ${ratingTrend(p, a.id)}', style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                const SizedBox(height: 8),
+                Text('Learn  •  ${lessonsFor(a.id).where((l) => lessonsDone(p).containsKey(l.id)).length} of ${lessonsFor(a.id).length} done', style: const TextStyle(fontWeight: FontWeight.w600)),
+                for (final l in lessonsFor(a.id))
+                  ListTile(
+                    dense: true,
+                    contentPadding: EdgeInsets.zero,
+                    leading: Icon(lessonsDone(p).containsKey(l.id) ? Icons.check_circle : (nextLesson(p, a.id) == l ? Icons.play_circle_fill : Icons.circle_outlined), color: a.color, size: 22),
+                    title: Text(l.title, style: TextStyle(fontWeight: nextLesson(p, a.id) == l ? FontWeight.w700 : null)),
+                    subtitle: nextLesson(p, a.id) == l ? Text(l.short) : null,
+                    onTap: () => showLesson(context, p, l, onChanged: () => setState(() {})),
+                  ),
+                const SizedBox(height: 8),
                 for (final g in goals.where((g) => g.area == a.id && !g.done).take(5))
                   ListTile(dense: true, contentPadding: EdgeInsets.zero, leading: Icon(g.repeats ? Icons.repeat : Icons.flag_outlined, size: 18, color: a.color), title: Text(g.title)),
                 const SizedBox(height: 4),
@@ -404,6 +428,7 @@ class AreaNudge extends StatelessWidget {
     final stale = ratingsStale(prefs);
     final q = quietestArea(prefs);
     final idea = areaIdeaFor(q, DateTime.now()).$2;
+    final lesson = nextLesson(prefs, q.id);
     Future<void> open() async {
       await Navigator.push(context, MaterialPageRoute(builder: (_) => AreasPage(prefs: prefs)));
       onChanged();
@@ -421,11 +446,12 @@ class AreaNudge extends StatelessWidget {
             Expanded(child: Text(stale ? 'Check in on your six areas' : 'Area to nurture: ${q.name}', style: const TextStyle(fontWeight: FontWeight.w700))),
           ]),
           const SizedBox(height: 6),
-          Text(stale ? 'Rate each part of your life from 1 to 10. It takes a minute and shows where to put your energy.' : idea),
+          Text(stale ? 'Rate each part of your life from 1 to 10. It takes a minute and shows where to put your energy.' : (lesson == null ? idea : '${lesson.title}: ${lesson.short}')),
           Row(children: [
             TextButton(onPressed: open, child: Text(stale ? 'Rate my areas' : 'See all areas')),
             const Spacer(),
-            if (!stale)
+            if (!stale && lesson != null) FilledButton.tonal(onPressed: () => showLesson(context, prefs, lesson, onChanged: onChanged), child: const Text('Learn')),
+            if (!stale && lesson == null)
               FilledButton.tonal(
                 onPressed: () async {
                   await addToGoalsSheet(context, prefs, idea, area: q.id);
