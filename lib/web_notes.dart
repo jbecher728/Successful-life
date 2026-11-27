@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'store.dart';
 import 'theme.dart';
 
@@ -16,6 +18,9 @@ const updateNotes = <UpdateNote>[
   UpdateNote('u0.3', 'Customize your tabs', 'Choose, reorder and hide tabs, pick your start tab, and export or import your data as a zip.'),
 ];
 
+/// Always points at the newest release (each build is published as the latest release).
+const apkUrl = 'https://github.com/jbecher728/Successful-life/releases/latest/download/successful-life-arm64.apk';
+
 const dataNoteText =
     'This web version saves everything only in this browser, on this device. Nothing is sent to any server, so no one else can see it, and it also cannot be recovered for you.\n\n'
     'Your data can be lost if you clear browser or site data, use a private window, switch browsers or phones, or (on iPhone) leave the site unused for a while without adding it to your Home Screen.\n\n'
@@ -27,12 +32,14 @@ const dataNoteText =
 
 Set<String> _cleared(Store p) => (p.getStringList('notes_cleared') ?? <String>[]).toSet();
 
+const _dlNote = UpdateNote('dl', 'Have Android? Download the native app', 'The Android app adds reminders, app lock and optional encrypted backup.');
+
 List<UpdateNote> _visible(Store p) {
   final c = _cleared(p);
-  return updateNotes.take(5).where((n) => !c.contains(n.id)).toList();
+  return [if (kIsWeb) _dlNote, ...updateNotes.take(5)].where((n) => !c.contains(n.id)).toList();
 }
 
-int noteCount(Store p) => _visible(p).length + 1; // +1 for the permanent data note
+int noteCount(Store p) => _visible(p).length + (kIsWeb ? 1 : 0); // +1 for the permanent data note (web only)
 
 /// Bell button with a red count, for the top-left of the web app.
 class NotesButton extends StatelessWidget {
@@ -56,7 +63,7 @@ class NotesButton extends StatelessWidget {
       },
       icon: Stack(clipBehavior: Clip.none, children: [
         const Icon(Icons.notifications_outlined),
-        Positioned(
+        if (n > 0) Positioned(
           right: -6,
           top: -5,
           child: Container(
@@ -107,7 +114,7 @@ class _NotesSheetState extends State<NotesSheet> {
               ),
           ]),
           // Permanent note: can be minimized, never removed.
-          Card(
+          if (kIsWeb) Card(
             elevation: 0,
             color: tint(context, const Color(0xFFFFF8D6)),
             child: Padding(
@@ -136,7 +143,12 @@ class _NotesSheetState extends State<NotesSheet> {
               child: ListTile(
                 leading: const Icon(Icons.new_releases_outlined, color: Color(0xFF21877C)),
                 title: Text(n.title, style: const TextStyle(fontWeight: FontWeight.w600)),
-                subtitle: Text(n.body),
+                subtitle: n.id == 'dl'
+                    ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                        Text(n.body),
+                        TextButton.icon(onPressed: () => launchUrl(Uri.parse(apkUrl), mode: LaunchMode.externalApplication), icon: const Icon(Icons.download), label: const Text('Download the latest Android app')),
+                      ])
+                    : Text(n.body),
                 isThreeLine: true,
                 trailing: IconButton(tooltip: 'Clear', icon: const Icon(Icons.close), onPressed: () => _clear(n.id)),
               ),

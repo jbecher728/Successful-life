@@ -251,7 +251,7 @@ class _HomePageState extends State<HomePage> {
     _refreshDay();
     return Scaffold(
       appBar:AppBar(
-        leading:inSettings?IconButton(icon:const Icon(Icons.arrow_back),onPressed:()=>setState(()=>inSettings=false)):(kIsWeb?NotesButton(prefs:prefs!,onChanged:()=>setState((){})):null),
+        leading:inSettings?IconButton(icon:const Icon(Icons.arrow_back),onPressed:()=>setState(()=>inSettings=false)):NotesButton(prefs:prefs!,onChanged:()=>setState((){})),
         title:Text(inSettings?'Settings':'Shell',style:const TextStyle(fontWeight:FontWeight.bold)),
         actions:inSettings?null:[PopupMenuButton<String>(icon:const Icon(Icons.more_vert),iconSize:20,tooltip:'Menu',onSelected:(v){if(v=='settings'){setState(()=>inSettings=true);}else if(v=='about'){Navigator.push(context,MaterialPageRoute<void>(builder:(_)=>const AboutPage()));}else if(v=='privacy'){Navigator.push(context,MaterialPageRoute<void>(builder:(_)=>const PrivacyPage()));}},itemBuilder:(ctx)=>const [PopupMenuItem<String>(value:'settings',child:Text('Settings')),PopupMenuItem<String>(value:'privacy',child:Text('Privacy notice')),PopupMenuItem<String>(value:'about',child:Text('About'))])],
       ),

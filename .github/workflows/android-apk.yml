@@ -125,4 +125,4 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: |
           ls -l dl
-          gh release create "test-build-${{ github.run_number }}" dl/* --title "Test build ${{ github.run_number }}" --prerelease --notes "Android: use successful-life-arm64.apk on almost every phone (very old 32-bit phones are not supported). iPhone: use the web app (see the README)."
+          gh release create "test-build-${{ github.run_number }}" dl/* --title "Test build ${{ github.run_number }}" --latest --notes "Android: use successful-life-arm64.apk on almost every phone (very old 32-bit phones are not supported). iPhone: use the web app (see the README)."
