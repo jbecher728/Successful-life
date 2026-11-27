@@ -7,6 +7,8 @@ const challengeArea = {'Movement': 'physical', 'Focus': 'intellectual', 'Mind': 
 const challenges = <(String, String, String)>[
   ('Move every day', 'Walk or stretch for at least 10 minutes.', 'Movement'),
   ('Phone-free first hour', 'Skip your phone for the first hour after waking.', 'Focus'),
+  ('Listen first', 'Listen for a full minute, say back what you heard, then ask one follow-up question.', 'Connection'),
+  ('Assume good intent', 'When someone irritates you, write one innocent explanation for what they did.', 'Connection'),
   ('Daily gratitude', 'Write down three things you are grateful for.', 'Mind'),
   ('Reach out', 'Message one person you care about each day.', 'Connection'),
   ('Water first', 'Drink a full glass of water before anything else.', 'Body'),

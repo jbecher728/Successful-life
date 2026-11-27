@@ -7,6 +7,7 @@ import 'growth_tests.dart';
 import 'lessons.dart';
 import 'planner.dart';
 import 'questions.dart';
+import 'understand.dart';
 import 'review.dart';
 import 'store.dart';
 import 'theme.dart';
@@ -415,6 +416,19 @@ class _AreasPageState extends State<AreasPage> {
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () async {
                       await Navigator.push(context, MaterialPageRoute(builder: (_) => GrowthTestPage(prefs: p, areaId: a.id)));
+                      if (mounted) setState(() {});
+                    },
+                  ),
+                if (a.id == 'social' && extraOn(p, 'understand'))
+                  ListTile(
+                    dense: true,
+                    contentPadding: EdgeInsets.zero,
+                    leading: Icon(Icons.swap_horiz, color: a.color),
+                    title: const Text('Understanding others', style: TextStyle(fontWeight: FontWeight.w600)),
+                    subtitle: const Text('Lessons, see it from their side, a listening challenge'),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () async {
+                      await Navigator.push(context, MaterialPageRoute(builder: (_) => UnderstandPage(prefs: p)));
                       if (mounted) setState(() {});
                     },
                   ),

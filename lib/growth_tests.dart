@@ -63,6 +63,16 @@ const growthStatements = <String, List<GStatement>>{
     GStatement('I am handling debt and big bills calmly.', 'Write down what you owe and the next step.'),
     GStatement('I feel stable and confident about my near-term future.', 'Name your biggest money or job worry and one step toward it.'),
   ],
+  'understand': [
+    GStatement('I let people finish speaking before I respond.', 'Let the next person finish fully, then pause a second before answering.'),
+    GStatement('I notice when someone is upset, even if they do not say so.', 'Notice one person\'s tone or body language today.'),
+    GStatement('I ask questions to understand before I assume.', 'Ask one "what" or "how" question in your next conversation.'),
+    GStatement('I can see a situation from the other person\'s side, even when I disagree.', 'Use "See it from their side" on a recent moment.'),
+    GStatement('I assume good intent more often than bad.', 'Write two innocent explanations for a recent irritation.'),
+    GStatement('I say back what I heard to check that I got it right.', 'Say "So what you are saying is..." once today.'),
+    GStatement('I stay calm when someone sees things differently from me.', 'Take one slow breath before replying to a disagreement.'),
+    GStatement('People tell me when something is bothering them.', 'Ask someone, "Is there anything on your mind lately?"'),
+  ],
   'spiritual': [
     GStatement('I know what matters most to me.', 'Write down your top three values.'),
     GStatement('My daily choices mostly match those values.', 'Pick one choice today that reflects a value.'),
@@ -77,7 +87,7 @@ const growthStatements = <String, List<GStatement>>{
 
 const _choices = ['Not like me', 'A little like me', 'Somewhat like me', 'Mostly like me', 'Very much like me'];
 
-Area _area(String id) => areas.firstWhere((a) => a.id == id);
+Area _area(String id) => areas.firstWhere((a) => a.id == (id == 'understand' ? 'social' : id));
 
 /// Saved results: area id -> list of {d: date, a: [answers 1..5]}, oldest first.
 Map<String, List<Map<String, dynamic>>> loadGrowth(Store p) {
@@ -194,7 +204,7 @@ class _GrowthTestPageState extends State<GrowthTestPage> {
   Widget build(BuildContext context) {
     final a = _area(widget.areaId);
     return Scaffold(
-      appBar: AppBar(title: Text('${a.name} check-in')),
+      appBar: AppBar(title: Text(widget.areaId == 'understand' ? 'Understanding others' : '${a.name} check-in')),
       body: ListView(padding: const EdgeInsets.all(20), children: done ? _result(context, a) : _question(context, a)),
     );
   }
@@ -269,7 +279,7 @@ class _GrowthTestPageState extends State<GrowthTestPage> {
         const Text('Nothing stands out as a weak spot. Keep doing what works.'),
       ],
       const SizedBox(height: 18),
-      OutlinedButton(
+      if (widget.areaId != 'understand') OutlinedButton(
         onPressed: () async {
           await setRating(widget.prefs, a.id, rating);
           if (context.mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${a.name} satisfaction set to $rating/10.')));
