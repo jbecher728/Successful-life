@@ -98,7 +98,7 @@ Future<void> showExportDialog(BuildContext context, Store p) async {
     final data = <String, dynamic>{};
     if (picked['journal'] == true) {
       final entries = _readEntries(p);
-      data['journal'] = {'start': p.getString('start'), 'entries': entries, 'identity': p.getString('identity'), 'reviews': p.getString('reviews'), 'area_ratings': p.getString('area_ratings'), 'lessons_done': p.getStringList('lessons_done'), 'letters': p.getString('letters')};
+      data['journal'] = {'start': p.getString('start'), 'entries': entries, 'identity': p.getString('identity'), 'reviews': p.getString('reviews'), 'area_ratings': p.getString('area_ratings'), 'lessons_done': p.getStringList('lessons_done'), 'letters': p.getString('letters'), 'cq': {for (final k in p.getKeys()) if (k.startsWith('cq_')) k: p.getStringList(k) ?? p.getString(k)}};
       final keys = entries.keys.toList()..sort();
       final sb = StringBuffer('﻿')..writeln(csvRow(['date', 'program_day', 'priority', 'mood_1_to_5', 'energy_1_to_5', 'action_completed', 'journal']));
       for (final k in keys) {
@@ -211,6 +211,17 @@ Future<void> importFromZip(BuildContext context, Store p) async {
       if (j['start'] != null) await p.setString('start', j['start'] as String);
       await p.setString('entries', jsonEncode(j['entries'] ?? {}));
       if (j['lessons_done'] is List) await p.setStringList('lessons_done', List<String>.from(j['lessons_done'] as List));
+      if (j['cq'] is Map) {
+        for (final e in (j['cq'] as Map).entries) {
+          final k = e.key.toString();
+          if (!k.startsWith('cq_')) continue;
+          if (e.value is List) {
+            await p.setStringList(k, List<String>.from((e.value as List).map((x) => x.toString())));
+          } else if (e.value is String) {
+            await p.setString(k, e.value as String);
+          }
+        }
+      }
       for (final k in ['identity', 'reviews', 'letters', 'area_ratings']) {
         if (j[k] is String) await p.setString(k, j[k] as String);
       }

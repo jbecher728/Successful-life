@@ -93,6 +93,7 @@ Future<void> scheduleExtras(FlutterLocalNotificationsPlugin n, Store p) async {
   try {
     await n.cancel(300);
     await n.cancel(310);
+    await n.cancel(320);
     final now = tz.TZDateTime.now(tz.local);
     if (extraOn(p, 'review')) {
       var t = tz.TZDateTime(tz.local, now.year, now.month, now.day, 18, 30);
@@ -100,6 +101,16 @@ Future<void> scheduleExtras(FlutterLocalNotificationsPlugin n, Store p) async {
         t = t.add(const Duration(days: 1));
       }
       await n.zonedSchedule(300, 'Your week in review', 'Take two minutes to look back and set up next week.', t, _extraDetails,
+          androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+          uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+          matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime);
+    }
+    if (extraOn(p, 'qremind', def: false) && extraOn(p, 'questions')) {
+      var t = tz.TZDateTime(tz.local, now.year, now.month, now.day, 10, 0);
+      while (t.weekday != DateTime.saturday || !t.isAfter(now)) {
+        t = t.add(const Duration(days: 1));
+      }
+      await n.zonedSchedule(320, 'A question for someone close', 'Your question of the week is ready. Open Shell to see it.', t, _extraDetails,
           androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
           uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
           matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime);

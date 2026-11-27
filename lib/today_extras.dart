@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'areas.dart';
 import 'export.dart';
 import 'letters.dart';
+import 'questions.dart';
 import 'review.dart';
 import 'store.dart';
 import 'theme.dart';
@@ -160,6 +161,7 @@ class TodayNudges extends StatelessWidget {
         ),
       ));
     }
+    if (extraOn(prefs, 'questions')) w.add(QuestionCard(prefs: prefs, onChanged: onChanged));
     w.add(AreaNudge(prefs: prefs, onChanged: onChanged));
     return Column(children: w);
   }

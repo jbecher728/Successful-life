@@ -5,6 +5,7 @@ import 'common.dart';
 import 'goal_actions.dart';
 import 'lessons.dart';
 import 'planner.dart';
+import 'questions.dart';
 import 'review.dart';
 import 'store.dart';
 import 'theme.dart';
@@ -391,6 +392,16 @@ class _AreasPageState extends State<AreasPage> {
                 for (final g in goals.where((g) => g.area == a.id && !g.done).take(5))
                   ListTile(dense: true, contentPadding: EdgeInsets.zero, leading: Icon(g.repeats ? Icons.repeat : Icons.flag_outlined, size: 18, color: a.color), title: Text(g.title)),
                 const SizedBox(height: 4),
+                if (a.id == 'social')
+                  ListTile(
+                    dense: true,
+                    contentPadding: EdgeInsets.zero,
+                    leading: Icon(Icons.forum_outlined, color: a.color),
+                    title: const Text('Questions for someone close', style: TextStyle(fontWeight: FontWeight.w600)),
+                    subtitle: const Text('A weekly question and a guided evening'),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => QuestionsPage(prefs: p))),
+                  ),
                 const Text('Ideas to try', style: TextStyle(fontWeight: FontWeight.w600)),
                 for (final idea in a.ideas.take(5))
                   ListTile(
