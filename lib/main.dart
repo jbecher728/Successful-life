@@ -18,6 +18,7 @@ import 'splash.dart';
 import 'planner.dart';
 import 'review.dart';
 import 'theme.dart';
+import 'web_notes.dart';
 import 'extras_ui.dart';
 import 'rough.dart';
 import 'letters.dart';
@@ -250,7 +251,7 @@ class _HomePageState extends State<HomePage> {
     _refreshDay();
     return Scaffold(
       appBar:AppBar(
-        leading:inSettings?IconButton(icon:const Icon(Icons.arrow_back),onPressed:()=>setState(()=>inSettings=false)):null,
+        leading:inSettings?IconButton(icon:const Icon(Icons.arrow_back),onPressed:()=>setState(()=>inSettings=false)):(kIsWeb?NotesButton(prefs:prefs!,onChanged:()=>setState((){})):null),
         title:Text(inSettings?'Settings':'Shell',style:const TextStyle(fontWeight:FontWeight.bold)),
         actions:inSettings?null:[PopupMenuButton<String>(icon:const Icon(Icons.more_vert),iconSize:20,tooltip:'Menu',onSelected:(v){if(v=='settings'){setState(()=>inSettings=true);}else if(v=='about'){Navigator.push(context,MaterialPageRoute<void>(builder:(_)=>const AboutPage()));}else if(v=='privacy'){Navigator.push(context,MaterialPageRoute<void>(builder:(_)=>const PrivacyPage()));}},itemBuilder:(ctx)=>const [PopupMenuItem<String>(value:'settings',child:Text('Settings')),PopupMenuItem<String>(value:'privacy',child:Text('Privacy notice')),PopupMenuItem<String>(value:'about',child:Text('About'))])],
       ),
