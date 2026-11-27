@@ -58,6 +58,24 @@ Future<(String, int)> weeklyQuestion(Store p, {bool fresh = false}) async {
   return (lv, i);
 }
 
+/// Reminder days (1 = Monday ... 7 = Sunday). Every day by default.
+List<int> qrDays(Store p) {
+  final l = p.getStringList('cq_rem_days');
+  if (l == null) return [1, 2, 3, 4, 5, 6, 7];
+  final out = <int>{};
+  for (final s in l) {
+    final i = int.tryParse(s);
+    if (i != null && i >= 1 && i <= 7) out.add(i);
+  }
+  return out.toList()..sort();
+}
+
+/// Reminder times as "HH:MM", sorted. One at 10:00 by default, up to 10 a day.
+List<String> qrTimes(Store p) {
+  final l = (p.getStringList('cq_rem_times') ?? <String>['10:00']).where((s) => RegExp(r'^\d{1,2}:\d{2}$').hasMatch(s)).toSet().toList()..sort();
+  return l.take(10).toList();
+}
+
 Future<void> logEvening(Store p) async {
   final l = p.getStringList('cq_evening') ?? <String>[];
   l.add(dayKey(DateTime.now()));

@@ -102,11 +102,38 @@ class _QuestionsPageState extends State<QuestionsPage> {
     await _load();
   }
 
-  Future<void> _remind(bool v) async {
-    await widget.prefs.setBool('x_qremind', v);
+  Future<void> _resched() async {
     final n = notifier;
     if (n != null) await scheduleExtras(n, widget.prefs);
     if (mounted) setState(() {});
+  }
+
+  Future<void> _remind(bool v) async {
+    await widget.prefs.setBool('x_qremind', v);
+    await _resched();
+  }
+
+  String _pretty(String tm) {
+    final hm = tm.split(':');
+    return TimeOfDay(hour: int.tryParse(hm[0]) ?? 10, minute: int.tryParse(hm[1]) ?? 0).format(context);
+  }
+
+  Future<void> _pickTime({String? old}) async {
+    final hm = (old ?? '10:00').split(':');
+    final t = await showTimePicker(context: context, initialTime: TimeOfDay(hour: int.tryParse(hm[0]) ?? 10, minute: int.tryParse(hm[1]) ?? 0));
+    if (t == null) return;
+    final v = '${t.hour.toString().padLeft(2, '0')}:${t.minute.toString().padLeft(2, '0')}';
+    final l = qrTimes(widget.prefs).toList();
+    if (old != null) l.remove(old);
+    if (!l.contains(v)) l.add(v);
+    await widget.prefs.setStringList('cq_rem_times', l);
+    await _resched();
+  }
+
+  Future<void> _removeTime(String tm) async {
+    final l = qrTimes(widget.prefs).toList()..remove(tm);
+    await widget.prefs.setStringList('cq_rem_times', l.isEmpty ? <String>['10:00'] : l);
+    await _resched();
   }
 
   @override
@@ -178,11 +205,45 @@ class _QuestionsPageState extends State<QuestionsPage> {
         ),
         SwitchListTile(
           contentPadding: EdgeInsets.zero,
-          title: const Text('Saturday reminder'),
-          subtitle: const Text('A gentle nudge at 10 am (app versions only)'),
+          title: const Text('Reminders'),
+          subtitle: const Text('Choose the days and how many times a day (app versions only)'),
           value: extraOn(p, 'qremind', def: false),
           onChanged: _remind,
         ),
+        if (extraOn(p, 'qremind', def: false)) ...[
+          const Text('Days', style: TextStyle(fontWeight: FontWeight.w600)),
+          const SizedBox(height: 4),
+          Wrap(spacing: 6, children: [
+            for (var d = 1; d <= 7; d++)
+              FilterChip(
+                label: Text(const ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][d - 1]),
+                selected: qrDays(p).contains(d),
+                onSelected: (v) async {
+                  final cur2 = qrDays(p).toSet();
+                  if (v) {
+                    cur2.add(d);
+                  } else {
+                    cur2.remove(d);
+                  }
+                  await p.setStringList('cq_rem_days', <String>[for (final x in cur2) '$x']);
+                  await _resched();
+                },
+              ),
+          ]),
+          const Text('Leave a day unticked for a quiet day.', style: TextStyle(fontSize: 12, color: Colors.grey)),
+          const SizedBox(height: 10),
+          Text('Times each day (${qrTimes(p).length})', style: const TextStyle(fontWeight: FontWeight.w600)),
+          const SizedBox(height: 4),
+          Wrap(spacing: 8, runSpacing: 4, children: [
+            for (final tm in qrTimes(p))
+              InputChip(
+                label: Text(_pretty(tm)),
+                onPressed: () => _pickTime(old: tm),
+                onDeleted: qrTimes(p).length > 1 ? () => _removeTime(tm) : null,
+              ),
+            if (qrTimes(p).length < 10) ActionChip(avatar: const Icon(Icons.add, size: 18), label: const Text('Add a time'), onPressed: _pickTime),
+          ]),
+        ],
         const SizedBox(height: 4),
         const Text('Nothing you or anyone else answers is saved. Only which questions you have already seen is kept, on this device.', style: TextStyle(fontSize: 12, color: Colors.grey)),
       ]),

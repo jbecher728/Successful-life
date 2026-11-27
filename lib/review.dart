@@ -10,6 +10,7 @@ import 'package:timezone/timezone.dart' as tz;
 import 'areas.dart';
 import 'common.dart';
 import 'planner.dart';
+import 'questions_data.dart';
 import 'store.dart';
 
 /// Set once at startup so screens can schedule notifications.
@@ -94,6 +95,9 @@ Future<void> scheduleExtras(FlutterLocalNotificationsPlugin n, Store p) async {
     await n.cancel(300);
     await n.cancel(310);
     await n.cancel(320);
+    for (var id = 5020; id < 5160; id++) {
+      await n.cancel(id);
+    }
     final now = tz.TZDateTime.now(tz.local);
     if (extraOn(p, 'review')) {
       var t = tz.TZDateTime(tz.local, now.year, now.month, now.day, 18, 30);
@@ -106,14 +110,22 @@ Future<void> scheduleExtras(FlutterLocalNotificationsPlugin n, Store p) async {
           matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime);
     }
     if (extraOn(p, 'qremind', def: false) && extraOn(p, 'questions')) {
-      var t = tz.TZDateTime(tz.local, now.year, now.month, now.day, 10, 0);
-      while (t.weekday != DateTime.saturday || !t.isAfter(now)) {
-        t = t.add(const Duration(days: 1));
+      for (final wd in qrDays(p)) {
+        var slot = 0;
+        for (final tm in qrTimes(p)) {
+          final hm = tm.split(':');
+          final h = int.tryParse(hm[0]) ?? 10, m = int.tryParse(hm[1]) ?? 0;
+          var t = tz.TZDateTime(tz.local, now.year, now.month, now.day, h.clamp(0, 23), m.clamp(0, 59));
+          while (t.weekday != wd || !t.isAfter(now)) {
+            t = t.add(const Duration(days: 1));
+          }
+          await n.zonedSchedule(5000 + wd * 20 + slot, 'A question for someone close', 'Take a moment to ask or answer one. Open Shell to see it.', t, _extraDetails,
+              androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+              uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+              matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime);
+          slot++;
+        }
       }
-      await n.zonedSchedule(320, 'A question for someone close', 'Your question of the week is ready. Open Shell to see it.', t, _extraDetails,
-          androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
-          uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
-          matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime);
     }
     if (extraOn(p, 'backup') && !backupNudgeSilenced(p)) {
       var t = tz.TZDateTime(tz.local, now.year, now.month, now.day, 12, 0).add(const Duration(days: 30));
