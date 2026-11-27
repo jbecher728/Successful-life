@@ -11,6 +11,7 @@ class UpdateNote {
 
 /// Newest first. Only the latest five are shown.
 const updateNotes = <UpdateNote>[
+  UpdateNote('u0.9', 'Growth check-ins', 'A two-minute check-in for each of the six life areas: eight statements, a simple result, and small actions for where you want to grow. Retake any time to see how you change. For reflection only, not a clinical test.'),
   UpdateNote('u0.8', 'Questions for someone close', '96 original questions at three depths (Light, Deeper, Honest) for a partner, friend or family member. A weekly question with a shuffle that never repeats until you have seen them all, plus a guided evening with an optional quiet pause. Optional reminders on any days you choose, any number of times a day.'),
   UpdateNote('u0.7', 'Short lessons for each life area', '48 quick lessons (6 areas, 8 each). Each is a couple of sentences plus one small action. Tap Explain for the longer version.'),
   UpdateNote('u0.6', 'Six areas of life', 'New life-balance wheel for Physical, Intellectual, Emotional, Social, Occupational & financial, and Spiritual. Rate each area, tag goals by area, and get ideas and prompts for the one that needs attention.'),

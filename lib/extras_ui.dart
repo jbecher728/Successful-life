@@ -18,6 +18,7 @@ class ExtrasPanel extends StatefulWidget {
 class _ExtrasPanelState extends State<ExtrasPanel> {
   static const items = <(String, String, String)>[
     ('areas', 'Six areas of life', 'Balance wheel, area check-ins and ideas for each part of life'),
+    ('tests', 'Growth check-ins', 'Short self-reflection check-ins for each life area, to retake and compare'),
     ('questions', 'Questions for someone close', 'A weekly question to ask a partner, friend or family member, plus a guided evening'),
     ('review', 'Weekly review', 'A Sunday reminder and a weekly summary card'),
     ('backup', 'Backup reminder', 'A gentle monthly nudge to export your data'),

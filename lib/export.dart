@@ -98,7 +98,7 @@ Future<void> showExportDialog(BuildContext context, Store p) async {
     final data = <String, dynamic>{};
     if (picked['journal'] == true) {
       final entries = _readEntries(p);
-      data['journal'] = {'start': p.getString('start'), 'entries': entries, 'identity': p.getString('identity'), 'reviews': p.getString('reviews'), 'area_ratings': p.getString('area_ratings'), 'lessons_done': p.getStringList('lessons_done'), 'letters': p.getString('letters'), 'cq': {for (final k in p.getKeys()) if (k.startsWith('cq_')) k: p.getStringList(k) ?? p.getString(k)}};
+      data['journal'] = {'start': p.getString('start'), 'entries': entries, 'identity': p.getString('identity'), 'reviews': p.getString('reviews'), 'area_ratings': p.getString('area_ratings'), 'growth_tests': p.getString('growth_tests'), 'lessons_done': p.getStringList('lessons_done'), 'letters': p.getString('letters'), 'cq': {for (final k in p.getKeys()) if (k.startsWith('cq_')) k: p.getStringList(k) ?? p.getString(k)}};
       final keys = entries.keys.toList()..sort();
       final sb = StringBuffer('﻿')..writeln(csvRow(['date', 'program_day', 'priority', 'mood_1_to_5', 'energy_1_to_5', 'action_completed', 'journal']));
       for (final k in keys) {
@@ -222,7 +222,7 @@ Future<void> importFromZip(BuildContext context, Store p) async {
           }
         }
       }
-      for (final k in ['identity', 'reviews', 'letters', 'area_ratings']) {
+      for (final k in ['identity', 'reviews', 'letters', 'area_ratings', 'growth_tests']) {
         if (j[k] is String) await p.setString(k, j[k] as String);
       }
     }

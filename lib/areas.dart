@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'common.dart';
 import 'goal_actions.dart';
+import 'growth_tests.dart';
 import 'lessons.dart';
 import 'planner.dart';
 import 'questions.dart';
@@ -349,6 +350,18 @@ class _AreasPageState extends State<AreasPage> {
         const SizedBox(height: 12),
         LifeBalanceCard(prefs: p, onChanged: () => setState(() {})),
         const SizedBox(height: 8),
+        if (extraOn(p, 'tests'))
+          Align(
+            alignment: Alignment.centerLeft,
+            child: OutlinedButton.icon(
+              onPressed: () async {
+                await Navigator.push(context, MaterialPageRoute(builder: (_) => GrowthListPage(prefs: p)));
+                if (mounted) setState(() {});
+              },
+              icon: const Icon(Icons.fact_check_outlined),
+              label: const Text('Growth check-ins'),
+            ),
+          ),
         for (final a in areas)
           Card(
             elevation: 0,
@@ -392,6 +405,19 @@ class _AreasPageState extends State<AreasPage> {
                 for (final g in goals.where((g) => g.area == a.id && !g.done).take(5))
                   ListTile(dense: true, contentPadding: EdgeInsets.zero, leading: Icon(g.repeats ? Icons.repeat : Icons.flag_outlined, size: 18, color: a.color), title: Text(g.title)),
                 const SizedBox(height: 4),
+                if (extraOn(p, 'tests'))
+                  ListTile(
+                    dense: true,
+                    contentPadding: EdgeInsets.zero,
+                    leading: Icon(Icons.fact_check_outlined, color: a.color),
+                    title: const Text('Growth check-in (2 minutes)', style: TextStyle(fontWeight: FontWeight.w600)),
+                    subtitle: const Text('Eight statements to see where you stand'),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () async {
+                      await Navigator.push(context, MaterialPageRoute(builder: (_) => GrowthTestPage(prefs: p, areaId: a.id)));
+                      if (mounted) setState(() {});
+                    },
+                  ),
                 if (a.id == 'social')
                   ListTile(
                     dense: true,
